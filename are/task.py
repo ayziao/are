@@ -47,7 +47,9 @@ def index():
     if args['sort'] == 'cost':
         order = ' ORDER BY "状態" DESC, "完了日時" DESC, "コスト" '
 
-    sql = 'SELECT * FROM task ' + where + order
+    sql = 'SELECT *, ' \
+          ' strftime("%Y-%m-%d ", "完了日時") || substr("0"||(strftime("%H", "完了日時")+9),-2,2) || strftime(":%M:%S", "完了日時") as utcP9time ' \
+          ' FROM task ' + where + order
     rows = get_db().execute(sql).fetchall()
 
     # current_app.logger.debug(sql)

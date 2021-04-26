@@ -184,7 +184,7 @@
     {% endif %}
 
     {% if task['完了日時'] %}
-    <span style="font-size  : 0.5em;">{{ task['完了日時'] | jptime }}</span>
+    <span style="font-size  : 0.5em;">{{ task['utcP9time']}}</span>
     予{{ task['コスト'] }}
     <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">実{{ task['実コスト'] }}</a>
     {% else %}
