@@ -14,7 +14,10 @@ def index():
 
     where = ' WHERE "状態" <> "保留"'
     if args['owner']:
-        where += ' AND "所有者" = "' + args['owner'] + '" '
+        if args['owner'][0] == '-':
+            where += ' AND "所有者" <> "' + args['owner'][1:] + '" '
+        else:
+            where += ' AND "所有者" = "' + args['owner'] + '" '
     if args['rate']:
         if 'only' in args['rate']:
             where += ' AND "重要度" = "' + args['rate'][0] + '" '
