@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>投稿件数</title>
+    <style type="text/css">
+        table {
+            font-size: 70%;
+        }
+        .table { display: table; width: 100%; }
+        .cell { display: table-cell; white-space: nowrap;}
+    </style>
+</head>
+<body>
+
+<h4>{{site}} 日別投稿件数</h4>
+
+<a href="{{ url_for('toukei.' + path) }}?site=test">test</a>
+<a href="{{ url_for('toukei.' + path) }}?site=txt">txt</a>
+<a href="{{ url_for('toukei.' + path) }}?site=rog">rog</a>
+<a href="{{ url_for('toukei.' + path) }}?site=a-o">a-o</a>
+<br>
+<a href="{{ url_for('toukei.monthcount') }}?site={{site}}">月別</a>
+<a href="{{ url_for('toukei.daycount') }}?site={{site}}">日別</a>
+<a href="{{ url_for('toukei.weekcount') }}?site={{site}}">曜日別</a>
+<a href="{{ url_for('toukei.hourcount') }}?site={{site}}">時別</a>
+
+<div class="table">
+  <div class="cell">
+    <form action="{{ url_for('toukei.' + path) }}" method="GET">
+      <input type="hidden" name="site" value="{{site}}">
+      <input type="hidden" name="tag" value="">
+      <input class="text" type="text" name="search_body" value="">
+      <input id="btn" class="submitbutton" type="submit" name="submit" value="検索">
+    </form>
+    <a href="{{ url_for('toukei.' + path) }}?site={{site}}">全て</a>
+    {% for tag in tags %}
+    <a href="{{ url_for('toukei.' + path) }}?site={{site}}&tag={{ tag['tag'].replace('#', '%23') }}">{{ tag["tag"] }}</a> {{ tag["count"] }}<br>
+    {% endfor %}
+
+  </div>
+  <div class="cell" style="width: 100%;">
+    <table>
+      {% for count in counts %}
+      <tr><td nowrap>{{count['date']}}</td><td align="right">{{count['count']}}</td><td><div style="background-color: blue;  width: {{count['count']}}px; font-size: 10px;">&nbsp;</div></td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

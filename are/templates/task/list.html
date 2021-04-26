@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>{{type}}一覧</title>
+    <style type="text/css">
+      * {
+        font-size: 1em;
+      }
+
+      p {
+        margin: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1>
+      <a href="{{ url_for('task.index') }}">タスク</a>
+      {{type}}一覧
+    </h1>
+    <a href="{{ url_for('task.ownerlist') }}">所有者</a>
+    <a href="{{ url_for('task.ratelist') }}">重要度</a>
+    <a href="{{ url_for('task.costlist') }}">コスト</a>
+    タグ
+
+    <ul>
+      {% for item in list %}
+        <li>
+          {% if type == '所有者' %}
+            <a href="{{ url_for('task.index', owner=item['所有者']) }}">{{ item['所有者'] }}</a>
+            :
+            {{item["件数"]}}
+          {% elif type == '重要度' %}
+            <a href="{{ url_for('task.index', rate=item['重要度']) }}">{{ item['星'] }}</a>
+            :
+            {{item["件数"]}}
+          {% elif type == 'コスト' %}
+            <a href="{{ url_for('task.index', cost=item['コスト']) }}">{{ item['コスト'] }}</a>
+            :
+            {{item["件数"]}}
+          {% else %}
+            {{ item[0] }}
+            :
+            {{ item[1] }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+  </body>
+
+</html>

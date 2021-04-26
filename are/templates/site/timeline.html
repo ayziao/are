@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+	<title>{{title}} {{ site }}</title>
+	<link rel="icon" type="image/png" href="{{ url_for('site.static', filename=site + '/favicon.png') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='common.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('site.static', filename=site + '/css.css') }}">
+	<style type="text/css">
+		.table { display: table; width: 100%; }
+		.cell { display: table-cell;}
+	</style>
+</head>
+<body>
+
+{% if g.user and title == 'タイムライン' %}
+	<form action="{{ url_for('site.post',site=site) }}" method="POST" onsubmit="return submit();">
+		<div class="table">
+			<h1 class="cell"><a href="{{ url_for('site.top',site=site) }}">{{ site }}</a>　</h1>
+			<div class="cell">
+				<input type="checkbox" name="tagiji" value="tagiji" >タグ維持
+				<input id="tag" class="text" type="text" name="tags" onKeyup="showmojilen();" value="" placeholder="タグ">
+			</div>
+		</div>
+		<div class="table">
+			<div class="textarea cell" style="width: 100%;">
+				<textarea id="box" name="body" onKeyup="showmojilen();"></textarea>
+			</div>
+			<div class="cell" style="vertical-align: middle;">
+				<input id="btn" class="submitbutton" type="button" name="post" value="post" onclick="return submit();">
+			</div>
+		</div>
+
+		<input type="text" name="post" style="display:none;">
+		<input type="hidden" name="site" value="test">
+
+		<script type="text/javascript">
+			var key = "none";
+			var sbmit = false;
+			var textbox = document.getElementById('box');
+			var tag = document.getElementById('tag');
+			var submitButton = document.getElementById('btn');
+
+			submitButton.disabled = true;
+
+			textbox.addEventListener('keydown',
+							function (e) {
+								key = e.which;
+								if (sbmit === false && (e.metaKey || e.ctrlKey) && e.which == 13) {
+									submitButton.click();
+									submit();
+								}
+							},
+							false
+							);
+
+			var charcount = function (str) {
+				len = 0;
+				str = escape(str);
+				for (i = 0; i < str.length; i++, len++) {
+					if (str.charAt(i) == "%") {
+						if (str.charAt(++i) == "u") {
+							i += 3;
+							len++;
+						}
+						i++;
+					}
+				}
+				return len;
+			}
+
+			var counter = function (str, seq) {
+				return str.split(seq).length - 1;
+			}
+
+			function showmojilen() {
+				var taglen = charcount(tag.value.trim());
+				if (taglen > 0) {
+					taglen += 2 + counter(tag.value.trim(), ' ') * 2;
+				}
+				var bodylen = charcount(textbox.value.trim());
+				var strlen = bodylen + taglen;
+				if (sbmit === false) {
+					if (bodylen === 0 || strlen > 2800000) {
+						submitButton.disabled = true;
+						submitButton.value = 'post';
+					} else {
+						submitButton.disabled = false;
+						submitButton.value = strlen;
+					}
+				}
+			}
+
+			function submit() {
+				if (sbmit === true) {
+					alert('投稿無効');
+					return false;
+				}
+				;
+
+				sbmit = true;
+				submitButton.disabled = true;
+				submitButton.value = '送信中';
+
+				return true;
+			}
+
+			setInterval("showmojilen()", 1000);
+
+			function reqListener () {
+			 	console.log(this.responseText);
+			}
+
+			function queue () {
+				var oReq = new XMLHttpRequest();
+				oReq.addEventListener("load", reqListener);
+				oReq.open("GET", "/x/queue");
+				oReq.send();
+			}
+
+
+			function OnTabKey( e, obj ){
+
+				// タブキーが押された時以外は即リターン
+				if( e.keyCode!=9 ){ return; }
+
+				// タブキーを押したときのデフォルトの挙動を止める
+				e.preventDefault();
+
+				// 現在のカーソルの位置と、カーソルの左右の文字列を取得しておく
+				var cursorPosition = obj.selectionStart;
+				var cursorLeft     = obj.value.substr( 0, cursorPosition );
+				var cursorRight    = obj.value.substr( cursorPosition, obj.value.length );
+
+				// テキストエリアの中身を、
+				// 「取得しておいたカーソルの左側」+「タブ」+「取得しておいたカーソルの右側」
+				// という状態にする。
+				obj.value = cursorLeft+"\t"+cursorRight;
+
+				// カーソルの位置を入力したタブの後ろにする
+				obj.selectionEnd = cursorPosition+1;
+			}
+
+			// 対象となるテキストエリアにonkeydownイベントを追加する
+			document.getElementById( "box" ).onkeydown = function( e ){ OnTabKey( e, this ); }
+
+			window.onload = function() {
+				setTimeout(queue, 1000);
+			}
+		</script>
+	</form>
+
+	<div id="etc">{{ sitesetting['siteinsert']|safe }}</div>
+
+{% else %}
+	<h1><a href="{{ url_for('site.top',site=site) }}">{{ site }}</a> {{ title }}</h1>
+{% endif -%}
+
+{% if order %}
+<div class="navi">
+	{%- if order == 'DESC' -%}
+	<a href="{{ url_for('site.sub',site=site) }}?{{subcommand}}={{title}}&order=ASC">ASC</a>
+	{%- else %}
+	<a href="{{ url_for('site.sub',site=site) }}?{{subcommand}}={{title}}&order=DESC">DESC</a>
+	{%- endif %}
+</div>
+{% endif %}
+
+<div>
+
+{%- set day = {'current':''} -%}
+{%- for data in datalist -%}
+	{%- if day.current != data["datetime"][:10] -%}
+		{%- if day.current != '' %}
+	</div>
+		{% endif %}
+		{%- if day.update({'current': data["datetime"][:10]}) %}{% endif %}
+	<h5><a href="{{ url_for('site.top',site=site) }}/{{ day.current|replace('-', '') }}">{{ day.current }}</a></h5>
+	<div class="lines">
+	{%- endif %}
+		<div class="line"><div class="time"><a href="{{ url_for('site.top',site=site) }}/{{ data['identifier'] }}">
+			{%- if locale != "utcP9" -%}
+				{{ data["datetime"][11:] }}
+			{%- else -%}
+				{{ data["utcP9time"] }}
+			{%- endif -%}
+			</a></div><div class="body">
+			{%- if data["identifier"] != data["title"] -%}
+				[<a href="{{ url_for('site.top',site=site) }}/{{ data['title'] }}">{{ data["title"] }}</a>]<br>
+			{%- endif -%}
+			{{ titlelink(data["body"]) | linebreaksbr }} {# { data["tags"] } #}</div></div>
+{%- endfor -%}
+{%- if day.current != '' %}
+	</div>
+{% endif -%}
+
+</div>
+
+<div>
+	<br>
+	<a href="{{ url_for('site.top',site=site) }}">top</a>
+{%- if title == 'タイムライン' %}
+	<a href="{{ url_for('xdev.locale',tz='jst') }}?ref={{site}}">jst</a>
+	<a href="{{ url_for('xdev.locale',tz='utc') }}?ref={{site}}">utc</a>
+	<a href="{{ url_for('xdev.locale',tz='utcP9') }}?ref={{site}}">utc+9</a>
+{% endif -%}
+	<br>
+	<br>
+	<a href="{{ url_for('site.sub',site=site) }}?titles">タイトル一覧</a>
+</div>
+
+<form action="{{ url_for('site.sub',site=site) }}" method="GET">
+	<input id="search" class="text" type="text" value="{{ search }}" name="search">
+	<input class="submitbutton" type="submit" value="検索">
+</form>
+
+</body>
+</html>
