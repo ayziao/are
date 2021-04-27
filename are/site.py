@@ -61,7 +61,7 @@ def top(site):
 
     sitesetting = keyvalue.getSitesetting(site)
 
-    return render_template('site/timeline.html', title='タイムライン',
+    return render_template('site/timeline.html.j2', title='タイムライン',
                            datalist=datas, site=site, locale=locale,
                            sitesetting=sitesetting,
                            titlelink=_タイトルリンク(site))
@@ -100,7 +100,7 @@ def item(site, path):
 
     datalist = [data]  # fixme タイムラインテンプレート流用のため配列化 単ページテンプレート作ったら消す
 
-    return render_template('site/timeline.html',
+    return render_template('site/timeline.html.j2',
                            title=path, datalist=datalist, site=site, path=path, search=path, locale=locale,
                            titlelink=_タイトルリンク(site))
 
@@ -162,7 +162,7 @@ def _検索(site, search):
     locale = session['locale'] if 'locale' in session else 'utcP9'
     posts = basedata.search(site, search, order, locale)
 
-    return render_template('site/timeline.html', title=search, datalist=posts, site=site, order=order, locale=locale,
+    return render_template('site/timeline.html.j2', title=search, datalist=posts, site=site, order=order, locale=locale,
                            subcommand="search", search=search, titlelink=_タイトルリンク(site))
 
 
@@ -171,7 +171,7 @@ def _タグ検索(site, tag):
     locale = session['locale'] if 'locale' in session else 'utcP9'
     posts = basedata.tagsearch(site, tag, order, locale)
 
-    return render_template('site/timeline.html', title=tag, datalist=posts, site=site, order=order, locale=locale,
+    return render_template('site/timeline.html.j2', title=tag, datalist=posts, site=site, order=order, locale=locale,
                            search='tag', subcommand="tag", titlelink=_タイトルリンク(site))
 
 
@@ -185,7 +185,7 @@ def _パス解析(site, path):
     if not datas:
         abort(404, f"Not Found : {site} {path}")
 
-    return render_template('site/timeline.html', title=path, datalist=datas, site=site, path=path, locale=locale,
+    return render_template('site/timeline.html.j2', title=path, datalist=datas, site=site, path=path, locale=locale,
                            titlelink=_タイトルリンク(site))
 
 
@@ -199,7 +199,7 @@ def _静的ファイル(path):
 
 def _タイトル一覧(site):
     titles = basedata.gettitlecount(site)
-    return render_template('site/titles.html', site=site, titles=titles, titlelink=_タイトルリンク(site))
+    return render_template('site/titles.html.j2', site=site, titles=titles, titlelink=_タイトルリンク(site))
 
 
 def _タイトルリンク(site):
