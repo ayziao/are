@@ -66,7 +66,7 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('task/index.html.j2', tasks=tasks, tags=tags, search=args)
+    return render_template('task/index.html', tasks=tasks, tags=tags, search=args)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -104,7 +104,7 @@ def create():
             db.commit()
             return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
 
-    return render_template('task/create.html.j2', default=default)
+    return render_template('task/create.html', default=default)
 
 
 def get_task(number, check_author=True):
@@ -168,7 +168,7 @@ def update(number):
             db.commit()
             return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
 
-    return render_template('task/update.html.j2', task=task, fi=fi)
+    return render_template('task/update.html', task=task, fi=fi)
 
 
 @bp.route('/<int:number>/delete', methods=('POST',))
@@ -299,7 +299,7 @@ def ownerlist():
         ' GROUP BY 所有者 '
         'ORDER BY cycle  DESC, 件数 DESC '
     ).fetchall()
-    return render_template('task/list.html.j2', list=ret, type='所有者')
+    return render_template('task/list.html', list=ret, type='所有者')
 
 
 @bp.route('/ratelist', methods=('GET',))
@@ -318,7 +318,7 @@ def ratelist():
         ' GROUP BY 重要度'
         ' ORDER BY 重要度 DESC'
     ).fetchall()
-    return render_template('task/list.html.j2', list=ret, type='重要度')
+    return render_template('task/list.html', list=ret, type='重要度')
 
 
 @bp.route('/costlist', methods=('GET',))
@@ -330,4 +330,4 @@ def costlist():
         ' GROUP BY コスト '
         ' ORDER BY コスト DESC '
     ).fetchall()
-    return render_template('task/list.html.j2', list=ret, type='コスト')
+    return render_template('task/list.html', list=ret, type='コスト')

@@ -47,7 +47,7 @@ def daycount():
     counts = db.execute(sql, param).fetchall()
     tags = tagcount()
 
-    return render_template('toukei/count.html.j2', counts=counts, tags=tags, path='daycount', site=site)
+    return render_template('toukei/count.html', counts=counts, tags=tags, path='daycount', site=site)
 
 
 @bp.route('/monthcount')
@@ -88,7 +88,7 @@ def monthcount():
 
     tags = tagcount()
 
-    return render_template('toukei/count.html.j2', counts=counts, tags=tags, path='monthcount', site=site)
+    return render_template('toukei/count.html', counts=counts, tags=tags, path='monthcount', site=site)
 
 
 @bp.route('/weekcount')
@@ -145,7 +145,7 @@ def weekcount():
             ret_week.append({'date': str(i), 'count': 0})
     tags = tagcount()
 
-    return render_template('toukei/count.html.j2', counts=ret_week, tags=tags, path='weekcount', site=site)
+    return render_template('toukei/count.html', counts=ret_week, tags=tags, path='weekcount', site=site)
 
 
 
@@ -190,7 +190,7 @@ def hourcount():
     ret = db.execute(sql, param).fetchall()
     tags = tagcount()
 
-    return render_template('toukei/count.html.j2', counts=ret, tags=tags, path='hourcount', site=site)
+    return render_template('toukei/count.html', counts=ret, tags=tags, path='hourcount', site=site)
 
 
 
