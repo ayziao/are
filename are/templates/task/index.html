@@ -12,49 +12,49 @@
 <body>
 
 <h1><a href="{{ url_for('task.index') }}">タスク</a>
-    {%- if search['sort'] == "time" %}
-        登録順
-    {%- elif search['sort'] == "update" %}
-        更新順
-    {%- elif search['sort'] == "cost" %}
-        コスト順
-    {%- else -%}
+  {%- if search['sort'] == "time" %}
+    登録時順
+  {%- elif search['sort'] == "update" %}
+    更新時順
+  {%- elif search['sort'] == "cost" %}
+    コスト順
+  {%- else -%}
+    重要度順
+  {%- endif -%}
 
-    {%- endif -%}
+  {%- if search['cycle'] == "routine" %}
+    定期
+  {%- elif search['cycle'] == "randomly" %}
+    不定
+  {%- elif search['cycle'] == "none" %}
+    単発
+  {%- else %}
+    全件
+  {%- endif -%}
 
-    {%- if search['cycle'] == "routine" %}
-        定期
-    {%- elif search['cycle'] == "randomly" %}
-        不定
-    {%- elif search['cycle'] == "none" %}
-        単発
-    {%- else -%}
+  {%- if search['owner'] %}
+    {{ search['owner'] }}
+  {%- endif -%}
 
-    {%- endif -%}
+  {%- if search['cost'] %}
+    コスト:{{ search['cost'] }}
+  {%- endif -%}
 
-    {%- if search['owner'] %}
-        {{ search['owner'] }}
-    {%- endif -%}
-
-    {%- if search['cost'] %}
-        コスト:{{ search['cost'] }}
-    {%- endif -%}
-
-    {%- if search['tag'] %}
-        {{ search['tag'] }}
-    {%- endif -%}
+  {%- if search['tag'] %}
+    {{ search['tag'] }}
+  {%- endif -%}
 </h1>
 
 <a href="{{ url_for('task.ownerlist') }}">一覧</a>
 
 <select name="select" onChange="location.href=value;">
-  <option value="#">はじめに</option>
-  <option value="{{ url_for('task.index', owner='未') }}">未分類</option>
-  <option value="{{ url_for('task.index', rate='0only') }}">未要度</option>
-  <option value="{{ url_for('task.index', cost='0') }}">未見積</option>
-  <option value="{{ url_for('task.index', owner='日', rate='5only') }}">日初</option>
-  <option value="{{ url_for('task.index', owner='週', rate='5only') }}">週初</option>
-  <option value="{{ url_for('task.index', owner='月', rate='5only') }}">月初</option>
+    <option value="#">はじめに</option>
+    <option value="{{ url_for('task.index', owner='未') }}">未分類</option>
+    <option value="{{ url_for('task.index', rate='0only') }}">未要度</option>
+    <option value="{{ url_for('task.index', cost='0') }}">未見積</option>
+    <option value="{{ url_for('task.index', owner='日', rate='5only') }}">日初</option>
+    <option value="{{ url_for('task.index', owner='週', rate='5only') }}">週初</option>
+    <option value="{{ url_for('task.index', owner='月', rate='5only') }}">月初</option>
 </select>
 
 <select name="select" onChange="location.href=value;">
@@ -177,11 +177,12 @@
 
 {% for task in value %}
 <div>
-    {% if task['状態'] == '完' %}
+  {% if task['状態'] == '完' %}
     <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">☑</a>
-    {% else %}
+  {% elif task['状態'] == '未' %}
     <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
-    {% endif %}
+  {% else %}
+  {% endif %}
 
     {% if task['完了日時'] %}
     <span style="font-size  : 0.5em;">{{ task['utcP9time']}}</span>
@@ -211,7 +212,6 @@
     <a href="{{ url_for('task.index', change='tag', to=tag, **search) }}" style="font-size  : 0.6em">{{ tag }}</a>
     {% endfor %}
     <a style="font-size  : 0.8em;" href="{{ url_for('task.update', number=task['連番'], **search) }}">📝</a>
-
 
 </div>
 {% endfor %}
