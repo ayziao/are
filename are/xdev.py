@@ -5,6 +5,35 @@ from are.db import keyvalue, get_db
 bp = Blueprint('xdev', __name__, url_prefix='/x/dev')
 
 
+@bp.route('/sql')
+@login_required
+def sql():
+    db = get_db()
+    #         ' WHERE reservation_time < CURRENT_TIMESTAMP'
+    sql = '''
+    SELECT 
+        "状態",count(*) as 件数,
+        strftime("%Y-%m-%d", 完了日時) as 完了日 ,
+        SUM("コスト") as 予想 ,
+        SUM("実コスト") as 実績
+    FROM task
+    GROUP BY 
+        状態,
+        strftime("%Y-%m-%d", 完了日時)
+    '''
+    rows = db.execute(sql).fetchall()
+
+    ret = {'sql':sql}
+    arr = []
+
+    for i in rows:
+        arr.append(dict(i))
+    
+    ret['tasks'] = arr
+    
+    return ret
+
+
 @bp.route('/keyvalue')
 @login_required
 def keyvalue():
