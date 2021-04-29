@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, g, current_app
+from flask import Blueprint, render_template, request, redirect, flash, url_for, abort  # , g, current_app
 from are.db import get_db
 from are.auth import login_required
 
@@ -12,7 +12,7 @@ def index():
     if change:
         args[change] = request.args.get('to', '')
 
-    where = ' WHERE "状態" <> "保留"'
+    where = ' WHERE "状態" <> "特殊な状態"'
     if args['owner']:
         if args['owner'][0] == '-':
             where += ' AND "所有者" <> "' + args['owner'][1:] + '" '
@@ -48,7 +48,9 @@ def index():
         order = ' ORDER BY "状態" DESC, "完了日時" DESC, "コスト" '
 
     sql = 'SELECT *, ' \
-          ' strftime("%Y-%m-%d ", "完了日時") || substr("0"||(strftime("%H", "完了日時")+9),-2,2) || strftime(":%M:%S", "完了日時") as utcP9time ' \
+          ' strftime("%Y-%m-%d ", "完了日時") || ' \
+          '     substr("0"||(strftime("%H", "完了日時")+9),-2,2) || ' \
+          '     strftime(":%M:%S", "完了日時") as utcP9time ' \
           ' FROM task ' + where + order
     rows = get_db().execute(sql).fetchall()
 
@@ -77,7 +79,7 @@ def create():
         'cost': request.args.get('cost', 0),
         'rate': request.args.get('rate', 0)
     }
-    if not default["owner"] :
+    if not default["owner"]:
         default["owner"] = '未'
 
     if request.method == 'POST':
@@ -107,7 +109,7 @@ def create():
     return render_template('task/create.html', default=default)
 
 
-def get_task(number, check_author=True):
+def get_task(number):
     db = get_db()
 
     task = db.execute(
@@ -141,6 +143,7 @@ def update(number):
     fi = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 
     if request.method == 'POST':
+        status = request.form['status']
         owner = request.form['owner']
         title = request.form['title']
         tag = ' ' + request.form['tag'].strip() + ' '
@@ -160,10 +163,10 @@ def update(number):
             db = get_db()
             db.execute(
                 'UPDATE task SET '
-                ' "所有者" = ?, "タスク名" = ?, "タグ" = ?, "備考" = ?, "コスト" = ?, "実コスト" = ?, "重要度" = ?, '
+                ' "状態" = ?, "所有者" = ?, "タスク名" = ?, "タグ" = ?, "備考" = ?, "コスト" = ?, "実コスト" = ?, "重要度" = ?, '
                 ' "変更日時" = datetime("now")'
                 ' WHERE "連番" = ?',
-                (owner, title, tag, body, cost, actual, rate, number)
+                (status, owner, title, tag, body, cost, actual, rate, number)
             )
             db.commit()
             return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
@@ -247,7 +250,7 @@ def rateto(number):
 
     # current_app.logger.debug(task['重要度'])
 
-    if change >= 0 and task['重要度'] != change:
+    if 0 <= change != task['重要度']:
         db = get_db()
         db.execute(
             'UPDATE task SET "重要度" = ? , "変更日時" = datetime("now")'
