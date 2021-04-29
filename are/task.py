@@ -275,6 +275,20 @@ def done(number):
     return redirect(url_for('task.index', **args))
 
 
+@bp.route('/<int:number>/doing', methods=('GET',))
+def doing(number):
+    args = get_args()
+
+    db = get_db()
+    db.execute(
+        'UPDATE task SET "状態" = "！" , "変更日時" = datetime("now") '
+        ' WHERE "連番" = ?',
+        (number,)
+    )
+    db.commit()
+    return redirect(url_for('task.index', **args))
+
+
 @bp.route('/<int:number>/restore', methods=('GET',))
 def restore(number):
     args = get_args()
