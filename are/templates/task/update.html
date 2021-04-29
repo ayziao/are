@@ -19,6 +19,9 @@
 {% endfor %}
 
 <form method="post">
+
+	<label for="status">状態</label>
+	<input name="status" id="status" value="{{ request.form['status'] or task['状態'] }}" required>
 	<label for="owner">所有者</label>
 	<input name="owner" id="owner" value="{{ request.form['owner'] or task['所有者'] }}" required>
 	<label for="title">タスク名</label>
