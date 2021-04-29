@@ -12,7 +12,8 @@ def sql():
     #         ' WHERE reservation_time < CURRENT_TIMESTAMP'
     sql = '''
     SELECT 
-        "状態",count(*) as 件数,
+        "状態",
+        count(*) as 件数,
         strftime("%Y-%m-%d", 完了日時) as 完了日 ,
         SUM("コスト") as 予想 ,
         SUM("実コスト") as 実績
@@ -20,6 +21,9 @@ def sql():
     GROUP BY 
         状態,
         strftime("%Y-%m-%d", 完了日時)
+    ORDER by
+        状態 DESC,
+        strftime("%Y-%m-%d", 完了日時) DESC
     '''
     rows = db.execute(sql).fetchall()
 
