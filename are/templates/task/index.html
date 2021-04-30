@@ -184,7 +184,8 @@
           {% if task['状態'] == '完' %}
             <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">☑</a>
           {% elif task['状態'] == '未' %}
-            <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">☐</a>
+            <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
+            <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
           {% elif task['状態'] == '！' %}
             <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
             <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
