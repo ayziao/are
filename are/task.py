@@ -30,12 +30,13 @@ def index():
     if args['cycle']:
         if args['cycle'] == "routine":
             where += ' AND ("所有者" = "年" OR "所有者" = "月" OR "所有者" = "週" OR "所有者" = "日" ' \
-                     ' OR "所有者" = "半期")'
+                     ' OR "所有者" = "半期" OR "所有者" = "季" OR "所有者" = "寝")'
         elif args['cycle'] == "randomly":
             where += ' AND ("タグ" LIKE "%繰り返し%" OR "タグ" LIKE "%常備%") '
         else:
             where += ' AND "所有者" <> "年" AND "所有者" <> "月" AND "所有者" <> "週" AND "所有者" <> "日" ' \
-                     ' AND "所有者" <> "半期" AND "タグ" NOT LIKE "%常備%" AND "タグ" NOT LIKE "%繰り返し%" '
+                     ' AND "所有者" <> "半期" AND "所有者" <> "季" AND "所有者" <> "寝" ' \
+                     ' AND "タグ" NOT LIKE "%常備%" AND "タグ" NOT LIKE "%繰り返し%" '
 
     order = ' ORDER BY "状態" DESC, "完了日時" DESC, ' \
             ' CASE "重要度" WHEN 0 THEN 9 ELSE "重要度" END DESC, ' \
@@ -307,12 +308,12 @@ def ownerlist():
     ret = db.execute(
         'SELECT 所有者, count(所有者) as 件数, "定期" as cycle '
         ' FROM task '
-        ' WHERE "所有者" = "年" OR "所有者" = "月" OR "所有者" = "週" OR "所有者" = "日"  OR "所有者" = "半期" '
+        ' WHERE "所有者" = "年" OR "所有者" = "月" OR "所有者" = "週" OR "所有者" = "日" OR "所有者" = "半期" OR "所有者" = "季" OR "所有者" = "寝" '
         ' GROUP BY 所有者 '
         'UNION '
         'SELECT 所有者, count(所有者) as 件数 , "単発" as cycle '
         ' FROM task '
-        ' WHERE "所有者" <> "年" AND "所有者" <> "月" AND "所有者" <> "週" AND "所有者" <> "日"  AND "所有者" <> "半期" '
+        ' WHERE "所有者" <> "年" AND "所有者" <> "月" AND "所有者" <> "週" AND "所有者" <> "日" AND "所有者" <> "半期" AND "所有者" <> "季" AND "所有者" <> "寝" '
         ' GROUP BY 所有者 '
         'ORDER BY cycle  DESC, 件数 DESC '
     ).fetchall()
