@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, flash, url_for, abort  # , g, current_app
+from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, make_response  # , g, current_app
 from are.db import get_db
 from are.auth import login_required
 
@@ -349,3 +349,36 @@ def costlist():
         ' ORDER BY コスト DESC '
     ).fetchall()
     return render_template('task/list.html', list=ret, type='コスト')
+
+
+
+@bp.route('/コスト集計', methods=('GET',))
+def コスト集計():  # fixme 完了タスクアーカイブ機能作ったら削除
+    db = get_db()
+    sql = '''
+    SELECT 
+        "状態",
+        count(*) as 件数,
+        strftime("%Y-%m-%d", 完了日時) as 完了日 ,
+        SUM("コスト") as 予想 ,
+        SUM("実コスト") as 実績
+    FROM task
+    GROUP BY 
+        状態,
+        strftime("%Y-%m-%d", 完了日時)
+    ORDER by
+        状態 DESC,
+        strftime("%Y-%m-%d", 完了日時) DESC
+    '''
+    rows = db.execute(sql).fetchall()
+
+    res = ''
+    # res += sql + '\n'
+    ks = rows[0].keys()
+    for r in rows:
+        res += '\n'
+        for k in ks:
+            res += f"\t{k}:{r[k]}"
+    response = make_response(res, 200)
+    response.mimetype = "text/plain"
+    return response
