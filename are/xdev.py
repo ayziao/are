@@ -1,4 +1,4 @@
-from flask import Blueprint, session, redirect, url_for, current_app, request
+from flask import Blueprint, session, redirect, url_for, current_app, request, make_response
 from are.auth import login_required
 from are.db import keyvalue, get_db
 
@@ -27,15 +27,22 @@ def sql():
     '''
     rows = db.execute(sql).fetchall()
 
-    ret = {'sql':sql}
+    ret = {'sql': sql}
     arr = []
-
     for i in rows:
         arr.append(dict(i))
-    
     ret['tasks'] = arr
-    
-    return ret
+    # return ret
+
+    res = sql + '\n'
+    ks = rows[0].keys()
+    for r in rows:
+        res += '\n'
+        for k in ks:
+            res += f"\t{k}:{r[k]}"
+    response = make_response(res, 200)
+    response.mimetype = "text/plain"
+    return response
 
 
 @bp.route('/keyvalue')

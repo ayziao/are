@@ -237,6 +237,8 @@
 
 
 <footer>
+    <a href="{{ url_for('task.コスト集計') }}">コスト集計</a><br>
+
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>
     <a href="{{ url_for('auth.logout') }}">Log Out</a>
