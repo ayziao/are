@@ -47,6 +47,8 @@ def index():
         order = ' ORDER BY "状態" DESC, "完了日時" DESC, "変更日時" DESC '
     if args['sort'] == 'cost':
         order = ' ORDER BY "状態" DESC, "完了日時" DESC, "コスト" '
+    if args['sort'] == 'title':
+        order = ' ORDER BY "状態" DESC, "タスク名" '
 
     sql = 'SELECT *, ' \
           ' strftime("%Y-%m-%d ", "完了日時") || ' \

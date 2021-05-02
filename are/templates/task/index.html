@@ -20,6 +20,8 @@
     更新時順
   {%- elif search['sort'] == "cost" %}
     コスト順
+  {%- elif search['sort'] == "title" %}
+    タスク名順
   {%- else %}
     重要度順
   {%- endif -%}
@@ -98,6 +100,8 @@
     <a href="{{ url_for('task.index', change='sort', to='update', **search) }}">更新順</a>
   {% elif search['sort'] == "update" %}
     <a href="{{ url_for('task.index', change='sort', to='cost', **search) }}">コスト順</a>
+  {% elif search['sort'] == "cost" %}
+    <a href="{{ url_for('task.index', change='sort', to='title', **search) }}">タスク名順</a>
   {% elif search['sort'] %}
     <a href="{{ url_for('task.index', change='sort', to='', **search) }}">重要度順</a>
   {% else %}
