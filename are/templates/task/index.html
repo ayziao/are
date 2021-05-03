@@ -162,6 +162,10 @@
     </a>
   {%- endif %}
 
+  {%- if search['cost'] -%}
+    <a href="{{ url_for('task.index', change='cost', to='', **search) }}">コスト{{ search['cost'] }}</a>
+  {%- endif %}
+
     <a href="{{ url_for('task.index', change='owner', to='', **search) }}">{{ search['owner'] }}</a>
     <a href="{{ url_for('task.index', change='tag', to='', **search) }}">{{ search['tag'] }}</a>
 </nav>
