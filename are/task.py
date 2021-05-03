@@ -27,7 +27,7 @@ def index():
         where += ' AND "コスト" = "' + args['cost'] + '" '
     if args['tag']:
         if args['tag'][0] == '-':
-            where += ' AND "タグ" NOT LIKE "% ' + args['tag'] + ' %" '
+            where += ' AND "タグ" NOT LIKE "% ' + args['tag'][1:] + ' %" '
         else:
             where += ' AND "タグ" LIKE "% ' + args['tag'] + ' %" '
     if args['cycle']:
