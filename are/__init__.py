@@ -54,6 +54,9 @@ def _テンプレートフィルタ登録(app):
 
     @app.template_filter()
     def jptime(dt, format_='%Y-%m-%d %H:%M:%S'):
+        if not dt:
+            return
+
         u"""utcの時間を日本時間で指定されたフォーマットで文字列化する."""
         local = datetime.datetime.strptime(dt, '%Y-%m-%d %H:%M:%S') + datetime.timedelta(hours=9)
 
