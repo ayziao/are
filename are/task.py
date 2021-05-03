@@ -80,7 +80,7 @@ def create():
         'owner': request.args.get('owner', '未'),
         'tag': request.args.get('tag', ''),
         'cost': request.args.get('cost', 0),
-        'rate': request.args.get('rate', 0)
+        'rate': int(request.args.get('rate', '0').strip('only'))
     }
     if not default["owner"]:
         default["owner"] = '未'
@@ -88,7 +88,7 @@ def create():
     if request.method == 'POST':
         owner = request.form['owner'] if request.form['owner'] else default['owner']
         cost = request.form['cost'] if request.form['cost'] else default['cost']
-        rate = request.form['rate'] if request.form['rate'] else default['rate']
+        rate = int(request.form['rate'].strip('only')) if request.form['rate'] else int(default['rate'].strip('only'))
         title = request.form['title']
         tag = ' ' + request.form['tag'].strip() + ' '
         body = request.form['body']
