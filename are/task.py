@@ -88,7 +88,7 @@ def create():
     if request.method == 'POST':
         owner = request.form['owner'] if request.form['owner'] else default['owner']
         cost = request.form['cost'] if request.form['cost'] else default['cost']
-        rate = int(request.form['rate'].strip('only')) if request.form['rate'] else int(default['rate'].strip('only'))
+        rate = int(request.form['rate'].strip('only')) if request.form['rate'] else default['rate']
         title = request.form['title']
         tag = ' ' + request.form['tag'].strip() + ' '
         body = request.form['body']
