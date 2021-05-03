@@ -26,7 +26,10 @@ def index():
     if args['cost']:
         where += ' AND "コスト" = "' + args['cost'] + '" '
     if args['tag']:
-        where += ' AND "タグ" like "% ' + args['tag'] + ' %" '
+        if args['tag'][0] == '-':
+            where += ' AND "タグ" NOT LIKE "% ' + args['tag'] + ' %" '
+        else:
+            where += ' AND "タグ" LIKE "% ' + args['tag'] + ' %" '
     if args['cycle']:
         if args['cycle'] == "routine":
             where += ' AND ("所有者" = "年" OR "所有者" = "月" OR "所有者" = "週" OR "所有者" = "日" ' \
