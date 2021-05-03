@@ -168,6 +168,13 @@
 
     <a href="{{ url_for('task.index', change='owner', to='', **search) }}">{{ search['owner'] }}</a>
     <a href="{{ url_for('task.index', change='tag', to='', **search) }}">{{ search['tag'] }}</a>
+  {%- if search['tag'] -%}
+    {%- if search['tag'][0] != '-' -%}
+    <a href="{{ url_for('task.index', change='tag', to='-'+search['tag'], **search) }}"> -</a>
+    {%- else -%}
+    <a href="{{ url_for('task.index', change='tag', to=search['tag'][1:], **search) }}"> +</a>
+    {%- endif %}
+  {%- endif %}
 </nav>
 
 <form method="post" action="{{ url_for('task.create') }}">
