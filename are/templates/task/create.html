@@ -1,58 +1,79 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8"><meta name="viewport" content="width=device-width">
-	<title>新規タスク</title>
-	<style type="text/css">
-		form { margin: 1em 0; display: flex; flex-direction: column; }
-		label { font-weight: bold; margin-bottom: 0.5em; }
-		input, textarea, select { margin-bottom: 1em; }
-		textarea { min-height: 12em; resize: vertical; }
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>新規タスク</title>
+    <style type="text/css">
+        form {
+            margin: 1em 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+
+        input,
+        textarea,
+        select {
+            margin-bottom: 1em;
+        }
+
+        textarea {
+            min-height: 12em;
+            resize: vertical;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>新規タスク</h1>
+    <h1>新規タスク</h1>
 
-{% for message in get_flashed_messages() %}
-<div class="flash">{{ message }}</div>
-{% endfor %}
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
 
-<form method="post">
-	<label for="owner">所有者</label>
-	<input name="owner" id="owner" value="{{ request.form['owner'] or default['owner'] }}" required>
-	<label for="title">タスク名</label>
-	<input name="title" id="title" value="{{ request.form['title'] }}" required>
-	<label for="rate">重要度</label>
-	<select name="rate" id="rate">
-		<option value="0">☆☆☆☆☆</option>
-		<option value="5">★★★★★</option>
-		<option value="4">★★★★☆</option>
-		<option value="3">★★★☆☆</option>
-		<option value="2">★★☆☆☆</option>
-		<option value="1">★☆☆☆☆</option>
-	</select>
-	<label for="cost">予想コスト</label>
-	<select name="cost" id="cost">
-			<option value="0">0</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="5">5</option>
-			<option value="8">8</option>
-			<option value="13">13</option>
-			<option value="21">21</option>
-			<option value="34">34</option>
-			<option value="55">55</option>
-			<option value="89">89</option>
-	</select>
-	<label for="tag">タグ</label>
-	<input name="tag" id="tag" value="{{ request.form['tag'] or default['tag'] }}">
-	<label for="body">備考</label>
-	<textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-	<input type="hidden" name="ret" id="ret" value="off">
-	<input type="submit" value="Save">
-</form>
+    <form method="post">
+        <label for="owner">所有者</label>
+        <input name="owner" id="owner" value="{{ request.form['owner'] or default['owner'] }}" required>
+        <label for="title">タスク名</label>
+        <input name="title" id="title" value="{{ request.form['title'] }}" required>
+        <label for="rate">重要度</label>
+        <select name="rate" id="rate">
+            <option value="0">☆☆☆☆☆</option>
+            <option value="5">★★★★★</option>
+            <option value="4">★★★★☆</option>
+            <option value="3">★★★☆☆</option>
+            <option value="2">★★☆☆☆</option>
+            <option value="1">★☆☆☆☆</option>
+        </select>
+        <label for="cost">予想コスト</label>
+        <select name="cost" id="cost">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="8">8</option>
+            <option value="13">13</option>
+            <option value="21">21</option>
+            <option value="34">34</option>
+            <option value="55">55</option>
+            <option value="89">89</option>
+        </select>
+        <label for="tag">タグ</label>
+        <input name="tag" id="tag" value="{{ request.form['tag'] or default['tag'] }}">
+        <label for="body">備考</label>
+        <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+        <input type="hidden" name="ret" id="ret" value="off">
+        <input type="submit" value="Save">
+    </form>
 
 </body>
+
 </html>

@@ -165,7 +165,6 @@
   {%- if search['cost'] -%}
     <a href="{{ url_for('task.index', change='cost', to='', **search) }}">コスト{{ search['cost'] }}</a>
   {%- endif %}
-
     <a href="{{ url_for('task.index', change='owner', to='', **search) }}">{{ search['owner'] }}</a>
     <a href="{{ url_for('task.index', change='tag', to='', **search) }}">{{ search['tag'] }}</a>
   {%- if search['tag'] -%}
@@ -191,7 +190,7 @@
 </form>
 
 <article>
-{% for key, value in tasks.items() %}
+  {% for key, value in tasks.items() %}
     <section>
         <h1>{{ key }}</h1>
       {% for task in value %}
@@ -214,7 +213,6 @@
             予{{ task['コスト'] }}
             <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">実{{ task['実コスト'] }}</a>
           {% else %}
-
             {% if task['重要度'] == 1 -%}
               <a href="{{ url_for('task.rateto', number=task['連番'], change=0, **search) }}">★</a>
             {%- else -%}
@@ -247,13 +245,13 @@
         </div>
       {% endfor %}
     </section>
-{% endfor %}
+  {% endfor %}
 </article>
 
 
 <footer>
-    <a href="{{ url_for('task.コスト集計') }}">コスト集計</a><br>
-
+    <a href="{{ url_for('task.コスト集計') }}">コスト集計</a>
+    <br>
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>
     <a href="{{ url_for('auth.logout') }}">Log Out</a>
