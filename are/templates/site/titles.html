@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>タイトル一覧</title>
     <link rel="icon" type="image/png" href="{{ url_for('site.static', filename=site + '/favicon.png') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('site.static', filename=site + '/css.css') }}">
-
 </head>
+
 <body>
-
-<div class="lines">
-    {% for title in titles -%}
-    <div class="line">
-        {%- autoescape false -%}
-        {{titlelink(title['title'])}} {{title['count']}}
-        {%- endautoescape -%}
+    <div class="lines">
+      {% for title in titles -%}
+        <div class="line">
+          {%- autoescape false -%}
+            {{titlelink(title['title'])}} {{title['count']}}
+          {%- endautoescape -%}
+        </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-</div>
-
 </body>
+
 </html>
