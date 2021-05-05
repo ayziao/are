@@ -128,8 +128,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# バイナリファイル
+favicon.ico
+
 # プロジェクトの除外パス
 /are.egg-info/
 /htmlcov/
 /venv/
 /are/static_site/
+
