@@ -40,6 +40,8 @@ def index():
             where += ' AND "所有者" <> "年" AND "所有者" <> "月" AND "所有者" <> "週" AND "所有者" <> "日" ' \
                      ' AND "所有者" <> "半期" AND "所有者" <> "季" AND "所有者" <> "寝" ' \
                      ' AND "タグ" NOT LIKE "%常備%" AND "タグ" NOT LIKE "%繰り返し%" '
+    if args['title']:
+        where += ' AND "タスク名" LIKE "%' + args['title'] + '%" '
 
     order = ' ORDER BY "状態" DESC, "完了日時" DESC, ' \
             ' CASE "重要度" WHEN 0 THEN 9 ELSE "重要度" END DESC, ' \
@@ -138,7 +140,8 @@ def get_args():
         'cost': request.args.get('cost', ''),
         'tag': request.args.get('tag', ''),
         'sort': request.args.get('sort', ''),
-        'cycle': request.args.get('cycle', '')}
+        'cycle': request.args.get('cycle', ''),
+        'title': request.args.get('title', '')}
     return args
 
 

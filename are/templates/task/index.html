@@ -250,6 +250,10 @@
 
 
 <footer>
+    <form action="{{ url_for('task.index',site=site) }}" method="GET">
+        <input id="search" class="text" type="text" value="{{ search['title'] }}" name="title">
+        <input class="submitbutton" type="submit" value="検索">
+    </form>
     <a href="{{ url_for('task.コスト集計') }}">コスト集計</a>
     <br>
   {% if g.user %}
