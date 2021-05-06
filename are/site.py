@@ -55,7 +55,7 @@ def top(site):
     # locale = request.args.get('locale', 'utcP9')
     locale = session['locale'] if 'locale' in session else 'utcP9'
     current_app.logger.debug(locale)
-    datas = basedata.gettimeline(site, locale)
+    datas = basedata.get_timeline(site, locale)
     if not datas:
         abort(404, "Not Found : " + site)
 
@@ -94,7 +94,7 @@ def item(site, path):
         return file
 
     locale = session['locale'] if 'locale' in session else 'utcP9'
-    data = basedata.getone(site, path, locale)
+    data = basedata.get_one(site, path, locale)
     if not data:
         return _パス解析(site, path)
 
@@ -109,7 +109,7 @@ def item(site, path):
 def item2json(site, path):
     _add_header('X-rute', 'item2json /<site>/<path>.json')
 
-    data = basedata.getone(site, path)
+    data = basedata.get_one(site, path)
     if not data:
         abort(404)
 
@@ -120,7 +120,7 @@ def item2json(site, path):
 def item2text(site, path):
     _add_header('X-rute', 'item2text /<site>/<path>.txt')
 
-    data = basedata.getone(site, path)
+    data = basedata.get_one(site, path)
     if not data:
         abort(404)
 
@@ -181,7 +181,7 @@ def _パス解析(site, path):
     # PENDING YYYYMMDD型かどうかチェックするか
 
     locale = session['locale'] if 'locale' in session else 'utcP9'
-    datas = basedata.getlikeid(site, path, locale)
+    datas = basedata.get_likeid(site, path, locale)
     if not datas:
         abort(404, f"Not Found : {site} {path}")
 
@@ -198,12 +198,12 @@ def _静的ファイル(path):
 
 
 def _タイトル一覧(site):
-    titles = basedata.gettitlecount(site)
+    titles = basedata.get_titlecount(site)
     return render_template('site/titles.html', site=site, titles=titles, titlelink=_タイトルリンク(site))
 
 
 def _タイトルリンク(site):
-    titles = basedata.gettitlearray(site)
+    titles = basedata.get_titlearray(site)
 
     # print(titles)
 

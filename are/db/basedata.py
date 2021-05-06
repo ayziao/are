@@ -9,7 +9,7 @@ def create(db, site, identifier, dtstr, title, tags, body, jpstr):
     )
 
 
-def getone(site, name, locale=None):
+def get_one(site, name, locale=None):
     db = get_db()
     if locale == 'utc' or locale == 'utcP9':
         datatimehenkan = ''
@@ -28,7 +28,7 @@ def getone(site, name, locale=None):
     return ret
 
 
-def gettimeline(site, locale=None):
+def get_timeline(site, locale=None):
     db = get_db()
     if locale == 'utc' or locale == 'utcP9':
         datatimehenkan = ''
@@ -45,7 +45,7 @@ def gettimeline(site, locale=None):
     return db.execute(sql, (site,)).fetchall()
 
 
-def getlikeid(site, search, locale=None):
+def get_likeid(site, search, locale=None):
     db = get_db()
     if locale == 'utc' or locale == 'utcP9':
         datatimehenkan = ''
@@ -110,7 +110,7 @@ def tagsearch(site, search, order=None, locale=None):
     return ret
 
 
-def gettitlearray(site):
+def get_titlearray(site):
     db = get_db()
     titles = []
     ret = db.execute(
@@ -125,7 +125,7 @@ def gettitlearray(site):
     return titles
 
 
-def gettitlecount(site):
+def get_titlecount(site):
     db = get_db()
     ret = db.execute(
         'SELECT title, count(title) as count '
