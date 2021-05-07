@@ -64,7 +64,7 @@
 
     <select name="select" onChange="location.href=value;">
         <option value="#">よく使う</option>
-        <option value="{{ url_for('task.index', cost='1', cycle='none', owner='-買') }}">すぐやる</option>
+        <option value="{{ url_for('task.index', cost='1', cycle='none', owner='-買', tag='-買') }}">すぐやる</option>
         <option value="{{ url_for('task.index', owner='考') }}">考</option>
         <option value="{{ url_for('task.index', owner='日') }}">日</option>
         <option value="{{ url_for('task.index', owner='ｱﾚ') }}">ｱﾚ</option>
