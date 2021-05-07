@@ -156,12 +156,30 @@
 	<h1><a href="{{ url_for('site.top',site=site) }}">{{ site }}</a> {{ title }}</h1>
 {% endif -%}
 
-{% if order %}
+{% if subcommand and order %}
 <div class="navi">
 	{%- if order == 'DESC' -%}
 	<a href="{{ url_for('site.sub',site=site) }}?{{subcommand}}={{title}}&order=ASC">ASC</a>
 	{%- else %}
 	<a href="{{ url_for('site.sub',site=site) }}?{{subcommand}}={{title}}&order=DESC">DESC</a>
+	{%- endif %}
+</div>
+{% endif %}
+
+{% if prev or next %}
+<div class="navi">
+	{% if prev %}
+	<a href="{{ url_for('site.item',site=site,path=prev) }}">{{prev}}</a>
+	{% endif %}
+	{% if next %}
+	<a href="{{ url_for('site.item',site=site,path=next) }}">{{next}}</a>
+	{% endif %}
+
+	<br>
+	{%- if order == 'DESC' -%}
+	<a href="{{ url_for('site.item',site=site,path=path) }}?order=ASC">ASC</a>
+	{%- else %}
+	<a href="{{ url_for('site.item',site=site,path=path) }}?order=DESC">DESC</a>
 	{%- endif %}
 </div>
 {% endif %}

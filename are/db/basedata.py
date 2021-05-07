@@ -45,7 +45,7 @@ def get_timeline(site, locale=None):
     return db.execute(sql, (site,)).fetchall()
 
 
-def get_likeid(site, search, locale=None):
+def get_likeid(site, search, locale=None, order='ASC'):
     db = get_db()
     if locale == 'utc' or locale == 'utcP9':
         datatimehenkan = ''
@@ -57,7 +57,7 @@ def get_likeid(site, search, locale=None):
         ' substr("0"||(strftime("%H", datetime)+9),-2,2) || strftime(":%M:%S", datetime) as utcP9time '
         ' FROM basedata '
         ' WHERE site = ? AND identifier LIKE ? '
-        ' ORDER BY datetime LIMIT 1000;',
+        f' ORDER BY datetime {order} LIMIT 1000;',
         (site, search + "%",)
     ).fetchall()
 
@@ -137,3 +137,39 @@ def get_titlecount(site):
         (site,)
     ).fetchall()
     return ret
+
+
+def next_identifier(site, date):
+    db = get_db()
+    ret = db.execute(
+        ' SELECT identifier '
+        ' FROM basedata '
+        ' WHERE site = ? '
+        ' AND tags NOT LIKE "% gyazo_posted %" '
+        ' AND identifier > ? '
+        ' ORDER BY "identifier" ASC LIMIT 1 ',
+        (site, f"{date}999999999999")
+    ).fetchone()
+
+    if ret:
+        return ret['identifier']
+    else:
+        return ''
+
+
+def prev_identifier(site, date):
+    db = get_db()
+    ret = db.execute(
+        ' SELECT identifier '
+        ' FROM basedata '
+        ' WHERE site = ? '
+        ' AND tags NOT LIKE "% gyazo_posted %" '
+        ' AND identifier < ? '
+        ' ORDER BY "identifier" DESC LIMIT 1 ',
+        (site, f"{date}000000000000")
+    ).fetchone()
+
+    if ret:
+        return ret['identifier']
+    else:
+        return ''

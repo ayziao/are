@@ -178,14 +178,20 @@ def _タグ検索(site, tag):
 def _パス解析(site, path):
     _add_header('X-rute2', 'pathcheck /<site>/<path>')
 
+    order = request.args.get('order', 'ASC')
+
     # PENDING YYYYMMDD型かどうかチェックするか
 
     locale = session['locale'] if 'locale' in session else 'utcP9'
-    datas = basedata.get_likeid(site, path, locale)
+    datas = basedata.get_likeid(site, path, locale, order)
     if not datas:
         abort(404, f"Not Found : {site} {path}")
 
-    return render_template('site/timeline.html', title=path, datalist=datas, site=site, path=path, locale=locale,
+    prev = basedata.prev_identifier(site,path)[0:8]
+    next = basedata.next_identifier(site,path)[0:8]
+
+    return render_template('site/timeline.html', title=path, datalist=datas, site=site, path=path,
+                           locale=locale, order=order, prev=prev, next=next,
                            titlelink=_タイトルリンク(site))
 
 
