@@ -20,10 +20,18 @@ https://github.com/ayziao/are
 記録の取り具合を確認する
 * 投稿数集計
 
-
+---
+## インストール
+export FLASK_APP=are  
+flask init-db  
+flask init-ext_db  
+flask ran  
 
 ---
 ## 開発
+export FLASK_APP=are  
+export FLASK_ENV=development  
+flask ran  
 
 ### コミットログの書き方
 1行目 😀 やったこと：目的  

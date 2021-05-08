@@ -73,6 +73,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, __name__ + '.sqlite'),
+        EXT_DATABASE=os.path.join(app.instance_path, __name__ + '_ext.sqlite'),
     )
 
     if test_config is None:
@@ -90,6 +91,10 @@ def create_app(test_config=None):
 
     from . import db
     db.init_app(app)
+
+    from .ext import db as ext_db
+    ext_db.init_app(app)
+
 
     _URL経路設定(app)
 
