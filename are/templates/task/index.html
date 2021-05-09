@@ -33,7 +33,7 @@
   {%- elif search['cycle'] == "none" %}
     単発
   {%- else %}
-    全件
+    全種
   {%- endif -%}
 
   {%- if search['owner'] %}
@@ -113,7 +113,7 @@
   {% elif search['cycle'] == "routine" %}
     <a href="{{ url_for('task.index', change='cycle', to='randomly', **search) }}">不定</a>
   {% elif search['cycle'] == "randomly" %}
-    <a href="{{ url_for('task.index', change='cycle', to='', **search) }}">全て</a>
+    <a href="{{ url_for('task.index', change='cycle', to='', **search) }}">全種</a>
   {% else %}
     <a href="{{ url_for('task.index', change='cycle', to='none', **search) }}">単発</a>
   {% endif %}
