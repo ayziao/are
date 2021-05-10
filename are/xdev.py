@@ -79,6 +79,29 @@ def k():  # pragma: no cover
     return keyvalue.getSitesetting('txt')
 
 
+@bp.route('/q')
+def q():  # pragma: no cover
+    db = get_db()
+
+    _sql = '''
+    SELECT *
+    FROM queue
+    '''
+    rows = db.execute(_sql).fetchall()
+
+    res = _sql + '\n'
+    ks = rows[0].keys()
+    for r in rows:
+        res += '\n'
+        for k in ks:
+            res += f"\t{k}:{r[k]}"
+    response = make_response(res, 200)
+    response.mimetype = "text/plain"
+    return response
+
+
+
+
 @bp.route('/dev')
 def dev():  # pragma: no cover
     print(__name__)
