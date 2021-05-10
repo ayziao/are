@@ -83,11 +83,17 @@ def k():  # pragma: no cover
 def q():  # pragma: no cover
     db = get_db()
 
+    # db.execute('DELETE FROM queue WHERE serial_number = ?', (56,))
+    # db.commit()
+
     _sql = '''
     SELECT *
     FROM queue
     '''
     rows = db.execute(_sql).fetchall()
+
+    if not rows:
+        return 'no queue'
 
     res = _sql + '\n'
     ks = rows[0].keys()
