@@ -3,11 +3,14 @@ from json import loads
 
 
 # サイト別設定取得
-def getSitesetting(site):
+def get_sitesetting(site):
     db = get_db()
-    ret = db.execute(
+    ret = None
+    _data = db.execute(
         'SELECT * FROM keyvalue '
         f' WHERE key = "sitesetting_{site}" '
     ).fetchone()
+    if _data:
+        ret = loads(_data['value'])
 
-    return loads(ret["value"])
+    return ret

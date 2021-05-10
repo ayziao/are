@@ -4,7 +4,7 @@ from flask import Blueprint, flash, g, redirect, render_template, request, url_f
 from werkzeug.exceptions import abort
 
 from are.auth import login_required
-from are.db import get_db
+from are.db import get_db, keyvalue
 from are.ext import multipost
 
 
@@ -37,7 +37,7 @@ def queue():
             body = ret['title'] + "\n\n" + body
         msg = ""
 
-        siteseting = getsiteseting(arr[0])
+        siteseting = keyvalue.get_sitesetting(arr[0])
         if siteseting :
             if "twitter_main" in siteseting:
                 tw = multipost.tweet(siteseting["twitter_main"], body)
@@ -76,16 +76,3 @@ def getdata(site, identifier):
     ).fetchone()
     return _data
 
-
-
-def getsiteseting(site):
-    db = get_db()
-    ret = None
-    _data = db.execute(
-        'SELECT * FROM keyvalue	'
-        ' WHERE key = ? '
-        , ('sitesetting_' + site,)
-    ).fetchone()
-    if _data:
-        ret = json.loads(_data['value'])
-    return ret

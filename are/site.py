@@ -59,7 +59,7 @@ def top(site):
     if not datas:
         abort(404, "Not Found : " + site)
 
-    sitesetting = keyvalue.getSitesetting(site)
+    sitesetting = keyvalue.get_sitesetting(site)
 
     return render_template('site/timeline.html', title='タイムライン',
                            datalist=datas, site=site, locale=locale,

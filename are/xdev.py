@@ -76,7 +76,7 @@ def こんにちわ():  # pragma: no cover
 
 @bp.route('/k')
 def k():  # pragma: no cover
-    return keyvalue.getSitesetting('txt')
+    return keyvalue.get_sitesetting('txt')
 
 
 @bp.route('/q')
