@@ -136,18 +136,18 @@ def dev():
         print(dt.strftime('%Y年%m月%d日 %H:%M:%S'))
 
         bkz = pathlib.Path(_backup_path + '/hourly' + dt.strftime('%H') + '.zip')
-        with zipfile.ZipFile(bkz, "w", zipfile.ZIP_DEFLATED) as zf:
-            zf.write(bk, dbpath.name)
+        with zipfile.ZipFile(str(bkz), "w", zipfile.ZIP_DEFLATED) as zf:
+            zf.write(str(bk), dbpath.name)
 
         if dt.strftime('%H') == '00':
             print('毎日')
             bkd = pathlib.Path(_backup_path + '/daily' + dt.strftime('%d') + '.zip')
-            ret = subprocess.run(('cp', bkz, bkd))
+            ret = subprocess.run(('cp', str(bkz), str(bkd)))
             print(ret)
             if dt.strftime('%d') == '01':
                 print('毎月')
-                bkd = pathlib.Path(_backup_path + '/monthly' + dt.strftime('%m') + '.zip')
-                ret = subprocess.run(('cp', bkz, bkd))
+                bkm = pathlib.Path(_backup_path + '/monthly' + dt.strftime('%m') + '.zip')
+                ret = subprocess.run(('cp', str(bkz), str(bkm)))
                 print(ret)
 
     ret = subprocess.run(('cp', current_app.config['DATABASE'], _backup_path))
