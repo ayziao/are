@@ -1,4 +1,11 @@
+import os
+import pathlib
+import subprocess
+import zipfile
+from datetime import datetime
+
 from flask import Blueprint, session, redirect, url_for, current_app, request, make_response
+
 from are.auth import login_required
 from are.db import keyvalue, get_db
 
@@ -106,10 +113,50 @@ def q():  # pragma: no cover
     return response
 
 
-
-
 @bp.route('/dev')
-def dev():  # pragma: no cover
+def dev():
+    print('サブプロセス動作確認 cp file1 file2')
+
+    print(current_app.config['DATABASE'])
+    _backup_path = os.path.join(current_app.instance_path, 'backup')
+    print(_backup_path)
+
+    ret = subprocess.run(('ls', _backup_path), check=True)
+    print(ret)
+
+    dbpath = pathlib.Path(current_app.config['DATABASE'])
+    print(dbpath.name)
+    bk = pathlib.Path(_backup_path + '/' + dbpath.name)
+
+    if bk.exists():
+        print(bk)
+        print(bk.stat())
+        dt = datetime.fromtimestamp(bk.stat().st_mtime)
+        print(dt)
+        print(dt.strftime('%Y年%m月%d日 %H:%M:%S'))
+
+        bkz = pathlib.Path(_backup_path + '/hourly' + dt.strftime('%H') + '.zip')
+        with zipfile.ZipFile(bkz, "w", zipfile.ZIP_DEFLATED) as zf:
+            zf.write(bk, dbpath.name)
+
+        if dt.strftime('%H') == '00':
+            print('毎日')
+            bkd = pathlib.Path(_backup_path + '/daily' + dt.strftime('%d') + '.zip')
+            ret = subprocess.run(('cp', bkz, bkd))
+            print(ret)
+            if dt.strftime('%d') == '01':
+                print('毎月')
+                bkd = pathlib.Path(_backup_path + '/monthly' + dt.strftime('%m') + '.zip')
+                ret = subprocess.run(('cp', bkz, bkd))
+                print(ret)
+
+    ret = subprocess.run(('cp', current_app.config['DATABASE'], _backup_path))
+    print(ret)
+
+    return 'サブプロセス動作確認'
+
+
+def キーワードリンク():  # pragma: no cover
     print(__name__)
     print(__file__)
     # print(__spec__)
