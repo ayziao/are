@@ -178,7 +178,7 @@
 
 <form method="post" action="{{ url_for('task.create') }}">
     <input name="title" id="title" style="width:100%;" value="{{ request.form['title'] }}" required>
-    <input type="submit" value="Save">
+    <input id="btn" class="submitbutton" type="submit" value="Save">
     <a href="{{ url_for('task.create', owner=search['owner'], tag=search['tag']) }}">New</a>
 
     <input type="hidden" name="owner" id="owner" value="{{ search['owner'] }}">
@@ -187,6 +187,20 @@
     <input type="hidden" name="body" id="body" value="">
     <input type="hidden" name="cost" id="cost" value="{{ search['cost'] }}">
     <input type="hidden" name="sort" id="sort" value="{{ search['sort'] }}">
+
+    <script type="text/javascript">
+        var textbox = document.getElementById('title');
+        var submitButton = document.getElementById('btn');
+        textbox.addEventListener('keydown',
+                        function (e) {
+                            key = e.which;
+                            if (sbmit === false && (e.metaKey || e.ctrlKey) && e.which == 13) {
+                                submitButton.click();
+                            }
+                        },
+                        false
+                        );
+    </script>
 </form>
 
 <article>
@@ -203,6 +217,7 @@
             <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
           {% elif task['状態'] == '！' %}
             <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
+            <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
             <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
           {% else %}
             <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
