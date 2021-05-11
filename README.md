@@ -7,10 +7,14 @@ https://github.com/ayziao/are
 記録を取る  
 記録を見やすくする  
 記録の取り具合を確認する
+記録を取るための参考情報を得る
 
 ---
 ## 機能
 記録を取る
+* PCでもモバイルでも取りやすく
+* 低速回線でも取りやすく
+* しつこいバックアップ
 
 記録を見やすくする
 * キーワードリンク
@@ -20,8 +24,15 @@ https://github.com/ayziao/are
 記録の取り具合を確認する
 * 投稿数集計
 
+記録を取るための参考情報を得る
+* SNS連携
+* ブックマーク
+* スクラップブック
+
 ---
 ## インストール
+git clone https://github.com/ayziao/are.git  
+モジュールのインストール  # fixme  
 export FLASK_APP=are  
 flask init-db  
 flask init-ext_db  
