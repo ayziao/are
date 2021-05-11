@@ -30,28 +30,7 @@ def queue():
         return "ok" + " " + que['queue_type'] + " " + que['content']
 
     if que['queue_type'] == 'multipost':
-        arr = que['content'].split(':')
-        ret = getdata(arr[0], arr[1])
-        body = ret['body']
-        if ret['title'] != ret['identifier']:
-            body = ret['title'] + "\n\n" + body
-        msg = ""
-
-        siteseting = keyvalue.get_sitesetting(arr[0])
-        if siteseting :
-            if "twitter_main" in siteseting:
-                tw = multipost.tweet(siteseting["twitter_main"], body)
-                if 'id_str' in tw:
-                    msg += ' tw:' + tw['id_str']
-
-            if "mstdnkey" in siteseting:
-                to = multipost.toot(siteseting["mstdnkey"], body)
-                if 'id' in to:
-                    msg += ' to:' + str(to['id'])
-
-        db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
-        db.commit()
-        return "ok " + que['queue_type'] + " " + que['content'] + msg
+        return _マルチポスト(que)
 
     return "ok" + " " + que['queue_type'] + " " + que['content']
 
@@ -67,7 +46,32 @@ def list():
 
     return dict(que)
 
-def getdata(site, identifier):
+def _マルチポスト(que,):
+    arr = que['content'].split(':')
+    ret = _get_data(arr[0], arr[1])
+    body = ret['body']
+    if ret['title'] != ret['identifier']:
+        body = ret['title'] + "\n\n" + body
+    msg = ""
+
+    siteseting = keyvalue.get_sitesetting(arr[0])
+    if siteseting :
+        if "twitter_main" in siteseting:
+            tw = multipost.tweet(siteseting["twitter_main"], body)
+            if 'id_str' in tw:
+                msg += ' tw:' + tw['id_str']
+
+        if "mstdnkey" in siteseting:
+            to = multipost.toot(siteseting["mstdnkey"], body)
+            if 'id' in to:
+                msg += ' to:' + str(to['id'])
+
+    db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
+    db.commit()
+    return "ok " + que['queue_type'] + " " + que['content'] + msg
+
+
+def _get_data(site, identifier):
     db = get_db()
     _data = db.execute(
         'SELECT * FROM basedata '
