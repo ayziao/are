@@ -88,6 +88,11 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    try:
+        _backup_path = os.path.join(app.instance_path, 'backup')
+        os.makedirs(_backup_path)
+    except OSError:
+        pass
 
     from . import db
     db.init_app(app)
