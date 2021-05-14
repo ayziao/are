@@ -77,4 +77,4 @@ CREATE TABLE IF NOT EXISTS "queue" (
 	PRIMARY KEY("serial_number" AUTOINCREMENT)
 );
 INSERT INTO queue (reservation_time, queue_type, content, add_time)
-VALUES (strftime('%Y-%m-%d %H:00:00', CURRENT_TIMESTAMP), "backup", "", CURRENT_TIMESTAMP)
+VALUES (strftime('%Y-%m-%d %H:59:59', CURRENT_TIMESTAMP), "backup", "", CURRENT_TIMESTAMP)
