@@ -23,12 +23,12 @@ def get_list(args):
     if args['cycle']:
         if args['cycle'] == "routine":
             where += ' AND ("所有者" = "年" OR "所有者" = "月" OR "所有者" = "週" OR "所有者" = "日" ' \
-                     ' OR "所有者" = "半期" OR "所有者" = "季" OR "所有者" = "寝" OR "所有者" = "食")'
+                     ' OR "所有者" = "寝" OR "所有者" = "食")'
         elif args['cycle'] == "randomly":
             where += ' AND ("タグ" LIKE "%繰り返し%" OR "タグ" LIKE "%常備%") '
         else:
             where += ' AND "所有者" <> "年" AND "所有者" <> "月" AND "所有者" <> "週" AND "所有者" <> "日" ' \
-                     ' AND "所有者" <> "半期" AND "所有者" <> "季" AND "所有者" <> "寝" AND "所有者" <> "食" ' \
+                     ' AND "所有者" <> "寝" AND "所有者" <> "食" ' \
                      ' AND "タグ" NOT LIKE "%常備%" AND "タグ" NOT LIKE "%繰り返し%" '
     if args['title']:
         where += ' AND "タスク名" LIKE "%' + args['title'] + '%" '
