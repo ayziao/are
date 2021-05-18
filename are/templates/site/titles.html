@@ -11,11 +11,13 @@
 </head>
 
 <body>
+	<h1><a href="{{ url_for('site.top',site=site) }}">{{ site }}</a> タイトル一覧</h1>
     <div class="lines">
       {% for title in titles -%}
         <div class="line">
           {%- autoescape false -%}
             {{titlelink(title['title'])}} {{title['count']}}
+            <a href="{{ url_for('site.sub',site=site) }}?search={{title['title']}}">🔍{{title['searchcount']}}</a>
           {%- endautoescape -%}
         </div>
       {% endfor %}
