@@ -11,8 +11,10 @@ def get_list(args):
     if args['rate']:
         if 'only' in args['rate']:
             where += ' AND "重要度" = "' + args['rate'][0] + '" '
+        elif 'over' in args['rate']:
+            where += ' AND "重要度" >= "' + args['rate'][0] + '" '
         else:
-            where += ' AND "重要度" <= "' + args['rate'] + '"  AND "重要度" <> 0'
+            where += ' AND "重要度" <= "' + args['rate'] + '"  AND "重要度" <> 0 '
     if args['cost']:
         where += ' AND "コスト" = "' + args['cost'] + '" '
     if args['tag']:
