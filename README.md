@@ -45,6 +45,12 @@ export FLASK_APP=are
 export FLASK_ENV=development  
 flask ran  
 
+### 書き方
+コードには How やり方  
+テストコードには What 何を   
+コミットログには Why 何故  
+コードコメントには Why not 何故しないか  
+
 ### コミットログの書き方
 1行目 😀 やったこと：目的  
 2行目 空行  
