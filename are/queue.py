@@ -79,8 +79,9 @@ def _バックアップ(db, que):
 
     ret = subprocess.run(('cp', current_app.config['DATABASE'], _backup_path))
 
+    # datetime(reservation_time, "+1 hours")
     db.execute('UPDATE queue '
-               ' SET reservation_time = datetime(reservation_time, "+1 hours") '
+               ' SET reservation_time = strftime("%Y-%m-%d %H:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
     return 'バックアップ ' + bk.name
