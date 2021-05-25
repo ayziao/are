@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
-    make_response  # , g, current_app
+    make_response, g  #, current_app
 from are.db import get_db, task
 from are.auth import login_required
 
@@ -58,9 +58,9 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO task ("所有者", "重要度", "コスト", "タスク名", "タグ", "備考")'
-                ' VALUES (?, ?, ?, ?, ?, ?)',
-                (owner, rate, cost, title, tag, body)
+                'INSERT INTO task ("作成者", "所有者", "重要度", "コスト", "タスク名", "タグ", "備考")'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+                (g.user['id'], owner, rate, cost, title, tag, body)
             )
             db.commit()
             return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
