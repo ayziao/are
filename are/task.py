@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
-    make_response  # , g, current_app
+    make_response, g  #, current_app
 from are.db import get_db, task
 from are.auth import login_required
 
@@ -36,7 +36,7 @@ def create():
         'owner': request.args.get('owner', '未'),
         'tag': request.args.get('tag', ''),
         'cost': request.args.get('cost', 0),
-        'rate': int(request.args.get('rate', '0').strip('only'))
+        'rate': int(request.args.get('rate', '0').strip('only').strip('over'))
     }
     if not default["owner"]:
         default["owner"] = '未'
@@ -44,7 +44,7 @@ def create():
     if request.method == 'POST':
         owner = request.form['owner'] if request.form['owner'] else default['owner']
         cost = request.form['cost'] if request.form['cost'] else default['cost']
-        rate = int(request.form['rate'].strip('only')) if request.form['rate'] else default['rate']
+        rate = int(request.form['rate'].strip('only').strip('over')) if request.form['rate'] else default['rate']
         title = request.form['title']
         tag = ' ' + request.form['tag'].strip() + ' '
         body = request.form['body']
@@ -58,9 +58,9 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO task ("所有者", "重要度", "コスト", "タスク名", "タグ", "備考")'
-                ' VALUES (?, ?, ?, ?, ?, ?)',
-                (owner, rate, cost, title, tag, body)
+                'INSERT INTO task ("作成者", "所有者", "重要度", "コスト", "タスク名", "タグ", "備考")'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?)',
+                (g.user['id'], owner, rate, cost, title, tag, body)
             )
             db.commit()
             return redirect(url_for('task.index', owner=owner, tag=tag.strip()))

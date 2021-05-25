@@ -128,13 +128,17 @@ def get_titlearray(site):
 def get_titlecount(site):
     db = get_db()
     ret = db.execute(
-        'SELECT title, count(title) as count '
-        ' FROM basedata '
+        'SELECT title, count(title) as count ,'
+        '(SELECT count(*) FROM basedata '
+        ' WHERE site = ?'
+        ' AND ( body LIKE "%" || b1.title || "%" OR title LIKE "%" || b1.title || "%" ) '
+        ') as searchcount'
+        ' FROM basedata as b1'
         ' WHERE site = ? '
         ' AND (identifier <> title) '
         ' GROUP BY title '
         ' ORDER BY count(title) DESC , title ',
-        (site,)
+        (site, site)
     ).fetchall()
     return ret
 
