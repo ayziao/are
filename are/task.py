@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
-    make_response, g  #, current_app
+    make_response, g  # , current_app
 from are.db import get_db, task
 from are.auth import login_required
 
@@ -259,6 +259,59 @@ def restore(number):
         ' WHERE "連番" = ?', (number,))
     db.commit()
     return redirect(url_for('task.index', **args))
+
+
+@bp.route('/tag1stlist', methods=('GET',))
+def tag1stlist():
+    db = get_db()
+
+    cycle = '年,月,週,日,半期,季,寝,食'.split(',')
+    result = []
+
+    wh = ' WHERE '
+    for i in cycle:
+        wh += f'タグ LIKE "% {i} %" OR '
+    wh = wh[:-3]
+    ret = db.execute(
+        'SELECT タグ, count(タグ) as 件数'
+        ' FROM task '
+        f'{wh}'
+        ' GROUP BY タグ '
+    ).fetchall()
+
+    count_sum = {}
+    for row in ret:
+        tag_ = row['タグ'].strip().split(' ')[0]
+        if tag_ not in count_sum.keys():
+            count_sum[tag_] = row['件数']
+        else:
+            count_sum[tag_] += row['件数']
+    for k, v in sorted(count_sum.items(), key=lambda x: -x[1]):
+        result.append({'タグ': k, '件数': v})
+
+    wh = ' WHERE '
+    for i in cycle:
+        wh += f'タグ NOT LIKE "% {i} %" AND '
+    wh = wh[:-4]
+    ret = db.execute(
+        'SELECT タグ, count(タグ) as 件数'
+        ' FROM task '
+        f'{wh}'
+        ' GROUP BY タグ '
+    ).fetchall()
+
+    count_sum = {}
+    for row in ret:
+        tag_ = row['タグ'].strip().split(' ')[0]
+        if tag_ not in count_sum.keys():
+            count_sum[tag_] = row['件数']
+        else:
+            count_sum[tag_] += row['件数']
+
+    for k, v in sorted(count_sum.items(), key=lambda x: -x[1]):
+        result.append({'タグ': k, '件数': v})
+
+    return render_template('task/list.html', list=result, type='第一タグ')
 
 
 @bp.route('/ownerlist', methods=('GET',))
