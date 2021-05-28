@@ -54,34 +54,34 @@
 
     <select name="select" onChange="location.href=value;">
         <option value="#">はじめに</option>
-        <option value="{{ url_for('task.index', owner='日', rate='5only') }}">日初</option>
+        <option value="{{ url_for('task.index', tag='日', rate='5only') }}">日初</option>
         <option value="{{ url_for('task.index', owner='未') }}">未分類</option>
         <option value="{{ url_for('task.index', rate='0only') }}">未要度</option>
         <option value="{{ url_for('task.index', cost='0') }}">未見積</option>
         <option value="{{ url_for('task.index', cost='1', cycle='none', owner='-買', tag='-買' , rate='3over') }}">すぐやる</option>
-        <option value="{{ url_for('task.index', owner='週', rate='5only') }}">週初</option>
-        <option value="{{ url_for('task.index', owner='月', rate='5only') }}">月初</option>
+        <option value="{{ url_for('task.index', tag='週', rate='5only') }}">週初</option>
+        <option value="{{ url_for('task.index', tag='月', rate='5only') }}">月初</option>
     </select>
 
     <select name="select" onChange="location.href=value;">
         <option value="#">よく使う</option>
-        <option value="{{ url_for('task.index', owner='考') }}">考</option>
-        <option value="{{ url_for('task.index', owner='日') }}">日</option>
-        <option value="{{ url_for('task.index', owner='ｱﾚ') }}">ｱﾚ</option>
-        <option value="{{ url_for('task.index', owner='買') }}">買い物</option>
+        <option value="{{ url_for('task.index', tag='考') }}">考</option>
+        <option value="{{ url_for('task.index', tag='日') }}">日</option>
+        <option value="{{ url_for('task.index', tag='ｱﾚ') }}">ｱﾚ</option>
+        <option value="{{ url_for('task.index', tag='買') }}">買い物</option>
     </select>
 
     <select name="select" onChange="location.href=value;">
         <option value="#">その他</option>
-        <option value="{{ url_for('task.index', owner='週', rate='4') }}">週</option>
-        <option value="{{ url_for('task.index', owner='月', rate='4') }}">月</option>
-        <option value="{{ url_for('task.index', owner='年', rate='4') }}">年</option>
+        <option value="{{ url_for('task.index', tag='週', rate='4') }}">週</option>
+        <option value="{{ url_for('task.index', tag='月', rate='4') }}">月</option>
+        <option value="{{ url_for('task.index', tag='年', rate='4') }}">年</option>
         <option value="{{ url_for('task.index', cycle='randomly') }}">不定期繰返し</option>
-        <option value="{{ url_for('task.index', owner='娯') }}">娯楽</option>
-        <option value="{{ url_for('task.index', owner='環') }}">環境構築</option>
-        <option value="{{ url_for('task.index', owner='暮') }}">生活</option>
-        <option value="{{ url_for('task.index', owner='調') }}">調べ物</option>
-        <option value="{{ url_for('task.index', owner='作') }}">創作</option>
+        <option value="{{ url_for('task.index', tag='娯') }}">娯楽</option>
+        <option value="{{ url_for('task.index', tag='環') }}">環境構築</option>
+        <option value="{{ url_for('task.index', tag='暮') }}">生活</option>
+        <option value="{{ url_for('task.index', tag='調') }}">調べ物</option>
+        <option value="{{ url_for('task.index', tag='作') }}">創作</option>
         <option value="{{ url_for('task.index', tag='日曜') }}">日曜日</option>
         <option value="{{ url_for('task.index', tag='月曜') }}">月曜日</option>
         <option value="{{ url_for('task.index', tag='火曜') }}">火曜日</option>
