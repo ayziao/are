@@ -24,13 +24,13 @@ def get_list(args):
             where += ' AND "タグ" LIKE "% ' + args['tag'] + ' %" '
     if args['cycle']:
         if args['cycle'] == "routine":
-            where += ' AND ("タグ" LIKE " 年 %" OR "タグ" LIKE " 月 %" OR "タグ" LIKE " 週 %" OR ' \
-                     ' "タグ" LIKE " 日 %" OR "タグ" LIKE " 寝 %" OR "タグ" LIKE " 食 %")'
+            where += ' AND ("タグ" LIKE "% 年 %" OR "タグ" LIKE "% 月 %" OR "タグ" LIKE "% 週 %" OR ' \
+                     ' "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 寝 %" OR "タグ" LIKE "% 食 %")'
         elif args['cycle'] == "randomly":
             where += ' AND ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %") '
         else:
-            where += ' AND "タグ" NOT LIKE " 年 %" AND "タグ" NOT LIKE " 月 %" AND "タグ" NOT LIKE " 週 %" ' \
-                     ' AND "タグ" NOT LIKE " 日 %" AND "タグ" NOT LIKE " 寝 %" AND "タグ" NOT LIKE " 食 %" ' \
+            where += ' AND "タグ" NOT LIKE "% 年 %" AND "タグ" NOT LIKE "% 月 %" AND "タグ" NOT LIKE "% 週 %" ' \
+                     ' AND "タグ" NOT LIKE "% 日 %" AND "タグ" NOT LIKE "% 寝 %" AND "タグ" NOT LIKE "% 食 %" ' \
                      ' AND "タグ" NOT LIKE "% 常備 %" AND "タグ" NOT LIKE "% 繰り返し %" '
     if args['title']:
         where += ' AND "タスク名" LIKE "%' + args['title'] + '%" '
