@@ -22,6 +22,11 @@ def get_list(args):
             where += ' AND "タグ" NOT LIKE "% ' + args['tag'][1:] + ' %" '
         else:
             where += ' AND "タグ" LIKE "% ' + args['tag'] + ' %" '
+    if args['tag1st']:
+        if args['tag1st'][0] == '-':
+            where += ' AND "タグ" NOT LIKE " ' + args['tag1st'][1:] + ' %" '
+        else:
+            where += ' AND "タグ" LIKE " ' + args['tag1st'] + ' %" '
     if args['cycle']:
         if args['cycle'] == "routine":
             where += ' AND ("タグ" LIKE "% 年 %" OR "タグ" LIKE "% 月 %" OR "タグ" LIKE "% 週 %" OR ' \

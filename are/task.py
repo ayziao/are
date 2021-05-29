@@ -89,6 +89,7 @@ def get_args():
         'owner': request.args.get('owner', ''),
         'rate': request.args.get('rate', ''),
         'cost': request.args.get('cost', ''),
+        'tag1st': request.args.get('tag1st', ''),
         'tag': request.args.get('tag', ''),
         'sort': request.args.get('sort', ''),
         'cycle': request.args.get('cycle', ''),
