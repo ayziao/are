@@ -12,6 +12,8 @@ def index():
     change = request.args.get('change', '')
     if change:
         args[change] = request.args.get('to', '')
+    if 'notag' in request.args:
+        args['notag'] = ''
 
     rows = task.get_list(args)
 

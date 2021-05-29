@@ -27,6 +27,8 @@ def get_list(args):
             where += ' AND "タグ" NOT LIKE " ' + args['tag1st'][1:] + ' %" '
         else:
             where += ' AND "タグ" LIKE " ' + args['tag1st'] + ' %" '
+    if 'notag' in args:
+        where += ' AND ("タグ" = "" OR "タグ" = "  ") '
     if args['cycle']:
         if args['cycle'] == "routine":
             where += ' AND ("タグ" LIKE "% 年 %" OR "タグ" LIKE "% 月 %" OR "タグ" LIKE "% 週 %" OR ' \
@@ -57,5 +59,8 @@ def get_list(args):
           '     substr("0"||(strftime("%H", "完了日時")+9),-2,2) || ' \
           '     strftime(":%M:%S", "完了日時") as utcP9time ' \
           ' FROM task ' + where + order
+
+    print(sql)
+
     rows = get_db().execute(sql).fetchall()
     return rows

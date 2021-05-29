@@ -55,7 +55,7 @@
     <select name="select" onChange="location.href=value;">
         <option value="#">はじめに</option>
         <option value="{{ url_for('task.index', tag='日', rate='5only') }}">日初</option>
-        <option value="{{ url_for('task.index', owner='未') }}">未分類</option>
+        <option value="{{ url_for('task.index', notag='') }}">未分類</option>
         <option value="{{ url_for('task.index', rate='0only') }}">未要度</option>
         <option value="{{ url_for('task.index', cost='0') }}">未見積</option>
         <option value="{{ url_for('task.index', cost='1', cycle='none', owner='-買', tag='-買' , rate='3over') }}">すぐやる</option>

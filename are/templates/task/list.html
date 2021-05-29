@@ -32,7 +32,11 @@
       {%- for item in list %}
         <li>
           {%- if type == '第一タグ' -%}
-            <a href="{{ url_for('task.index', tag1st=item['タグ']) }}">{{ item['タグ'] }}</a> : {{item["件数"]}}
+            {%- if item['タグ'] == '' -%}
+              <a href="{{ url_for('task.index', notag='') }}">(タグなし)</a> : {{ item["件数"] }}
+            {%- else -%}
+              <a href="{{ url_for('task.index', tag1st=item['タグ']) }}">{{ item['タグ'] }}</a> : {{item["件数"]}}
+            {%- endif -%}
           {%- elif type == '所有者' -%}
             <a href="{{ url_for('task.index', owner=item['所有者']) }}">{{ item['所有者'] }}</a> : {{item["件数"]}}
           {%- elif type == '重要度' -%}
