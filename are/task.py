@@ -271,7 +271,7 @@ def tag1stlist():
 
     wh = ' WHERE '
     for i in cycle:
-        wh += f'タグ LIKE "% {i} %" OR '
+        wh += f'タグ LIKE " {i} %" OR '
     wh = wh[:-3]
     ret = db.execute(
         'SELECT タグ, count(タグ) as 件数'
@@ -292,7 +292,7 @@ def tag1stlist():
 
     wh = ' WHERE '
     for i in cycle:
-        wh += f'タグ NOT LIKE "% {i} %" AND '
+        wh += f'タグ NOT LIKE " {i} %" AND '
     wh = wh[:-4]
     ret = db.execute(
         'SELECT タグ, count(タグ) as 件数'
