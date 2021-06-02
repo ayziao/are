@@ -49,6 +49,22 @@
         {% endfor %}
     </ul>
 
+<footer>
+    <form action="{{ url_for('task.index',site=site) }}" method="GET">
+        <input id="search" class="text" type="text" value="" name="title">
+        <input class="submitbutton" type="submit" value="検索">
+    </form>
+    <a href="{{ url_for('task.コスト集計') }}">コスト集計</a>
+    <br>
+  {% if g.user %}
+    <span>{{ g.user['username'] }}</span>
+    <a href="{{ url_for('auth.logout') }}">Log Out</a>
+  {% else %}
+    <a href="{{ url_for('auth.register') }}">Register</a>
+    <a href="{{ url_for('auth.login') }}">Log In</a>
+  {% endif %}
+</footer>
+
 </body>
 
 </html>
