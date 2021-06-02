@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>集計</title>
+</head>
+<body>
+
+<h1><a href="{{ url_for('task.index') }}">タスク</a> 集計</h1>
+
+<pre>
+    {{summary}}
+</pre>
+
+<article>
+  {% for key, value in tasks.items() %}
+    <section>
+        <h1>{{ key }}</h1>
+      {% for task in value %}
+        <div>
+          {% if task['状態'] == '完' %}
+            <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">☑</a>
+          {% elif task['状態'] == '未' %}
+            <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
+            <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
+          {% elif task['状態'] == '！' %}
+            <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
+            <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
+            <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
+          {% else %}
+            <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
+          {% endif %}
+
+          {% if task['完了日時'] %}
+            <span style="font-size  : 0.5em;">{{ task['utcP9time']}}</span>
+            予{{ task['コスト'] }}
+            <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">実{{ task['実コスト'] }}</a>
+          {% else %}
+            {% if task['重要度'] == 1 -%}
+              <a href="{{ url_for('task.rateto', number=task['連番'], change=0, **search) }}">★</a>
+            {%- else -%}
+              <a href="{{ url_for('task.rateto', number=task['連番'], change=1, **search) }}">
+              {%- if task['重要度'] > 0 %}★{% else %}☆{% endif -%}
+              </a>
+            {%- endif -%}
+              <a href="{{ url_for('task.rateto', number=task['連番'], change=2, **search) }}">
+                {%- if task['重要度'] > 1 %}★{% else %}☆{% endif -%}
+              </a><a href="{{ url_for('task.rateto', number=task['連番'], change=3, **search) }}">
+                {%- if task['重要度'] > 2%}★{% else %}☆{% endif -%}
+              </a><a href="{{ url_for('task.rateto', number=task['連番'], change=4, **search) }}">
+                {%- if task['重要度'] > 3 %}★{% else %}☆{% endif -%}
+              </a><a href="{{ url_for('task.rateto', number=task['連番'], change=5, **search) }}">
+                {%- if task['重要度'] > 4 %}★{% else %}☆{% endif -%}
+              </a>
+              <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">{{ task['コスト'] }}</a>
+          {%- endif %}
+            :
+            <a href="{{ url_for('task.index', change='owner', to=task['所有者'], **search) }}">{{ task['所有者'] }}</a>
+            {{ task['タスク名'] }}{% if task['備考'] %} ※ {% endif %}
+          {% for tag in tags[task['連番']] %}
+            <a href="{{ url_for('task.index', change='tag', to=tag, **search) }}" style="font-size  : 0.6em">{{ tag }}</a>
+          {% endfor %}
+
+          {% if task['状態'] == '！' %}
+            <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">↩</a>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+    </section>
+  {% endfor %}
+</article>
+
+</body>
+</html>

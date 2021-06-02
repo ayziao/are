@@ -368,6 +368,8 @@ def costlist():
 
 @bp.route('/コスト集計', methods=('GET',))
 def コスト集計():  # fixme 完了タスクアーカイブ機能作ったら削除
+
+    args = get_args()
     db = get_db()
     sql = '''
     SELECT 
@@ -393,6 +395,28 @@ def コスト集計():  # fixme 完了タスクアーカイブ機能作ったら
         res += '\n'
         for k in ks:
             res += f"\t{k}:{r[k]}"
-    response = make_response(res, 200)
-    response.mimetype = "text/plain"
-    return response
+
+    sql = 'SELECT *, ' \
+          ' strftime("%Y-%m-%d ", "完了日時") || ' \
+          '     substr("0"||(strftime("%H", "完了日時")+9),-2,2) || ' \
+          '     strftime(":%M:%S", "完了日時") as utcP9time ' \
+          ' FROM task ' \
+          'WHERE 状態 = "完" ' \
+          'ORDER by strftime("%Y-%m-%d", 完了日時) '
+
+    print(sql)
+    rows = db.execute(sql).fetchall()
+
+    joutai = ''
+    tags = {}
+    tasks = {}
+    for item in rows:
+        tags[item['連番']] = item['タグ'].split()
+        if item["状態"] == joutai:
+            tasks[item['状態']].append(item)
+        else:
+            joutai = item['状態']
+            tasks[item['状態']] = []
+            tasks[item['状態']].append(item)
+
+    return render_template('task/summary.html', summary=res, tasks=tasks, tags=tags, search=args)
