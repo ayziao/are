@@ -3,6 +3,9 @@ from are.db import get_db
 
 def get_list(args):
     where = ' WHERE "状態" <> "特殊な状態"'
+
+    if args['status']:
+        where += ' AND "状態" = "' + args['status'] + '" '
     if args['owner']:
         if args['owner'][0] == '-':
             where += ' AND "所有者" <> "' + args['owner'][1:] + '" '
@@ -60,7 +63,7 @@ def get_list(args):
           '     strftime(":%M:%S", "完了日時") as utcP9time ' \
           ' FROM task ' + where + order
 
-    print(sql)
+    # print(sql)
 
     rows = get_db().execute(sql).fetchall()
     return rows

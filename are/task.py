@@ -88,6 +88,7 @@ def get_task(number):
 
 def get_args():
     args = {
+        'status': request.args.get('status', ''),
         'owner': request.args.get('owner', ''),
         'rate': request.args.get('rate', ''),
         'cost': request.args.get('cost', ''),
@@ -367,8 +368,7 @@ def costlist():
 
 
 @bp.route('/コスト集計', methods=('GET',))
-def コスト集計():  # fixme 完了タスクアーカイブ機能作ったら削除
-
+def コスト集計():
     args = get_args()
     db = get_db()
     sql = '''

@@ -15,6 +15,13 @@
 
 <h1><a href="{{ url_for('task.index') }}">タスク</a>
     <select name="select" onChange="location.href=value;">
+        <option value="{{ url_for('task.index', change='status', to='', **search) }}">全状態</option>
+        <option value="{{ url_for('task.index', change='status', to='！', **search) }}"{% if search['status'] == "！" %} selected{% endif %}>！</option>
+        <option value="{{ url_for('task.index', change='status', to='未', **search) }}"{% if search['status'] == "未" %} selected{% endif %}>未</option>
+        <option value="{{ url_for('task.index', change='status', to='完', **search) }}"{% if search['status'] == "完" %} selected{% endif %}>完</option>
+        <option value="{{ url_for('task.index', change='status', to='保留', **search) }}"{% if search['status'] == "保留" %} selected{% endif %}>保留</option>
+    </select>
+    <select name="select" onChange="location.href=value;">
         <option value="{{ url_for('task.index', change='sort', to='', **search) }}">重要度順</option>
         <option value="{{ url_for('task.index', change='sort', to='time', **search) }}"{% if search['sort'] == "time" %} selected{% endif %}>登録順</option>
         <option value="{{ url_for('task.index', change='sort', to='update', **search) }}"{% if search['sort'] == "update" %} selected{% endif %}>更新順</option>
