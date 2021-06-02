@@ -14,17 +14,13 @@
 <body>
 
 <h1><a href="{{ url_for('task.index') }}">タスク</a>
-  {%- if search['sort'] == "time" %}
-    登録時順
-  {%- elif search['sort'] == "update" %}
-    更新時順
-  {%- elif search['sort'] == "cost" %}
-    コスト順
-  {%- elif search['sort'] == "title" %}
-    タスク名順
-  {%- else %}
-    重要度順
-  {%- endif -%}
+    <select name="select" onChange="location.href=value;">
+        <option value="{{ url_for('task.index', change='sort', to='') }}">重要度順</option>
+        <option value="{{ url_for('task.index', change='sort', to='time') }}"{% if search['sort'] == "time" %} selected{% endif %}>登録順</option>
+        <option value="{{ url_for('task.index', change='sort', to='update') }}"{% if search['sort'] == "update" %} selected{% endif %}>更新順</option>
+        <option value="{{ url_for('task.index', change='sort', to='cost') }}"{% if search['sort'] == "cost" %} selected{% endif %}>コスト順</option>
+        <option value="{{ url_for('task.index', change='sort', to='title') }}"{% if search['sort'] == "title" %} selected{% endif %}>タスク名順</option>
+    </select>
 
   {%- if search['cycle'] == "routine" %}
     定期
@@ -99,18 +95,6 @@
     </select>
 
     <br>
-
-  {% if search['sort'] == "time" %}
-    <a href="{{ url_for('task.index', change='sort', to='update', **search) }}">更新順</a>
-  {% elif search['sort'] == "update" %}
-    <a href="{{ url_for('task.index', change='sort', to='cost', **search) }}">コスト順</a>
-  {% elif search['sort'] == "cost" %}
-    <a href="{{ url_for('task.index', change='sort', to='title', **search) }}">タスク名順</a>
-  {% elif search['sort'] %}
-    <a href="{{ url_for('task.index', change='sort', to='', **search) }}">重要度順</a>
-  {% else %}
-    <a href="{{ url_for('task.index', change='sort', to='time', **search) }}">登録順</a>
-  {% endif %}
 
   {% if search['cycle'] == "none" %}
     <a href="{{ url_for('task.index', change='cycle', to='routine', **search) }}">定期</a>
