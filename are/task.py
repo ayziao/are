@@ -396,27 +396,29 @@ def コスト集計():
         for k in ks:
             res += f"\t{k}:{r[k]}"
 
-    sql = 'SELECT *, ' \
-          ' strftime("%Y-%m-%d ", "完了日時") || ' \
-          '     substr("0"||(strftime("%H", "完了日時")+9),-2,2) || ' \
-          '     strftime(":%M:%S", "完了日時") as utcP9time ' \
-          ' FROM task ' \
-          'WHERE 状態 = "完" ' \
-          'ORDER by strftime("%Y-%m-%d", 完了日時) '
-
-    print(sql)
-    rows = db.execute(sql).fetchall()
-
-    joutai = ''
     tags = {}
     tasks = {}
+    args['status'] = '完'
+
+    args['cycle'] = 'none'
+    tasks["単発"] = []
+    rows = task.get_list(args)
     for item in rows:
         tags[item['連番']] = item['タグ'].split()
-        if item["状態"] == joutai:
-            tasks[item['状態']].append(item)
-        else:
-            joutai = item['状態']
-            tasks[item['状態']] = []
-            tasks[item['状態']].append(item)
+        tasks["単発"].append(item)
+
+    args['cycle'] = 'routine'
+    tasks["定期"] = []
+    rows = task.get_list(args)
+    for item in rows:
+        tags[item['連番']] = item['タグ'].split()
+        tasks["定期"].append(item)
+
+    args['cycle'] = 'randomly'
+    tasks["不定"] = []
+    rows = task.get_list(args)
+    for item in rows:
+        tags[item['連番']] = item['タグ'].split()
+        tasks["不定"].append(item)
 
     return render_template('task/summary.html', summary=res, tasks=tasks, tags=tags, search=args)
