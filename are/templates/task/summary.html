@@ -79,6 +79,17 @@
 </p>
 
 <hr>
+
+<select name="select" onChange="location.href=value;">
+    <option value="">完了タスクを未処理に戻す</option>
+    <option value="{{ url_for('task.restore4tag', tag='日') }}">日</option>
+    <option value="{{ url_for('task.restore4tag', tag='週') }}">週</option>
+    <option value="{{ url_for('task.restore4tag', tag='月') }}">月</option>
+    <option value="{{ url_for('task.restore4tag', tag='年') }}">年</option>
+</select>
+
+<hr>
+
 <footer>
 
     <nav>

@@ -273,6 +273,21 @@ def restore(number):
     return redirect(url_for('task.index', **args))
 
 
+@bp.route('/restore', methods=('GET',))
+def restore4tag():
+    tag = request.args.get('tag', '')
+    if tag == '':
+        return redirect(url_for('task.コスト集計'))
+    tag = '% ' + tag + ' %'
+
+    db = get_db()
+    db.execute(
+        'UPDATE task SET "状態" = "未" , "完了日時" = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
+        ' WHERE "状態" = "完" AND "タグ" LIKE ? ', (tag,))
+    db.commit()
+    return redirect(url_for('task.コスト集計'))
+
+
 @bp.route('/tag1stlist', methods=('GET',))
 def tag1stlist():
     db = get_db()
