@@ -12,6 +12,7 @@ def index():
     change = request.args.get('change', '')
     if change:
         args[change] = request.args.get('to', '')
+        return redirect(url_for('task.index', **args))
     if 'notag' in request.args:
         args['notag'] = ''
 
