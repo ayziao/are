@@ -1,6 +1,17 @@
 from are.db import get_db
 
 
+def get_one(number):
+    row = get_db().execute(
+        'SELECT * '
+        ' FROM task'
+        ' WHERE 連番 = ?',
+        (number,)
+    ).fetchone()
+
+    return row
+
+
 def get_list(args):
     where = ' WHERE "状態" <> "特殊な状態"'
 

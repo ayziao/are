@@ -243,11 +243,18 @@ def done(number):
 def doing(number):
     args = get_args()
 
+    item = task.get_one(number)
+
+    if item['状態'] == '！':
+        _状態 = '！！'
+    else:
+        _状態 = '！'
+
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "！" , "完了日時" = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
+        'UPDATE task SET "状態" = ? , "完了日時" = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
         ' WHERE "連番" = ?',
-        (number,)
+        (_状態, number)
     )
     db.commit()
     return redirect(url_for('task.index', **args))
