@@ -418,7 +418,14 @@ def コスト集計():
         row = ''
         for k in ks:
             if k != '実績' or int(r[k]) > 0:
-                row += f"\t{k}:{r[k]}"
+                if k == '件数':
+                    row += f"\t{k}:{str(r[k]).rjust(3)}"
+                elif k == '予想':
+                    row += f"\t{k}:{str(r[k]).rjust(4)}"
+                elif k == '完了日':
+                    row += f"\t{k}:{str(r[k]).ljust(10)}"
+                else:
+                    row += f"\t{k}:{r[k]}"
         res += '\n' + row.strip()
 
     tags = {}
