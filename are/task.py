@@ -445,4 +445,19 @@ def コスト集計():
         tags[item['連番']] = item['タグ'].split()
         tasks["不定"].append(item)
 
+    args['cycle'] = ''
+
     return render_template('task/summary.html', summary=res, tasks=tasks, tags=tags, search=args)
+
+
+@bp.route('/完了日時消去', methods=('GET',))
+def 完了日時消去():
+    sql = 'UPDATE task SET "完了日時" = "" WHERE "状態" = "完" '
+    if request.args.get('option', '') == '昨日以前':
+        sql += 'AND strftime("%Y-%m-%d", 完了日時) < strftime("%Y-%m-%d", datetime("now"))'
+
+    db = get_db()
+    db.execute(sql)
+    db.commit()
+
+    return redirect(url_for('task.コスト集計'))
