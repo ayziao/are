@@ -415,9 +415,10 @@ def コスト集計():
     # res += sql + '\n'
     ks = rows[0].keys()
     for r in rows:
-        res += '\n'
+        row = ''
         for k in ks:
-            res += f"\t{k}:{r[k]}"
+            row += f"\t{k}:{r[k]}"
+        res += '\n' + row.strip()
 
     tags = {}
     tasks = {}
