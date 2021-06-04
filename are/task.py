@@ -417,7 +417,8 @@ def コスト集計():
     for r in rows:
         row = ''
         for k in ks:
-            row += f"\t{k}:{r[k]}"
+            if k != '実績' or int(r[k]) > 0:
+                row += f"\t{k}:{r[k]}"
         res += '\n' + row.strip()
 
     tags = {}
