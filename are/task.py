@@ -398,9 +398,9 @@ def コスト集計():
     SELECT 
         "状態",
         count(*) as 件数,
-        strftime("%Y-%m-%d", 完了日時) as 完了日 ,
         SUM("コスト") as 予想 ,
-        SUM("実コスト") as 実績
+        SUM("実コスト") as 実績 ,
+        strftime("%Y-%m-%d", 完了日時) as 完了日
     FROM task
     GROUP BY 
         状態,
@@ -423,7 +423,8 @@ def コスト集計():
                 elif k == '予想':
                     row += f"\t{k}:{str(r[k]).rjust(4)}"
                 elif k == '完了日':
-                    row += f"\t{k}:{str(r[k]).ljust(10)}"
+                    if r[k]:
+                        row += f"\t{k}:{r[k]}"
                 else:
                     row += f"\t{k}:{r[k]}"
         res += '\n' + row.strip()
