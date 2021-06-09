@@ -389,6 +389,27 @@ def costlist():
     ).fetchall()
     return render_template('task/list.html', list=ret, type='コスト')
 
+@bp.route('/cyclelist', methods=('GET',))
+def cyclelist():
+    db = get_db()
+    ret = db.execute(
+        'SELECT "単発" as name, "none" as cycle, count(*) as 件数 '
+        ' FROM task '
+        ' WHERE "タグ" NOT LIKE "% 年 %" AND "タグ" NOT LIKE "% 月 %" AND "タグ" NOT LIKE "% 週 %" ' 
+        '   AND "タグ" NOT LIKE "% 日 %" AND "タグ" NOT LIKE "% 寝 %" AND "タグ" NOT LIKE "% 食 %" ' 
+        '   AND "タグ" NOT LIKE "% 常備 %" AND "タグ" NOT LIKE "% 繰り返し %" '
+        ' UNION '
+        ' SELECT "定期" as name, "routine" as cycle, count(*) as 件数 '
+        ' FROM task '
+        ' WHERE ("タグ" LIKE "% 年 %" OR "タグ" LIKE "% 月 %" OR "タグ" LIKE "% 週 %" OR ' 
+        '        "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 寝 %" OR "タグ" LIKE "% 食 %")'
+        ' UNION '
+        ' SELECT "不定" as name, "randomly" as cycle, count(*) as 件数 '
+        ' FROM task '
+        ' WHERE ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %")'
+    ).fetchall()
+    return render_template('task/list.html', list=ret, type='サイクル')
+
 
 @bp.route('/コスト集計', methods=('GET',))
 def コスト集計():
