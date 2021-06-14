@@ -34,7 +34,7 @@
         <li>
           {%- if type == '第一タグ' -%}
             {%- if item['タグ'] == '' -%}
-              <a href="{{ url_for('task.index', notag='') }}">(タグなし)</a> : {{ item["件数"] }}
+              <a href="{{ url_for('task.index', notag='') }}">(タグなし)</a> : {{item["件数"]}}
             {%- else -%}
               <a href="{{ url_for('task.index', tag1st=item['タグ']) }}">{{ item['タグ'] }}</a> : {{item["件数"]}}
             {%- endif -%}
@@ -42,10 +42,13 @@
             <a href="{{ url_for('task.index', owner=item['所有者']) }}">{{ item['所有者'] }}</a> : {{item["件数"]}}
           {%- elif type == '重要度' -%}
             <a href="{{ url_for('task.index', rate=item['重要度']) }}">{{ item['星'] }}</a> : {{item["件数"]}}
+            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} コスト{{ item["実コスト"] }}/{{ item["コスト"] }})
           {%- elif type == 'コスト' -%}
             <a href="{{ url_for('task.index', cost=item['コスト']) }}">{{ item['コスト'] }}</a> : {{item["件数"]}}
+            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}})
           {%- elif type == 'サイクル' -%}
             <a href="{{ url_for('task.index', cycle=item['cycle']) }}">{{ item['name'] }}</a> : {{item["件数"]}}
+            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} コスト{{ item["実コスト"] }}/{{ item["コスト"] }})
           {%- else -%}
             {{ item[0] }} : {{ item[1] }}
           {%- endif -%}
