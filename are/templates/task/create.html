@@ -39,8 +39,6 @@
   {% endfor %}
 
     <form method="post">
-        <label for="owner">所有者</label>
-        <input name="owner" id="owner" value="{{ request.form['owner'] or default['owner'] }}" required>
         <label for="title">タスク名</label>
         <input name="title" id="title" value="{{ request.form['title'] }}" required>
         <label for="rate">重要度</label>
@@ -70,9 +68,14 @@
         <input name="tag" id="tag" value="{{ request.form['tag'] or default['tag'] }}">
         <label for="body">備考</label>
         <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+        <label for="site">サイト</label>
+        <input name="site" id="site" value="{{ request.form['site'] or default['site'] }}">
+        <label for="owner">所有者</label>
+        <input name="owner" id="owner" value="{{ request.form['owner'] or default['owner'] }}">
+
         <input type="hidden" name="ret" id="ret" value="off">
         <input type="submit" value="Save">
-    </form>
+   </form>
 
 </body>
 

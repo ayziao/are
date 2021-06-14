@@ -36,21 +36,25 @@ def index():
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
     default = {
-        'owner': request.args.get('owner', '未'),
         'tag': request.args.get('tag', ''),
         'cost': request.args.get('cost', 0),
-        'rate': int(request.args.get('rate', '0').strip('only').strip('over'))
+        'rate': int(request.args.get('rate', '0').strip('only').strip('over')),
+        'site': request.args.get('site', ''),
+        'owner': request.args.get('owner', '未')
     }
     if not default["owner"]:
         default["owner"] = '未'
 
     if request.method == 'POST':
-        owner = request.form['owner'] if request.form['owner'] else default['owner']
-        cost = request.form['cost'] if request.form['cost'] else default['cost']
-        rate = int(request.form['rate'].strip('only').strip('over')) if request.form['rate'] else default['rate']
         title = request.form['title']
+        rate = int(request.form['rate'].strip('only').strip('over')) if request.form['rate'] else default['rate']
+        cost = request.form['cost'] if request.form['cost'] else default['cost']
         tag = ' ' + request.form['tag'].strip() + ' '
         body = request.form['body']
+
+        site = request.form['site'] if request.form['site'] else default['site']
+        owner = request.form['owner'] if request.form['owner'] else default['owner']
+
         error = None
 
         if not title:
@@ -61,9 +65,9 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO task ("作成者", "所有者", "重要度", "コスト", "タスク名", "タグ", "備考")'
-                ' VALUES (?, ?, ?, ?, ?, ?, ?)',
-                (g.user['id'], owner, rate, cost, title, tag, body)
+                'INSERT INTO task ("作成者", "所有者","サイト" , "重要度", "コスト", "タスク名", "タグ", "備考")'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (g.user['id'], owner, site, rate, cost, title, tag, body)
             )
             db.commit()
             return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
@@ -109,14 +113,15 @@ def update(number):
 
     if request.method == 'POST':
         status = request.form['status']
-        owner = request.form['owner']
         title = request.form['title']
         tag = ' ' + request.form['tag'].strip() + ' '
         body = request.form['body']
+        rate = request.form['rate']
         cost = request.form['cost']
         actual = request.form['actual']
-        rate = request.form['rate']
 
+        site = request.form['site']
+        owner = request.form['owner']
         error = None
 
         if not title:
@@ -128,10 +133,10 @@ def update(number):
             db = get_db()
             db.execute(
                 'UPDATE task SET '
-                ' "状態" = ?, "所有者" = ?, "タスク名" = ?, "タグ" = ?, "備考" = ?, "コスト" = ?, "実コスト" = ?, "重要度" = ?, '
+                ' "状態" = ?, "所有者" = ?, "サイト" = ?, "タスク名" = ?, "タグ" = ?, "備考" = ?, "コスト" = ?, "実コスト" = ?, "重要度" = ?, '
                 ' "変更日時" = datetime("now")'
                 ' WHERE "連番" = ?',
-                (status, owner, title, tag, body, cost, actual, rate, number)
+                (status, owner, site, title, tag, body, cost, actual, rate, number)
             )
             db.commit()
             return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
