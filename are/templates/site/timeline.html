@@ -214,6 +214,12 @@
 
 </div>
 
+{% if itinenmae %}
+	<br>
+	<a href="{{ url_for('site.item',site=site,path=itinenmae) }}">一年前</a>
+	<a href="{{ url_for('site.item',site=site,path=nananenmae) }}">七年前</a>
+{% endif %}
+
 <div>
 	<br>
 	<a href="{{ url_for('site.top',site=site) }}">top</a>
