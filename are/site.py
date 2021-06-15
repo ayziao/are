@@ -187,8 +187,8 @@ def _パス解析(site, path):
     if not datas:
         abort(404, f"Not Found : {site} {path}")
 
-    prev = basedata.prev_identifier(site,path)[0:8]
-    next = basedata.next_identifier(site,path)[0:8]
+    prev = basedata.prev_identifier(site, path)[0:8]
+    next = basedata.next_identifier(site, path)[0:8]
 
     return render_template('site/timeline.html', title=path, datalist=datas, site=site, path=path,
                            locale=locale, order=order, prev=prev, next=next,
