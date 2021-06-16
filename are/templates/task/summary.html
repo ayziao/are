@@ -56,8 +56,7 @@
               <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">{{ task['コスト'] }}</a>
           {%- endif %}
             :
-            <a href="{{ url_for('task.index', change='owner', to=task['所有者'], **search) }}">{{ task['所有者'] }}</a>
-            {{ task['タスク名'] }}{% if task['備考'] %} ※ {% endif %}
+            {{ task['タスク名'] }}
           {% for tag in tags[task['連番']] %}
             <a href="{{ url_for('task.index', change='tag', to=tag, **search) }}" style="font-size  : 0.6em">{{ tag }}</a>
           {% endfor %}
