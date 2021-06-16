@@ -33,9 +33,8 @@
           {% endif %}
 
           {% if task['完了日時'] %}
-            <span style="font-size  : 0.5em;">{{ task['utcP9time']}}</span>
-            予{{ task['コスト'] }}
-            <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">実{{ task['実コスト'] }}</a>
+            <span style="font-size  : 0.5em;">{{ task['utcP9time'][11:] }}</span>
+            [{{ task['実コスト'] }}/<a href="{{ url_for('task.costup', number=task['連番'], **search) }}">{{ task['実コスト'] }}</a>]
           {% else %}
             {% if task['重要度'] == 1 -%}
               <a href="{{ url_for('task.rateto', number=task['連番'], change=0, **search) }}">★</a>
@@ -55,7 +54,6 @@
               </a>
               <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">{{ task['コスト'] }}</a>
           {%- endif %}
-            :
             {{ task['タスク名'] }}
           {% for tag in tags[task['連番']] %}
             <a href="{{ url_for('task.index', change='tag', to=tag, **search) }}" style="font-size  : 0.6em">{{ tag }}</a>
