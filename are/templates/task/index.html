@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width">
     <title>{{ search['owner'] }} {{ search['tag'] }} タスク</title>
     <style type="text/css">
-		* { font-size  : 1em;	}
+		* { font-size  : 1em;	line-height:1;}
+		body { margin  : 1px;	}
 		p { margin  : 5px;	}
 		section h1 { margin-bottom  : 0px;	}
 		footer { margin-top  : 3em;	}
@@ -197,7 +198,9 @@
     <section>
         <h1>{{ key }}</h1>
       {% for task in value %}
-        <div>
+        <div style="4px 0px 0px 0px;padding:4px 0px 0px 0px;">
+          <div style="border-style: solid none none solid; border-width: 1px; margin:0px 4px 0px 0px">
+            &thinsp;
           {% if task['状態'] == '完' %}
             <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">☑</a>
             <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
@@ -237,13 +240,18 @@
               <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">{{ task['コスト'] }}</a>
           {%- endif %}
             :
-            <a href="{{ url_for('task.index', change='owner', to=task['所有者'], **search) }}">{{ task['所有者'] }}</a>
-            {{ task['タスク名'] }}{% if task['備考'] %} ※ {% endif %}
+            {% if task['備考'] %} ※ {% endif %}
           {% for tag in tags[task['連番']] %}
-            <a href="{{ url_for('task.index', addtag=tag, **search) }}" style="font-size  : 0.6em">{{ tag }}</a>
+            <a href="{{ url_for('task.index', addtag=tag, **search) }}" >{{ tag }}</a>
           {% endfor %}
+            <span  style="font-size  : 0.6em;" >
+                所有:<a href="{{ url_for('task.index', change='owner', to=task['所有者'], **search) }}">{{ task['所有者'] }}</a>
+            </span>
+          </div>
+          <div style="margin : 1px; ">
+            {{ task['タスク名'] }}
             <a style="font-size  : 0.8em;" href="{{ url_for('task.update', number=task['連番'], **search) }}">📝</a>
-
+          </div>
         </div>
       {% endfor %}
     </section>
