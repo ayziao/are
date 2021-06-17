@@ -150,13 +150,16 @@
   {%- endif %}
     <a href="{{ url_for('task.index', change='owner', to='', **search) }}">{{ search['owner'] }}</a>
     <a href="{{ url_for('task.index', change='tag1st', to='', **search) }}">{{ search['tag1st'] }}</a>
-    <a href="{{ url_for('task.index', change='tag', to='', **search) }}">{{ search['tag'] }}</a>
   {%- if search['tag'] -%}
-    {%- if search['tag'][0] != '-' -%}
-    <a href="{{ url_for('task.index', change='tag', to='-'+search['tag'], **search) }}"> -</a>
-    {%- else -%}
-    <a href="{{ url_for('task.index', change='tag', to=search['tag'][1:], **search) }}"> +</a>
-    {%- endif %}
+    {%- set tagall=search['tag'].split() -%}
+    {%- for tag in tagall %}
+      <a href="{{ url_for('task.index', deltag=tag, **search) }}">{{ tag }}</a>
+      {%- if tag[0] != '-' -%}
+      <a href="{{ url_for('task.index', hidetag=tag, **search) }}"> -</a>
+      {%- else -%}
+      <a href="{{ url_for('task.index', showtag=tag[1:], **search) }}"> +</a>
+      {%- endif %}
+    {%- endfor %}
   {%- endif %}
 </nav>
 
@@ -236,7 +239,7 @@
             <a href="{{ url_for('task.index', change='owner', to=task['所有者'], **search) }}">{{ task['所有者'] }}</a>
             {{ task['タスク名'] }}{% if task['備考'] %} ※ {% endif %}
           {% for tag in tags[task['連番']] %}
-            <a href="{{ url_for('task.index', change='tag', to=tag, **search) }}" style="font-size  : 0.6em">{{ tag }}</a>
+            <a href="{{ url_for('task.index', addtag=tag, **search) }}" style="font-size  : 0.6em">{{ tag }}</a>
           {% endfor %}
             <a style="font-size  : 0.8em;" href="{{ url_for('task.update', number=task['連番'], **search) }}">📝</a>
 

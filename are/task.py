@@ -9,12 +9,45 @@ bp = Blueprint('task', __name__, url_prefix='/x/task')
 @bp.route('')
 def index():
     args = get_args()
+
     change = request.args.get('change', '')
     if change:
         args[change] = request.args.get('to', '')
         return redirect(url_for('task.index', **args))
+
+    addtag = request.args.get('addtag', '')
+    if addtag:
+        tagall = args['tag'].split()
+        if addtag not in tagall:
+            tagall.append(addtag)
+            args['tag'] = ' '.join(tagall)
+        return redirect(url_for('task.index', **args))
+
+    deltag = request.args.get('deltag', '')
+    if deltag:
+        tagall = args['tag'].split()
+        tagall.remove(deltag)
+        args['tag'] = ' '.join(tagall)
+        return redirect(url_for('task.index', **args))
+
+    hidetag = request.args.get('hidetag', '')
+    if hidetag:
+        tagall = args['tag'].split()
+        tagall = ['-'+hidetag if tag == hidetag else tag for tag in tagall]
+        args['tag'] = ' '.join(tagall)
+        return redirect(url_for('task.index', **args))
+
+    showtag = request.args.get('showtag', '')
+    if showtag:
+        tagall = args['tag'].split()
+        tagall = [showtag if tag == '-'+showtag else tag for tag in tagall]
+        args['tag'] = ' '.join(tagall)
+        return redirect(url_for('task.index', **args))
+
+
     if 'notag' in request.args:
         args['notag'] = ''
+
 
     rows = task.get_list(args)
 

@@ -31,16 +31,18 @@ def get_list(args):
             where += ' AND "重要度" <= "' + args['rate'] + '"  AND "重要度" <> 0 '
     if args['cost']:
         where += ' AND "コスト" = "' + args['cost'] + '" '
-    if args['tag']:
-        if args['tag'][0] == '-':
-            where += ' AND "タグ" NOT LIKE "% ' + args['tag'][1:] + ' %" '
-        else:
-            where += ' AND "タグ" LIKE "% ' + args['tag'] + ' %" '
     if args['tag1st']:
         if args['tag1st'][0] == '-':
             where += ' AND "タグ" NOT LIKE " ' + args['tag1st'][1:] + ' %" '
         else:
             where += ' AND "タグ" LIKE " ' + args['tag1st'] + ' %" '
+    if args['tag']:
+        tagall = args['tag'].split()
+        for tag in tagall:
+            if tag[0] == '-':
+                where += ' AND "タグ" NOT LIKE "% ' + tag[1:] + ' %" '
+            else:
+                where += ' AND "タグ" LIKE "% ' + tag + ' %" '
     if 'notag' in args:
         where += ' AND ("タグ" = "" OR "タグ" = "  ") '
     if args['cycle']:
