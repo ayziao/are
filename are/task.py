@@ -320,7 +320,7 @@ def restore4tag():
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "未" , "完了日時" = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
+        'UPDATE task SET "状態" = "未", "完了日時" = "","実コスト" = 0 '
         ' WHERE "状態" = "完" AND "タグ" LIKE ? ', (tag,))
     db.commit()
     return redirect(url_for('task.コスト集計'))
