@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>{{ search['owner'] }} {{ search['tag'] }} タスク</title>
+    <title>{{ search['title'] }} {{ search['owner'] }} {{ search['tag'] }} タスク</title>
     <style type="text/css">
 		* { font-size  : 1em;	line-height:1;}
 		body { margin  : 1px;	}
@@ -148,11 +148,15 @@
     </a>
   {%- endif %}
 
-  {%- if search['cost'] -%}
+  {%- if search['cost'] %}
     <a href="{{ url_for('task.index', change='cost', to='', **search) }}">コスト{{ search['cost'] }}</a>
   {%- endif %}
+  {%- if search['owner'] %}
     <a href="{{ url_for('task.index', change='owner', to='', **search) }}">{{ search['owner'] }}</a>
+  {%- endif %}
+  {%- if search['tag1st'] %}
     <a href="{{ url_for('task.index', change='tag1st', to='', **search) }}">{{ search['tag1st'] }}</a>
+  {%- endif %}
   {%- if search['tag'] -%}
     {%- set tagall=search['tag'].split() -%}
     {%- for tag in tagall %}
@@ -163,6 +167,9 @@
       <a href="{{ url_for('task.index', showtag=tag[1:], **search) }}"> +</a>
       {%- endif %}
     {%- endfor %}
+  {%- endif %}
+  {%- if search['title'] %}
+    <a href="{{ url_for('task.index', change='title', to='', **search) }}">{{ search['title'] }}</a>
   {%- endif %}
 </nav>
 
