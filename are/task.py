@@ -101,7 +101,7 @@ def create():
                 (g.user['id'], owner, site, rate, cost, title, tag, body)
             )
             db.commit()
-            return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
+            return redirect(url_for('task.index', tag=tag.strip()))
 
     return render_template('task/create.html', default=default)
 
@@ -170,7 +170,7 @@ def update(number):
                 (status, owner, site, title, tag, body, cost, actual, rate, number)
             )
             db.commit()
-            return redirect(url_for('task.index', owner=owner, tag=tag.strip()))
+            return redirect(url_for('task.index', tag=tag.strip()))
 
     return render_template('task/update.html', task=task, fi=fi)
 
