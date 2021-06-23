@@ -1,7 +1,16 @@
+""" タスクリポジトリ
+
+説明  # fixme
+"""
 from are.db import get_db
 
 
 def get_one(number):
+    """ 1件取得
+
+    :param number: タスクの連番
+    :return: 辞書ライクオブジェクト
+    """
     row = get_db().execute(
         'SELECT * '
         ' FROM task'
@@ -80,3 +89,25 @@ def get_list(args):
 
     rows = get_db().execute(sql).fetchall()
     return rows
+
+
+def create(db, author, owner, site, rate, cost, title, tag, body):
+    ''' 新規タスク作成
+
+    :param db: 書き込み用DBオブジェクト トランザクション管理はコントローラで行うため DBオブジェクトの取得をここで行わない
+    :param author:
+    :param owner:
+    :param site:
+    :param int rate:
+    :param int cost:
+    :param title:
+    :param tag:
+    :param body:
+    :return:
+    '''
+    db.execute(
+        'INSERT INTO task ("作成者", "所有者", "サイト" ,"重要度", "コスト", "タスク名", "タグ", "備考")'
+        ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        (author, owner, site, rate, cost, title, tag, body)
+    )
+    pass

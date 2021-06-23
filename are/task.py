@@ -95,11 +95,7 @@ def create():
             flash(error)
         else:
             db = get_db()
-            db.execute(
-                'INSERT INTO task ("作成者", "所有者","サイト" , "重要度", "コスト", "タスク名", "タグ", "備考")'
-                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                (g.user['id'], owner, site, rate, cost, title, tag, body)
-            )
+            task.create(db, g.user['id'], owner, site, rate, cost, title, tag, body)
             db.commit()
             return redirect(url_for('task.index', tag=tag.strip()))
 
