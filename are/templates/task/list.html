@@ -22,7 +22,7 @@
 
     <nav>
         <a href="{{ url_for('task.tag1stlist') }}">第一タグ</a>
-        タグ
+        <a href="{{ url_for('task.taglist') }}">タグ</a>
         <a href="{{ url_for('task.ratelist') }}">重要度</a>
         <a href="{{ url_for('task.costlist') }}">コスト</a>
         <a href="{{ url_for('task.cyclelist') }}">サイクル</a>
@@ -33,7 +33,7 @@
     <ul>
       {%- for item in list %}
         <li>
-          {%- if type == '第一タグ' -%}
+          {%- if type == '第一タグ' or type == 'タグ'  -%}
             {%- if item['タグ'] == '' -%}
               <a href="{{ url_for('task.index', notag='') }}">(タグなし)</a> : {{item["件数"]}}
             {%- else -%}

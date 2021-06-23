@@ -383,6 +383,37 @@ def tag1stlist():
     return render_template('task/list.html', list=result, type='第一タグ')
 
 
+@bp.route('/taglist', methods=('GET',))
+def taglist():
+    db = get_db()
+
+    wh = 'WHERE 状態 != "特殊な状態" '
+    sql = f'''
+    SELECT タグ, count(タグ) as 件数
+    FROM task
+    {wh}
+    GROUP BY タグ
+    '''
+    # print(sql)
+    ret = db.execute(sql).fetchall()
+
+    count_sum = {}
+    for row in ret:
+        tags = row['タグ'].strip().split(' ')
+        for tag_ in tags:
+            if tag_ not in count_sum.keys():
+                count_sum[tag_] = row['件数']
+            else:
+                count_sum[tag_] += row['件数']
+
+    # cycle = '年,月,週,日,半期,季,繰り返し'.split(',')
+    result = []
+    for k, v in sorted(count_sum.items(), key=lambda x: -x[1]):
+        result.append({'タグ': k, '件数': v})
+
+    return render_template('task/list.html', list=result, type='タグ')
+
+
 @bp.route('/ownerlist', methods=('GET',))
 def ownerlist():
     db = get_db()
