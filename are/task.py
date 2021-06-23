@@ -324,7 +324,7 @@ def restore4tag():
 def tag1stlist():
     db = get_db()
 
-    cycle = '年,月,週,日,半期,季,寝,食'.split(',')
+    cycle = '年,月,週,日,半期,季'.split(',')
     result = []
 
     wh = ' WHERE '
