@@ -34,3 +34,15 @@ def test_タスク絞り込みタイトル(client, path, pagetitle):
     # print(m)
     # print(response)
     assert pagetitle in m.group()
+
+
+
+def test_新規タスク(client, auth, app):
+    auth.login()
+    assert client.get('/x/task/create').status_code == 200
+    client.post('/x/task/create', data={'title': 'create', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '', 'sort': ''})
+
+    with app.app_context():
+        db = get_db()
+        count = db.execute('SELECT COUNT("連番") FROM task').fetchone()[0]
+        assert count == 1
