@@ -80,10 +80,10 @@
         <textarea name="body" id="body">{{ request.form['body'] or task['備考'] }}</textarea>
 
         <label for="site">サイト</label>
-        <input name="site" id="site" value="{{ request.form['site'] or task['サイト'] }}" required>
+        <input name="site" id="site" value="{{ request.form['site'] or task['サイト'] }}">
 
         <label for="owner">所有者</label>
-        <input name="owner" id="owner" value="{{ request.form['owner'] or task['所有者'] }}" required>
+        <input name="owner" id="owner" value="{{ request.form['owner'] or task['所有者'] }}">
 
         <input type="submit" value="Save">
     </form>
