@@ -527,6 +527,21 @@ def statuslist():
     return render_template('task/list.html', list=ret, type='状態')
 
 
+@bp.route('/sitelist', methods=('GET',))
+def sitelist():
+    db = get_db()
+    ret = db.execute(
+        'SELECT サイト, '
+        ' count(コスト) as 件数, '
+        ' sum(実コスト) as 実コスト, '
+        ' sum(コスト) as コスト '
+        ' FROM task '
+        ' GROUP BY サイト '
+        ' ORDER BY サイト DESC '
+    ).fetchall()
+    return render_template('task/list.html', list=ret, type='サイト')
+
+
 @bp.route('/コスト集計', methods=('GET',))
 def コスト集計():
     args = get_args()
