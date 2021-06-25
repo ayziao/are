@@ -633,7 +633,7 @@ def コスト集計():
 
     args['cycle'] = ''
 
-    return render_template('task/summary.html', summary=res, tasks=tasks, tags=tags, search=args)
+    return render_template('task/summary.html', summary=res.strip(), tasks=tasks, tags=tags, search=args)
 
 
 @bp.route('/完了日時消去', methods=('GET',))

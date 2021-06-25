@@ -7,17 +7,17 @@
 </head>
 <body>
 
-<h1><a href="{{ url_for('task.index') }}">タスク</a> 集計</h1>
+<h1><a href="{{ url_for('task.index') }}">タスク</a>集計</h1>
 
-<pre>
-    {{summary}}
-</pre>
+<pre>{{summary}}</pre>
 
 <article>
   {% for key, value in tasks.items() %}
     <section>
+        <br>
         <h1>{{ key }}</h1>
       {% for task in value %}
+        {% if task['完了日時'] %}
         <div>
           {% if task['状態'] == '完' %}
             <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">☑</a>
@@ -64,6 +64,7 @@
           {% endif %}
 
         </div>
+        {% endif %}
       {% endfor %}
     </section>
   {% endfor %}
