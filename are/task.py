@@ -293,6 +293,30 @@ def doing(number):
     return redirect(url_for('task.index', **args))
 
 
+@bp.route('/<int:number>/next', methods=('GET',))
+def next(number):
+    args = get_args()
+
+    db = get_db()
+    db.execute(
+        'UPDATE task SET "状態" = "次" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
+        ' WHERE "連番" = ?', (number,))
+    db.commit()
+    return redirect(url_for('task.index', **args))
+
+
+@bp.route('/<int:number>/later', methods=('GET',))
+def later(number):
+    args = get_args()
+
+    db = get_db()
+    db.execute(
+        'UPDATE task SET "状態" = "後" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
+        ' WHERE "連番" = ?', (number,))
+    db.commit()
+    return redirect(url_for('task.index', **args))
+
+
 @bp.route('/<int:number>/restore', methods=('GET',))
 def restore(number):
     args = get_args()
@@ -308,14 +332,15 @@ def restore(number):
 @bp.route('/restore', methods=('GET',))
 def restore4tag():
     tag = request.args.get('tag', '')
+    to = request.args.get('to', '未')
     if tag == '':
         return redirect(url_for('task.コスト集計'))
     tag = '% ' + tag + ' %'
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "未", "完了日時" = "","実コスト" = 0 '
-        ' WHERE "状態" = "完" AND "タグ" LIKE ? ', (tag,))
+        'UPDATE task SET "状態" = ?, "完了日時" = "","実コスト" = 0 '
+        ' WHERE "状態" = "完" AND "タグ" LIKE ? ', (to, tag,))
     db.commit()
     return redirect(url_for('task.コスト集計'))
 
