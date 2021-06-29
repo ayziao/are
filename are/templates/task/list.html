@@ -24,7 +24,7 @@
         <a href="{{ url_for('task.tag1stlist') }}">第一タグ</a>
         <a href="{{ url_for('task.taglist') }}">タグ</a>
         <a href="{{ url_for('task.ratelist') }}">重要度</a>
-        <a href="{{ url_for('task.costlist') }}">コスト</a>
+        <a href="{{ url_for('task.pointlist') }}">ポイント</a>
         <a href="{{ url_for('task.cyclelist') }}">サイクル</a>
         <a href="{{ url_for('task.statuslist') }}">状態</a>
         <a href="{{ url_for('task.sitelist') }}">サイト</a>
@@ -50,17 +50,17 @@
             <a href="{{ url_for('task.index', owner=item['所有者']) }}">{{ item['所有者'] }}</a> : {{item["件数"]}}
           {%- elif type == '重要度' -%}
             <a href="{{ url_for('task.index', rate=item['重要度']) }}">{{ item['星'] }}</a> : {{item["件数"]}}
-            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} コスト{{ item["実コスト"] }}/{{ item["コスト"] }})
-          {%- elif type == 'コスト' -%}
+            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} {{ item["実コスト"] }}/{{ item["コスト"] }}p)
+          {%- elif type == 'ポイント' -%}
             <a href="{{ url_for('task.index', cost=item['コスト']) }}">{{ item['コスト'] }}</a> : {{item["件数"]}}
             (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}})
           {%- elif type == 'サイクル' -%}
             <a href="{{ url_for('task.index', cycle=item['cycle']) }}">{{ item['name'] }}</a> : {{item["件数"]}}
-            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} コスト{{ item["実コスト"] }}/{{ item["コスト"] }})
+            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} {{ item["実コスト"] }}/{{ item["コスト"] }}p)
           {%- elif type == '状態' -%}
-            <a href="{{ url_for('task.index', status=item['状態']) }}">{{ item['状態'] }}</a> : {{item["件数"]}} (コスト{%- if item['実コスト'] != 0 -%}{{ item["実コスト"] }}/{%- endif -%}{{ item["コスト"] }})
+            <a href="{{ url_for('task.index', status=item['状態']) }}">{{ item['状態'] }}</a> : {{item["件数"]}} ({%- if item['実コスト'] != 0 -%}{{ item["実コスト"] }}/{%- endif -%}{{ item["コスト"] }}p)
           {%- elif type == 'サイト' -%}
-            <a href="{{ url_for('task.index', site=item['サイト']) }}">{% if item['サイト'] %}{{ item['サイト'] }}{% else %}(なし){% endif %}</a> : {{item["件数"]}} (コスト{%- if item['実コスト'] != 0 -%}{{ item["実コスト"] }}/{%- endif -%}{{ item["コスト"] }})
+            <a href="{{ url_for('task.index', site=item['サイト']) }}">{% if item['サイト'] %}{{ item['サイト'] }}{% else %}(なし){% endif %}</a> : {{item["件数"]}} ({%- if item['実コスト'] != 0 -%}{{ item["実コスト"] }}/{%- endif -%}{{ item["コスト"] }}p)
           {%- else -%}
             {{ item[0] }} : {{ item[1] }} ({{ item[2] }}/{{ item[3] }})
           {%- endif -%}
@@ -72,7 +72,7 @@
         <input id="search" class="text" type="text" value="" name="title">
         <input class="submitbutton" type="submit" value="検索">
     </form>
-    <a href="{{ url_for('task.コスト集計') }}">コスト集計</a>
+    <a href="{{ url_for('task.集計') }}">集計</a>
     <br>
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>

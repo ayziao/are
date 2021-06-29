@@ -334,7 +334,7 @@ def restore4tag():
     tag = request.args.get('tag', '')
     to = request.args.get('to', '未')
     if tag == '':
-        return redirect(url_for('task.コスト集計'))
+        return redirect(url_for('task.集計'))
     tag = '% ' + tag + ' %'
 
     db = get_db()
@@ -342,7 +342,7 @@ def restore4tag():
         'UPDATE task SET "状態" = ?, "完了日時" = "","実コスト" = 0 '
         ' WHERE "状態" = "完" AND "タグ" LIKE ? ', (to, tag,))
     db.commit()
-    return redirect(url_for('task.コスト集計'))
+    return redirect(url_for('task.集計'))
 
 
 @bp.route('/tag1stlist', methods=('GET',))
@@ -483,8 +483,8 @@ def ratelist():
     return render_template('task/list.html', list=ret, type='重要度')
 
 
-@bp.route('/costlist', methods=('GET',))
-def costlist():
+@bp.route('/pointlist', methods=('GET',))
+def pointlist():
     db = get_db()
     ret = db.execute(
         'SELECT コスト, '
@@ -497,7 +497,7 @@ def costlist():
         ' GROUP BY コスト '
         ' ORDER BY コスト DESC '
     ).fetchall()
-    return render_template('task/list.html', list=ret, type='コスト')
+    return render_template('task/list.html', list=ret, type='ポイント')
 
 
 @bp.route('/cyclelist', methods=('GET',))
@@ -567,8 +567,8 @@ def sitelist():
     return render_template('task/list.html', list=ret, type='サイト')
 
 
-@bp.route('/コスト集計', methods=('GET',))
-def コスト集計():
+@bp.route('/集計', methods=('GET',))
+def 集計():
     args = get_args()
     db = get_db()
     sql = '''
@@ -646,4 +646,4 @@ def 完了日時消去():
     db.execute(sql)
     db.commit()
 
-    return redirect(url_for('task.コスト集計'))
+    return redirect(url_for('task.集計'))

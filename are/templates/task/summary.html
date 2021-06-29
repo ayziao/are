@@ -71,6 +71,7 @@
 </article>
 
 <p>
+    <br>
     <a href="{{ url_for('task.index', cycle='none', status='完') }}">単発</a>
     <a href="{{ url_for('task.index', cycle='routine', status='完') }}">定期</a>
     <a href="{{ url_for('task.index', cycle='randomly', status='完') }}">不定</a>
@@ -95,7 +96,7 @@
     <nav>
         <a href="{{ url_for('task.tag1stlist') }}">第一タグ</a>
         <a href="{{ url_for('task.ratelist') }}">重要度</a>
-        <a href="{{ url_for('task.costlist') }}">コスト</a>
+        <a href="{{ url_for('task.pointlist') }}">ポイント</a>
         <a href="{{ url_for('task.ownerlist') }}">所有者</a>
         タグ
     </nav>
@@ -104,7 +105,7 @@
         <input id="search" class="text" type="text" value="" name="title">
         <input class="submitbutton" type="submit" value="検索">
     </form>
-    <a href="{{ url_for('task.コスト集計') }}">コスト集計</a>
+    <a href="{{ url_for('task.集計') }}">集計</a>
     <br>
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>

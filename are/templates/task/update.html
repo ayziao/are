@@ -59,14 +59,14 @@
             <option value="1" {% if task["重要度"] == 1 -%} selected="selected" {%- endif %}>★☆☆☆☆</option>
         </select>
 
-        <label for="cost">コスト</label>
+        <label for="cost">ポイント</label>
         <select name="cost" id="cost">
           {% for aa in fi %}
             <option value="{{aa}}" {% if aa == task["コスト"] -%} selected="selected" {%- endif %}>{{aa}}</option>
           {% endfor %}
         </select>
 
-        <label for="actual">実コスト</label>
+        <label for="actual">スコア</label>
         <select name="actual" id="actual">
           {% for aa in fi %}
             <option value="{{aa}}" {% if aa == task["実コスト"] %} selected="selected" {% endif %}>{{aa}}</option>

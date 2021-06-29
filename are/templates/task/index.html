@@ -30,7 +30,7 @@
         <option value="{{ url_for('task.index', change='sort', to='', **search) }}">重要度順</option>
         <option value="{{ url_for('task.index', change='sort', to='time', **search) }}"{% if search['sort'] == "time" %} selected{% endif %}>登録順</option>
         <option value="{{ url_for('task.index', change='sort', to='update', **search) }}"{% if search['sort'] == "update" %} selected{% endif %}>更新順</option>
-        <option value="{{ url_for('task.index', change='sort', to='cost', **search) }}"{% if search['sort'] == "cost" %} selected{% endif %}>コスト順</option>
+        <option value="{{ url_for('task.index', change='sort', to='cost', **search) }}"{% if search['sort'] == "cost" %} selected{% endif %}>ポイント順</option>
         <option value="{{ url_for('task.index', change='sort', to='title', **search) }}"{% if search['sort'] == "title" %} selected{% endif %}>タスク名順</option>
     </select>
     <select name="select" onChange="location.href=value;">
@@ -49,7 +49,7 @@
   {%- endif -%}
 
   {%- if search['cost'] %}
-    コスト:{{ search['cost'] }}
+    {{ search['cost'] }}p
   {%- endif -%}
 
   {%- if search['tag'] %}
@@ -155,7 +155,7 @@
   {%- endif %}
 
   {%- if search['cost'] %}
-    <a href="{{ url_for('task.index', change='cost', to='', **search) }}">コスト{{ search['cost'] }}</a>
+    <a href="{{ url_for('task.index', change='cost', to='', **search) }}">{{ search['cost'] }}p</a>
   {%- endif %}
   {%- if search['owner'] %}
     <a href="{{ url_for('task.index', change='owner', to='', **search) }}">{{ search['owner'] }}</a>
@@ -291,7 +291,7 @@
         <input id="search" class="text" type="text" value="{{ search['title'] }}" name="title">
         <input class="submitbutton" type="submit" value="検索">
     </form>
-    <a href="{{ url_for('task.コスト集計') }}">コスト集計</a>
+    <a href="{{ url_for('task.集計') }}">集計</a>
     <br>
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>
