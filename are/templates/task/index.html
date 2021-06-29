@@ -19,9 +19,9 @@
         <option value="{{ url_for('task.index', change='status', to='', **search) }}">全状態</option>
         <option value="{{ url_for('task.index', change='status', to='！！', **search) }}"{% if search['status'] == "！！" %} selected{% endif %}>！！</option>
         <option value="{{ url_for('task.index', change='status', to='！', **search) }}"{% if search['status'] == "！" %} selected{% endif %}>！</option>
-        <option value="{{ url_for('task.index', change='status', to='次', **search) }}"{% if search['status'] == "未" %} selected{% endif %}>未</option>
+        <option value="{{ url_for('task.index', change='status', to='次', **search) }}"{% if search['status'] == "次" %} selected{% endif %}>次</option>
         <option value="{{ url_for('task.index', change='status', to='未', **search) }}"{% if search['status'] == "未" %} selected{% endif %}>未</option>
-        <option value="{{ url_for('task.index', change='status', to='後', **search) }}"{% if search['status'] == "未" %} selected{% endif %}>未</option>
+        <option value="{{ url_for('task.index', change='status', to='後', **search) }}"{% if search['status'] == "後" %} selected{% endif %}>後</option>
         <option value="{{ url_for('task.index', change='status', to='待', **search) }}"{% if search['status'] == "待" %} selected{% endif %}>待</option>
         <option value="{{ url_for('task.index', change='status', to='完', **search) }}"{% if search['status'] == "完" %} selected{% endif %}>完</option>
         <option value="{{ url_for('task.index', change='status', to='保留', **search) }}"{% if search['status'] == "保留" %} selected{% endif %}>保留</option>
