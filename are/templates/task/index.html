@@ -166,12 +166,16 @@
   {%- if search['tag'] -%}
     {%- set tagall=search['tag'].split() -%}
     {%- for tag in tagall %}
-      <a href="{{ url_for('task.index', deltag=tag, **search) }}">{{ tag }}</a>
-      {%- if tag[0] != '-' -%}
-      <a href="{{ url_for('task.index', hidetag=tag, **search) }}"> -</a>
-      {%- else -%}
-      <a href="{{ url_for('task.index', showtag=tag[1:], **search) }}"> +</a>
-      {%- endif %}
+      {%- if tag[0] != '-' -%}{%- set vtag=tag -%}{%- else -%}{%- set vtag=tag[1:] -%}{%- endif %}
+      <select name="select" onChange="location.href=value;">
+          <option value="#">{{ tag }}</option>
+          {%- if tag[0] != '-' -%}
+          <option value="{{ url_for('task.index', hidetag=vtag, **search) }}">除外</option>
+          {%- else -%}
+          <option value="{{ url_for('task.index', showtag=vtag, **search) }}">表示</option>
+          {%- endif %}
+          <option value="{{ url_for('task.index', deltag=tag, **search) }}">解除</option>
+      </select>
     {%- endfor %}
   {%- endif %}
   {%- if search['title'] %}
