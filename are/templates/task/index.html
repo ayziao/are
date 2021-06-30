@@ -272,9 +272,6 @@
           {% for tag in tags[task['連番']] %}
             <a href="{{ url_for('task.index', addtag=tag, **search) }}" >{{ tag }}</a>
           {% endfor %}
-            <span  style="font-size  : 0.6em;" >
-                所有:<a href="{{ url_for('task.index', change='owner', to=task['所有者'], **search) }}">{{ task['所有者'] }}</a>
-            </span>
           </div>
           <div style="margin : 1px; ">
             {% if tags[task['連番']][0] and search['tag1st'] == '' %}
