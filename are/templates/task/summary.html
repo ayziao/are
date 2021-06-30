@@ -84,9 +84,46 @@
     <option value="{{ url_for('task.restore4tag', tag='日') }}">日</option>
     <option value="{{ url_for('task.restore4tag', tag='週') }}">週</option>
     <option value="{{ url_for('task.restore4tag', tag='月') }}">月</option>
+    <option value="{{ url_for('task.restore4tag', tag='季') }}">季</option>
+    <option value="{{ url_for('task.restore4tag', tag='春') }}">春</option>
+    <option value="{{ url_for('task.restore4tag', tag='夏') }}">夏</option>
+    <option value="{{ url_for('task.restore4tag', tag='秋') }}">秋</option>
+    <option value="{{ url_for('task.restore4tag', tag='冬') }}">冬</option>
+    <option value="{{ url_for('task.restore4tag', tag='半期') }}">半期</option>
     <option value="{{ url_for('task.restore4tag', tag='年') }}">年</option>
-    <option value="{{ url_for('task.完了日時消去', option='昨日以前') }}">完了日時消去 昨日以前</option>
-    <option value="{{ url_for('task.完了日時消去') }}">完了日時消去</option>
+</select>
+
+<select name="select" onChange="location.href=value;">
+    <option value="">曜日</option>
+    <option value="{{ url_for('task.restore4tag', tag='日曜日') }}">日曜日</option>
+    <option value="{{ url_for('task.restore4tag', tag='月曜日') }}">月曜日</option>
+    <option value="{{ url_for('task.restore4tag', tag='火曜日') }}">火曜日</option>
+    <option value="{{ url_for('task.restore4tag', tag='水曜日') }}">水曜日</option>
+    <option value="{{ url_for('task.restore4tag', tag='木曜日') }}">木曜日</option>
+    <option value="{{ url_for('task.restore4tag', tag='金曜日') }}">金曜日</option>
+    <option value="{{ url_for('task.restore4tag', tag='土曜日') }}">土曜日</option>
+</select>
+
+<select name="select" onChange="location.href=value;">
+    <option value="">月</option>
+    <option value="{{ url_for('task.restore4tag', tag='1月') }}">1月</option>
+    <option value="{{ url_for('task.restore4tag', tag='2月') }}">2月</option>
+    <option value="{{ url_for('task.restore4tag', tag='3月') }}">3月</option>
+    <option value="{{ url_for('task.restore4tag', tag='4月') }}">4月</option>
+    <option value="{{ url_for('task.restore4tag', tag='5月') }}">5月</option>
+    <option value="{{ url_for('task.restore4tag', tag='6月') }}">6月</option>
+    <option value="{{ url_for('task.restore4tag', tag='7月') }}">7月</option>
+    <option value="{{ url_for('task.restore4tag', tag='8月') }}">8月</option>
+    <option value="{{ url_for('task.restore4tag', tag='9月') }}">9月</option>
+    <option value="{{ url_for('task.restore4tag', tag='10月') }}">10月</option>
+    <option value="{{ url_for('task.restore4tag', tag='11月') }}">11月</option>
+    <option value="{{ url_for('task.restore4tag', tag='12月') }}">12月</option>
+</select>
+<br>
+<select name="select" onChange="location.href=value;">
+    <option value="">完了日時消去</option>
+    <option value="{{ url_for('task.完了日時消去', option='昨日以前') }}">昨日以前</option>
+    <option value="{{ url_for('task.完了日時消去') }}">すべて</option>
 </select>
 
 <hr>

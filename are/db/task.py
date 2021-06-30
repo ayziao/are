@@ -56,14 +56,16 @@ def get_list(args):
         where += ' AND ("タグ" = "" OR "タグ" = "  ") '
     if args['cycle']:
         if args['cycle'] == "routine":
-            where += ' AND ("タグ" LIKE "% 年 %" OR "タグ" LIKE "% 月 %" OR "タグ" LIKE "% 週 %" OR ' \
-                     ' "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 寝 %" OR "タグ" LIKE "% 食 %")'
+            where += ' AND ("タグ" LIKE "% 年 %" OR "タグ" LIKE "% 半期 %" OR "タグ" LIKE "%月 %" OR ' \
+                     ' "タグ" LIKE "% 週 %" OR "タグ" LIKE "%日 %" OR "タグ" LIKE "% 季 %" OR ' \
+                     ' "タグ" LIKE "% 春 %" OR "タグ" LIKE "% 夏 %" OR "タグ" LIKE "% 秋 %" OR "タグ" LIKE "% 冬 %")'
         elif args['cycle'] == "randomly":
             where += ' AND ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %") '
         else:
-            where += ' AND "タグ" NOT LIKE "% 年 %" AND "タグ" NOT LIKE "% 月 %" AND "タグ" NOT LIKE "% 週 %" ' \
-                     ' AND "タグ" NOT LIKE "% 日 %" AND "タグ" NOT LIKE "% 寝 %" AND "タグ" NOT LIKE "% 食 %" ' \
-                     ' AND "タグ" NOT LIKE "% 常備 %" AND "タグ" NOT LIKE "% 繰り返し %" '
+            where += ' AND "タグ" NOT LIKE "% 年 %" AND "タグ" NOT LIKE "% 半期 %" AND "タグ" NOT LIKE "%月 %" ' \
+                     ' AND "タグ" NOT LIKE "% 週 %" AND "タグ" NOT LIKE "%日 %" AND "タグ" NOT LIKE "% 季 %" ' \
+                     ' AND "タグ" NOT LIKE "% 春 %" AND "タグ" NOT LIKE "% 夏 %" AND "タグ" NOT LIKE "% 秋 %" ' \
+                     ' AND "タグ" NOT LIKE "% 冬 %" AND "タグ" NOT LIKE "% 常備 %" AND "タグ" NOT LIKE "% 繰り返し %" '
     if args['title']:
         where += ' AND "タスク名" LIKE "%' + args['title'] + '%" '
 
