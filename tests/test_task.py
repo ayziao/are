@@ -25,7 +25,7 @@ def test_ログイン状態(client, auth):
     ('/x/task?sort=', '重要度順'),
     ('/x/task?sort=time', 'selected>登録順'),
     ('/x/task?sort=update', 'selected>更新順'),
-    ('/x/task?sort=cost', 'selected>コスト順'),
+    ('/x/task?sort=cost', 'selected>ポイント順'),
     ('/x/task?sort=title', 'selected>タスク名順'),
 ]))
 def test_タスク絞り込みタイトル(client, path, pagetitle):
