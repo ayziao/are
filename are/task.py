@@ -345,6 +345,11 @@ def restore4tag():
     return redirect(url_for('task.集計'))
 
 
+@bp.route('/linklist', methods=('GET',))
+def linklist():
+    return render_template('task/link.html')
+
+
 @bp.route('/tag1stlist', methods=('GET',))
 def tag1stlist():
     db = get_db()

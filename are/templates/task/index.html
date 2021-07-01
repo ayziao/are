@@ -58,7 +58,7 @@
 </h1>
 
 <nav>
-    <a href="{{ url_for('task.tag1stlist') }}">一覧</a>
+    <a href="{{ url_for('task.linklist') }}">一覧</a>
 
     <select name="select" onChange="location.href=value;">
         <option value="#">はじめに</option>
@@ -91,22 +91,7 @@
         <option value="{{ url_for('task.index', tag='処理待箱') }}">処理待箱</option>
     </select>
 
-    <select name="select" onChange="location.href=value;">
-        <option value="#">その他</option>
-        <option value="{{ url_for('task.index', tag='娯') }}">娯 楽</option>
-        <option value="{{ url_for('task.index', tag='調') }}">調 べ物</option>
-        <option value="{{ url_for('task.index', tag='作') }}">作 創作</option>
-        <option value="{{ url_for('task.index', tag='日曜日') }}">日曜日</option>
-        <option value="{{ url_for('task.index', tag='月曜日') }}">月曜日</option>
-        <option value="{{ url_for('task.index', tag='火曜日') }}">火曜日</option>
-        <option value="{{ url_for('task.index', tag='水曜日') }}">水曜日</option>
-        <option value="{{ url_for('task.index', tag='木曜日') }}">木曜日</option>
-        <option value="{{ url_for('task.index', tag='金曜日') }}">金曜日</option>
-        <option value="{{ url_for('task.index', tag='土曜日') }}">土曜日</option>
-        <option value="#">曜日(未実装)</option>
-        <option value="{{ url_for('task.index', tag='月 -初 -末') }}">月</option>
-        <option value="{{ url_for('task.index', tag='年 -初 -末') }}">年</option>
-    </select>
+    <a href="{{ url_for('task.集計') }}">集計</a>
 
     <br>
 
@@ -214,7 +199,7 @@
 <article>
   {% for key, value in tasks.items() %}
     <section>
-        <h1>{{ key }}</h1>
+        <h1><a href="{{ url_for('task.index', change='status', to=key , **search) }}">{{ key }}</a></h1>
       {% for task in value %}
         <div style="4px 0px 0px 0px;padding:4px 0px 0px 0px;">
           <div style="border-style: solid none none solid; border-width: 1px; margin:0px 4px 0px 0px">
@@ -292,8 +277,6 @@
         <input id="search" class="text" type="text" value="{{ search['title'] }}" name="title">
         <input class="submitbutton" type="submit" value="検索">
     </form>
-    <a href="{{ url_for('task.集計') }}">集計</a>
-    <br>
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>
     <a href="{{ url_for('auth.logout') }}">Log Out</a>
