@@ -182,6 +182,7 @@
           <option value="{{ url_for('task.index', showtag=vtag, **search) }}">表示</option>
           {%- endif %}
           <option value="{{ url_for('task.index', deltag=tag, **search) }}">解除</option>
+          <option value="{{ url_for('task.index', change='tag', to=vtag, **search) }}">のみ</option>
       </select>
     {%- endfor %}
   {%- endif %}
