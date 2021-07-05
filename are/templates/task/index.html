@@ -17,6 +17,9 @@
 <h1><a href="{{ url_for('task.index') }}">タスク</a>
     <select name="select" onChange="location.href=value;">
         <option value="{{ url_for('task.index', change='status', to='', **search) }}">全状態</option>
+      {%- if search['status'][0] == '-' -%}
+        <option value="" selected>{{search['status']}}</option>
+      {%- endif %}
         <option value="{{ url_for('task.index', change='status', to='！！', **search) }}"{% if search['status'] == "！！" %} selected{% endif %}>！！</option>
         <option value="{{ url_for('task.index', change='status', to='！', **search) }}"{% if search['status'] == "！" %} selected{% endif %}>！</option>
         <option value="{{ url_for('task.index', change='status', to='次', **search) }}"{% if search['status'] == "次" %} selected{% endif %}>次</option>
@@ -95,6 +98,18 @@
 
     <br>
 
+  {% if search['status'] %}
+    {%- if search['status'][0] != '-' -%}{%- set vst=search['status'] -%}{%- else -%}{%- set vst=search['status'][1:] -%}{%- endif %}
+    <select name="select" onChange="location.href=value;">
+        <option value="#">{{search['status']}}</option>
+      {%- if search['status'][0] != '-' -%}
+        <option value="{{ url_for('task.index', change='status', to='-{}'.format(vst), **search) }}">除外</option>
+      {%- else -%}
+        <option value="{{ url_for('task.index', change='status', to=vst, **search) }}">表示</option>
+      {%- endif %}
+        <option value="{{ url_for('task.index', change='status', to='', **search) }}">解除</option>
+    </select>
+  {% endif %}
   {% if search['rate'] == "1only" -%}
     <a href="{{ url_for('task.index', change='rate', to='', **search) }}">★</a>
   {%- else -%}

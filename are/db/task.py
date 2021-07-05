@@ -25,7 +25,10 @@ def get_list(args):
     where = ' WHERE "状態" <> "特殊な状態"'
 
     if args['status']:
-        where += ' AND "状態" = "' + args['status'] + '" '
+        if args['status'][0] == '-':
+            where += ' AND "状態" <> "' + args['status'][1:] + '" '
+        else:
+            where += ' AND "状態" = "' + args['status'] + '" '
     if args['owner']:
         if args['owner'][0] == '-':
             where += ' AND "所有者" <> "' + args['owner'][1:] + '" '
