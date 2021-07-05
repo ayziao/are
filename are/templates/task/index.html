@@ -69,6 +69,7 @@
         <option value="{{ url_for('task.index', tag='週 初') }}">週初</option>
         <option value="{{ url_for('task.index', tag='月 初') }}">月初</option>
         <option value="{{ url_for('task.index', tag='年 初') }}">年初</option>
+        <option value="#">ーーーーー</option>
         <option value="{{ url_for('task.index', tag='日 末') }}">日末</option>
         <option value="{{ url_for('task.index', notag='') }}">未分類</option>
         <option value="{{ url_for('task.index', rate='0only') }}">未要度</option>
@@ -86,12 +87,18 @@
         <option value="{{ url_for('task.index', tag='環 -日') }}">環 環境改善</option>
         <option value="{{ url_for('task.index', tag='ｱﾚ') }}">ｱﾚ 開発</option>
         <option value="#">ーーーーー</option>
-        <option value="{{ url_for('task.index', tag='食' ) }}">食</option>
         <option value="{{ url_for('task.index', tag='寝' ) }}">寝</option>
+        <option value="{{ url_for('task.index', tag='起床後' ) }}">起床後</option>
+        <option value="{{ url_for('task.index', tag='夕' ) }}">夕</option>
+        <option value="{{ url_for('task.index', tag='食' ) }}">食</option>
         <option value="{{ url_for('task.index', tag='猫' ) }}">猫</option>
-        <option value="{{ url_for('task.index', tag='買') }}">買 買い物</option>
         <option value="{{ url_for('task.index', tag='台所') }}">台所</option>
         <option value="{{ url_for('task.index', tag='処理待箱') }}">処理待箱</option>
+        <option value="#">ーーーーー</option>
+        <option value="{{ url_for('task.index', tag='買') }}">買 い物</option>
+        <option value="{{ url_for('task.index', tag='娯') }}">娯 楽</option>
+        <option value="{{ url_for('task.index', tag='調') }}">調 べ物</option>
+        <option value="{{ url_for('task.index', tag='作') }}">作(創作)</option>
     </select>
 
     <a href="{{ url_for('task.集計') }}">集計</a>
