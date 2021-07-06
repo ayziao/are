@@ -47,3 +47,55 @@ def test_新規タスク(client, auth, app):
         db = get_db()
         count = db.execute('SELECT COUNT("連番") FROM task').fetchone()[0]
         assert count == 1
+
+
+def test_完了日消去(client, auth, app):
+    auth.login()
+    client.post('/x/task/create',
+                data={'title': 'create', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '',
+                      'sort': ''})
+
+    def dict_from_row(row):
+        return dict(zip(row.keys(), row))
+
+    assert client.get('/x/task/1/done').status_code == 302
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task').fetchone()
+        # print(dict_from_row(item))
+        assert item['完了日時'] != ''
+
+    assert client.get('/x/task/完了日時消去?option=昨日以前').status_code == 302
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task').fetchone()
+        # print(dict_from_row(item))
+        assert item['完了日時'] != ''
+
+
+    client.post('/x/task/create',
+                data={'title': 'create', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '',
+                      'sort': ''})
+
+    def dict_from_row(row):
+        return dict(zip(row.keys(), row))
+
+    assert client.get('/x/task/2/done').status_code == 302
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task WHERE 連番 = 2').fetchone()
+        # print(dict_from_row(item))
+        assert item['完了日時'] != ''
+
+    assert client.get('/x/task/完了日時消去').status_code == 302
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task WHERE 連番 = 2').fetchone()
+        # print(dict_from_row(item))
+        assert item['完了日時'] == ''
+
+
