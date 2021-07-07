@@ -332,15 +332,17 @@ def restore(number):
 @bp.route('/restore', methods=('GET',))
 def restore4tag():
     tag = request.args.get('tag', '')
-    to = request.args.get('to', '未')
     if tag == '':
         return redirect(url_for('task.集計'))
+
     tag = '% ' + tag + ' %'
+    status = request.args.get('status', '完')
+    to = request.args.get('to', '未')
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = ?, "完了日時" = "","実コスト" = 0 '
-        ' WHERE "状態" = "完" AND "タグ" LIKE ? ', (to, tag,))
+        'UPDATE task SET "状態" = ?, "完了日時" = "", "実コスト" = 0 '
+        ' WHERE "状態" = ? AND "タグ" LIKE ? ', (to, status, tag))
     db.commit()
     return redirect(url_for('task.集計'))
 
