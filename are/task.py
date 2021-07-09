@@ -645,12 +645,9 @@ def 集計():
 
 @bp.route('/完了日時消去', methods=('GET',))
 def 完了日時消去():
-    sql = 'UPDATE task SET "完了日時" = "" WHERE "状態" = "完" '
-    if request.args.get('option', '') == '昨日以前':
-        sql += 'AND strftime("%Y-%m-%d", 完了日時) < strftime("%Y-%m-%d", datetime("now"))'
-
+    option = request.args.get('option', '')
     db = get_db()
-    db.execute(sql)
+    task.完了日時消去(db, option)
     db.commit()
 
     return redirect(url_for('task.集計'))

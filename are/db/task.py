@@ -116,3 +116,11 @@ def create(db, author, owner, site, rate, cost, title, tag, body):
         (author, owner, site, rate, cost, title, tag, body)
     )
     pass
+
+
+def 完了日時消去(db, option):
+    sql = 'UPDATE task SET "完了日時" = "" WHERE "状態" = "完" '
+    if option == '昨日以前':
+        sql += 'AND strftime("%Y-%m-%d", 完了日時) < strftime("%Y-%m-%d", datetime("now"))'
+
+    db.execute(sql)
