@@ -45,7 +45,7 @@ def test_新規タスク(client, auth, app):
 
     with app.app_context():
         db = get_db()
-        count = db.execute('SELECT COUNT("連番") FROM task').fetchone()[0]
+        count = db.execute('SELECT COUNT("番号") FROM task').fetchone()[0]
         assert count == 1
 
 
@@ -86,7 +86,7 @@ def test_完了日消去(client, auth, app):
 
     with app.app_context():
         db = get_db()
-        item = db.execute('SELECT * FROM task WHERE 連番 = 2').fetchone()
+        item = db.execute('SELECT * FROM task WHERE 番号 = 2').fetchone()
         # print(dict_from_row(item))
         assert item['完了日時'] != ''
 
@@ -94,7 +94,7 @@ def test_完了日消去(client, auth, app):
 
     with app.app_context():
         db = get_db()
-        item = db.execute('SELECT * FROM task WHERE 連番 = 2').fetchone()
+        item = db.execute('SELECT * FROM task WHERE 番号 = 2').fetchone()
         # print(dict_from_row(item))
         assert item['完了日時'] == ''
 

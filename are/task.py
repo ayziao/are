@@ -53,7 +53,7 @@ def index():
     tags = {}
     tasks = {}
     for item in rows:
-        tags[item['連番']] = item['タグ'].split()
+        tags[item['番号']] = item['タグ'].split()
         if item["状態"] == joutai:
             tasks[item['状態']].append(item)
         else:
@@ -108,7 +108,7 @@ def get_task(number):
     task = db.execute(
         'SELECT *'
         ' FROM task'
-        ' WHERE "連番" = ?',
+        ' WHERE "番号" = ?',
         (number,)
     ).fetchone()
 
@@ -160,9 +160,9 @@ def update(number):
             db = get_db()
             db.execute(
                 'UPDATE task SET '
-                ' "状態" = ?, "所有者" = ?, "サイト" = ?, "タスク名" = ?, "タグ" = ?, "備考" = ?, "コスト" = ?, "実コスト" = ?, "重要度" = ?, '
+                ' "状態" = ?, "所有者" = ?, "サイト" = ?, "タスク名" = ?, "タグ" = ?, "備考" = ?, "予測値" = ?, "実績値" = ?, "重要度" = ?, '
                 ' "変更日時" = datetime("now")'
-                ' WHERE "連番" = ?',
+                ' WHERE "番号" = ?',
                 (status, owner, site, title, tag, body, cost, actual, rate, number)
             )
             db.commit()
@@ -176,7 +176,7 @@ def update(number):
 def delete(number):
     get_task(number)
     db = get_db()
-    db.execute('DELETE FROM task WHERE "連番" = ?', (number,))
+    db.execute('DELETE FROM task WHERE "番号" = ?', (number,))
     db.commit()
     return redirect(url_for('task.index'))
 
@@ -189,15 +189,15 @@ def costup(number):
 
     task = get_task(number)
     if task['状態'] == '完':
-        _対象 = '実コスト'
+        _対象 = '実績値'
     else:
-        _対象 = 'コスト'
+        _対象 = '予測値'
     if task[_対象] < 89:
         aa = fi.index(task[_対象])
         db = get_db()
         db.execute(
             f'UPDATE task SET "{_対象}" = ? , "変更日時" = datetime("now")'
-            ' WHERE "連番" = ?', (fi[aa + 1], number))
+            ' WHERE "番号" = ?', (fi[aa + 1], number))
         db.commit()
 
     return redirect(url_for('task.index', **args))
@@ -212,7 +212,7 @@ def rateup(number):
         db = get_db()
         db.execute(
             'UPDATE task SET "重要度" = "重要度" + 1 ,"変更日時" = datetime("now") '
-            ' WHERE "連番" = ?', (number,))
+            ' WHERE "番号" = ?', (number,))
         db.commit()
 
         if args['rate'].isnumeric():
@@ -230,7 +230,7 @@ def ratedown(number):
         db = get_db()
         db.execute(
             'UPDATE task SET "重要度" = "重要度" - 1 , "変更日時" = datetime("now") '
-            ' WHERE "連番" = ?', (number,))
+            ' WHERE "番号" = ?', (number,))
         db.commit()
 
         if args['rate'].isnumeric():
@@ -251,7 +251,7 @@ def rateto(number):
         db = get_db()
         db.execute(
             'UPDATE task SET "重要度" = ? , "変更日時" = datetime("now")'
-            ' WHERE "連番" = ?', (change, number))
+            ' WHERE "番号" = ?', (change, number))
         db.commit()
 
         if args['rate'].isnumeric():
@@ -266,8 +266,8 @@ def done(number):
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "完" , "完了日時" = datetime("now") ,"実コスト" = "コスト"'
-        ' WHERE "連番" = ?', (number,))
+        'UPDATE task SET "状態" = "完" , "完了日時" = datetime("now") ,"実績値" = "予測値"'
+        ' WHERE "番号" = ?', (number,))
     db.commit()
     return redirect(url_for('task.index', **args))
 
@@ -285,8 +285,8 @@ def doing(number):
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = ? , "完了日時" = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
-        ' WHERE "連番" = ?',
+        'UPDATE task SET "状態" = ? , "完了日時" = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
+        ' WHERE "番号" = ?',
         (_状態, number)
     )
     db.commit()
@@ -299,8 +299,8 @@ def next(number):
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "次" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
-        ' WHERE "連番" = ?', (number,))
+        'UPDATE task SET "状態" = "次" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
+        ' WHERE "番号" = ?', (number,))
     db.commit()
     return redirect(url_for('task.index', **args))
 
@@ -311,8 +311,8 @@ def later(number):
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "後" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
-        ' WHERE "連番" = ?', (number,))
+        'UPDATE task SET "状態" = "後" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
+        ' WHERE "番号" = ?', (number,))
     db.commit()
     return redirect(url_for('task.index', **args))
 
@@ -323,8 +323,8 @@ def restore(number):
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "未" , "完了日時" = "" , "変更日時" = datetime("now") ,"実コスト" = 0 '
-        ' WHERE "連番" = ?', (number,))
+        'UPDATE task SET "状態" = "未" , "完了日時" = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
+        ' WHERE "番号" = ?', (number,))
     db.commit()
     return redirect(url_for('task.index', **args))
 
@@ -341,7 +341,7 @@ def restore4tag():
 
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = ?, "完了日時" = "", "実コスト" = 0 '
+        'UPDATE task SET "状態" = ?, "完了日時" = "", "実績値" = 0 '
         ' WHERE "状態" = ? AND "タグ" LIKE ? ', (to, status, tag))
     db.commit()
     return redirect(url_for('task.集計'))
@@ -480,7 +480,7 @@ def ratelist():
         sum(CASE WHEN 状態 = '完' THEN 1 ELSE 0 END) as 完了件数,
         sum(CASE WHEN 状態 = '保留' THEN 1 ELSE 0 END) as 保留件数,
         count(重要度) as 件数,
-        sum(実コスト) as 実コスト, sum(コスト) as コスト
+        sum(実績値) as 実績値, sum(予測値) as 予測値
         FROM task
         GROUP BY 重要度
         ORDER BY 重要度 DESC
@@ -494,15 +494,15 @@ def ratelist():
 def pointlist():
     db = get_db()
     ret = db.execute(
-        'SELECT コスト, '
+        'SELECT 予測値, '
         ' sum(CASE WHEN 状態 = "！" OR 状態 = "！！" THEN 1 ELSE 0 END) as 処理中件数 ,'
         ' sum(CASE WHEN 状態 = "未" THEN 1 ELSE 0 END) as 未完了件数 ,'
         ' sum(CASE WHEN 状態 = "完" THEN 1 ELSE 0 END) as 完了件数 ,'
         ' sum(CASE WHEN 状態 = "保留" THEN 1 ELSE 0 END) as 保留件数 ,'
-        ' count(コスト) as 件数 '
+        ' count(予測値) as 件数 '
         ' FROM task '
-        ' GROUP BY コスト '
-        ' ORDER BY コスト DESC '
+        ' GROUP BY 予測値 '
+        ' ORDER BY 予測値 DESC '
     ).fetchall()
     return render_template('task/list.html', list=ret, type='ポイント')
 
@@ -516,7 +516,7 @@ def cyclelist():
         ' sum(CASE WHEN 状態 = "未" THEN 1 ELSE 0 END) as 未完了件数 ,'
         ' sum(CASE WHEN 状態 = "完" THEN 1 ELSE 0 END) as 完了件数 ,'
         ' sum(CASE WHEN 状態 = "保留" THEN 1 ELSE 0 END) as 保留件数 ,'
-        ' sum(実コスト) as 実コスト, sum(コスト) as コスト '
+        ' sum(実績値) as 実績値, sum(予測値) as 予測値 '
         ' FROM task '
         ' WHERE "タグ" NOT LIKE "% 年 %" AND "タグ" NOT LIKE "% 月 %" AND "タグ" NOT LIKE "% 週 %" '
         '   AND "タグ" NOT LIKE "% 日 %" AND "タグ" NOT LIKE "% 寝 %" AND "タグ" NOT LIKE "% 食 %" '
@@ -527,7 +527,7 @@ def cyclelist():
         ' sum(CASE WHEN 状態 = "未" THEN 1 ELSE 0 END) as 未完了件数 ,'
         ' sum(CASE WHEN 状態 = "完" THEN 1 ELSE 0 END) as 完了件数 ,'
         ' sum(CASE WHEN 状態 = "保留" THEN 1 ELSE 0 END) as 保留件数, '
-        ' sum(実コスト) as 実コスト, sum(コスト) as コスト '
+        ' sum(実績値) as 実績値, sum(予測値) as 予測値 '
         ' FROM task '
         ' WHERE ("タグ" LIKE "% 年 %" OR "タグ" LIKE "% 月 %" OR "タグ" LIKE "% 週 %" OR '
         '        "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 寝 %" OR "タグ" LIKE "% 食 %")'
@@ -537,7 +537,7 @@ def cyclelist():
         ' sum(CASE WHEN 状態 = "未" THEN 1 ELSE 0 END) as 未完了件数 ,'
         ' sum(CASE WHEN 状態 = "完" THEN 1 ELSE 0 END) as 完了件数 ,'
         ' sum(CASE WHEN 状態 = "保留" THEN 1 ELSE 0 END) as 保留件数, '
-        ' sum(実コスト) as 実コスト, sum(コスト) as コスト '
+        ' sum(実績値) as 実績値, sum(予測値) as 予測値 '
         ' FROM task '
         ' WHERE ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %")'
     ).fetchall()
@@ -549,9 +549,9 @@ def statuslist():
     db = get_db()
     ret = db.execute(
         'SELECT 状態, '
-        ' count(コスト) as 件数, '
-        ' sum(実コスト) as 実コスト, '
-        ' sum(コスト) as コスト '
+        ' count(予測値) as 件数, '
+        ' sum(実績値) as 実績値, '
+        ' sum(予測値) as 予測値 '
         ' FROM task '
         ' GROUP BY 状態 '
         ' ORDER BY 状態 DESC '
@@ -564,9 +564,9 @@ def sitelist():
     db = get_db()
     ret = db.execute(
         'SELECT サイト, '
-        ' count(コスト) as 件数, '
-        ' sum(実コスト) as 実コスト, '
-        ' sum(コスト) as コスト '
+        ' count(予測値) as 件数, '
+        ' sum(実績値) as 実績値, '
+        ' sum(予測値) as 予測値 '
         ' FROM task '
         ' GROUP BY サイト '
         ' ORDER BY サイト DESC '
@@ -582,8 +582,8 @@ def 集計():
     SELECT 
         "状態",
         count(*) as 件数,
-        SUM("コスト") as 予想 ,
-        SUM("実コスト") as 実績 ,
+        SUM("予測値") as 予想 ,
+        SUM("実績値") as 実績 ,
         strftime("%Y-%m-%d", 完了日時) as 完了日
     FROM task
     GROUP BY 
@@ -621,21 +621,21 @@ def 集計():
     tasks["単発"] = []
     rows = task.get_list(args)
     for item in rows:
-        tags[item['連番']] = item['タグ'].split()
+        tags[item['番号']] = item['タグ'].split()
         tasks["単発"].append(item)
 
     args['cycle'] = 'routine'
     tasks["定期"] = []
     rows = task.get_list(args)
     for item in rows:
-        tags[item['連番']] = item['タグ'].split()
+        tags[item['番号']] = item['タグ'].split()
         tasks["定期"].append(item)
 
     args['cycle'] = 'randomly'
     tasks["不定"] = []
     rows = task.get_list(args)
     for item in rows:
-        tags[item['連番']] = item['タグ'].split()
+        tags[item['番号']] = item['タグ'].split()
         tasks["不定"].append(item)
 
     args['cycle'] = ''

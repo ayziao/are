@@ -62,14 +62,14 @@
         <label for="cost">ポイント</label>
         <select name="cost" id="cost">
           {% for aa in fi %}
-            <option value="{{aa}}" {% if aa == task["コスト"] -%} selected="selected" {%- endif %}>{{aa}}</option>
+            <option value="{{aa}}" {% if aa == task["予測値"] -%} selected="selected" {%- endif %}>{{aa}}</option>
           {% endfor %}
         </select>
 
         <label for="actual">スコア</label>
         <select name="actual" id="actual">
           {% for aa in fi %}
-            <option value="{{aa}}" {% if aa == task["実コスト"] %} selected="selected" {% endif %}>{{aa}}</option>
+            <option value="{{aa}}" {% if aa == task["実績値"] %} selected="selected" {% endif %}>{{aa}}</option>
           {% endfor %}
         </select>
 
@@ -88,7 +88,7 @@
         <input type="submit" value="Save">
     </form>
     <hr>
-    <form action="{{ url_for('task.delete', number=task['連番']) }}" method="post">
+    <form action="{{ url_for('task.delete', number=task['番号']) }}" method="post">
         <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
     </form>
 
