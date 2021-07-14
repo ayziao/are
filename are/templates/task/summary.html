@@ -34,7 +34,7 @@
 
           {% if task['完了日時'] %}
             <span style="font-size  : 0.5em;"><a href="{{ url_for('task.update', number=task['番号'], **search) }}">{{ task['utcP9time'][11:] }}</a></span>
-            [<a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['実測値'] }}</a>/{{ task['予測値'] }}]
+            [<a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['実績値'] }}</a>/{{ task['予測値'] }}]
           {% else %}
             {% if task['重要度'] == 1 -%}
               <a href="{{ url_for('task.rateto', number=task['番号'], change=0, **search) }}">★</a>
