@@ -238,65 +238,64 @@
           <div style="border-style: solid none none solid; border-width: 1px; margin:0px 4px 0px 0px">
             &thinsp;
           {% if task['状態'] == '完' %}
-            <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">☑</a>
-            <a href="{{ url_for('task.next', number=task['連番'], **search) }}">▷</a>
+            <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">☑</a>
+            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">▷</a>
           {% elif task['状態'] == '未' %}
-            <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
-            <a href="{{ url_for('task.next', number=task['連番'], **search) }}">▷</a>
-            <a href="{{ url_for('task.later', number=task['連番'], **search) }}">⤵</a>
+            <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
+            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.later', number=task['番号'], **search) }}">⤵</a>
               {% elif task['状態'] == '次' %}
-            <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
-            <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
-            <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">↩</a>
+            <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
+            <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
           {% elif task['状態'] == '後' %}
-            <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
-            <a href="{{ url_for('task.next', number=task['連番'], **search) }}">▷</a>
-            <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">↩</a>
+            <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
+            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
           {% elif '！' in task['状態'] %}
-            <a href="{{ url_for('task.done', number=task['連番'], **search) }}">☐</a>
-            <a href="{{ url_for('task.doing', number=task['連番'], **search) }}">▷</a>
-            <a href="{{ url_for('task.next', number=task['連番'], **search) }}">↩</a>
+            <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
+            <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">↩</a>
             <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
           {% else %}
-            <a href="{{ url_for('task.restore', number=task['連番'], **search) }}">↩</a>
+            <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
             <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
           {% endif %}
 
           {% if task['完了日時'] %}
             <span style="font-size  : 0.5em;">{{ task['utcP9time']}}</span>
-            予{{ task['コスト'] }}
-            <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">実{{ task['実コスト'] }}</a>
+            [{{ task['予測値'] }}/<a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['実績値'] }}</a>]
           {% else %}
             {% if task['重要度'] == 1 -%}
-              <a href="{{ url_for('task.rateto', number=task['連番'], change=0, **search) }}">★</a>
+              <a href="{{ url_for('task.rateto', number=task['番号'], change=0, **search) }}">★</a>
             {%- else -%}
-              <a href="{{ url_for('task.rateto', number=task['連番'], change=1, **search) }}">
+              <a href="{{ url_for('task.rateto', number=task['番号'], change=1, **search) }}">
               {%- if task['重要度'] > 0 %}★{% else %}☆{% endif -%}
               </a>
             {%- endif -%}
-              <a href="{{ url_for('task.rateto', number=task['連番'], change=2, **search) }}">
+              <a href="{{ url_for('task.rateto', number=task['番号'], change=2, **search) }}">
                 {%- if task['重要度'] > 1 %}★{% else %}☆{% endif -%}
-              </a><a href="{{ url_for('task.rateto', number=task['連番'], change=3, **search) }}">
+              </a><a href="{{ url_for('task.rateto', number=task['番号'], change=3, **search) }}">
                 {%- if task['重要度'] > 2%}★{% else %}☆{% endif -%}
-              </a><a href="{{ url_for('task.rateto', number=task['連番'], change=4, **search) }}">
+              </a><a href="{{ url_for('task.rateto', number=task['番号'], change=4, **search) }}">
                 {%- if task['重要度'] > 3 %}★{% else %}☆{% endif -%}
-              </a><a href="{{ url_for('task.rateto', number=task['連番'], change=5, **search) }}">
+              </a><a href="{{ url_for('task.rateto', number=task['番号'], change=5, **search) }}">
                 {%- if task['重要度'] > 4 %}★{% else %}☆{% endif -%}
               </a>
-              <a href="{{ url_for('task.costup', number=task['連番'], **search) }}">{{ task['コスト'] }}</a>
+              <a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['予測値'] }}</a>
           {%- endif %}
             :
             {% if task['備考'] %} ※ {% endif %}
-          {% for tag in tags[task['連番']] %}
+          {% for tag in tags[task['番号']] %}
             <a href="{{ url_for('task.index', addtag=tag, **search) }}" >{{ tag }}</a>
           {% endfor %}
           </div>
           <div style="margin : 1px; ">
-            {% if tags[task['連番']][0] and search['tag1st'] == '' %}
-              <a href="{{ url_for('task.index', change='tag1st',to=tags[task['連番']][0] , **search) }}" >{{ tags[task['連番']][0] }}</a>
+            {% if tags[task['番号']][0] and search['tag1st'] == '' %}
+              <a href="{{ url_for('task.index', change='tag1st',to=tags[task['番号']][0] , **search) }}" >{{ tags[task['番号']][0] }}</a>
             {%- endif %}
             {{ task['タスク名'] }}
-            <a style="font-size  : 0.8em;" href="{{ url_for('task.update', number=task['連番'], **search) }}">📝</a>
+            <a style="font-size  : 0.8em;" href="{{ url_for('task.update', number=task['番号'], **search) }}">📝</a>
           </div>
         </div>
       {% endfor %}

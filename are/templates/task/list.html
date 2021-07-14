@@ -51,17 +51,17 @@
             <a href="{{ url_for('task.index', owner=item['所有者']) }}">{{ item['所有者'] }}</a> : {{item["件数"]}}
           {%- elif type == '重要度' -%}
             <a href="{{ url_for('task.index', rate=item['重要度']) }}">{{ item['星'] }}</a> : {{item["件数"]}}
-            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} {{ item["実コスト"] }}/{{ item["コスト"] }}p)
+            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} {{ item["実績値"] }}/{{ item["予測値"] }}p)
           {%- elif type == 'ポイント' -%}
-            <a href="{{ url_for('task.index', cost=item['コスト']) }}">{{ item['コスト'] }}</a> : {{item["件数"]}}
+            <a href="{{ url_for('task.index', cost=item['予測値']) }}">{{ item['予測値'] }}</a> : {{item["件数"]}}
             (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}})
           {%- elif type == 'サイクル' -%}
             <a href="{{ url_for('task.index', cycle=item['cycle']) }}">{{ item['name'] }}</a> : {{item["件数"]}}
-            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} {{ item["実コスト"] }}/{{ item["コスト"] }}p)
+            (完{{item["完了件数"]}} 未{{item["未完了件数"]}} ！{{item["処理中件数"]}}  保留{{item["保留件数"]}} {{ item["実績値"] }}/{{ item["予測値"] }}p)
           {%- elif type == '状態' -%}
-            <a href="{{ url_for('task.index', status=item['状態']) }}">{{ item['状態'] }}</a> : {{item["件数"]}} ({%- if item['実コスト'] != 0 -%}{{ item["実コスト"] }}/{%- endif -%}{{ item["コスト"] }}p)
+            <a href="{{ url_for('task.index', status=item['状態']) }}">{{ item['状態'] }}</a> : {{item["件数"]}} ({%- if item['実績値'] != 0 -%}{{ item["実績値"] }}/{%- endif -%}{{ item["予測値"] }}p)
           {%- elif type == 'サイト' -%}
-            <a href="{{ url_for('task.index', site=item['サイト']) }}">{% if item['サイト'] %}{{ item['サイト'] }}{% else %}(なし){% endif %}</a> : {{item["件数"]}} ({%- if item['実コスト'] != 0 -%}{{ item["実コスト"] }}/{%- endif -%}{{ item["コスト"] }}p)
+            <a href="{{ url_for('task.index', site=item['サイト']) }}">{% if item['サイト'] %}{{ item['サイト'] }}{% else %}(なし){% endif %}</a> : {{item["件数"]}} ({%- if item['実績値'] != 0 -%}{{ item["実績値"] }}/{%- endif -%}{{ item["予測値"] }}p)
           {%- else -%}
             {{ item[0] }} : {{ item[1] }} ({{ item[2] }}/{{ item[3] }})
           {%- endif -%}

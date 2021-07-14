@@ -8,13 +8,13 @@ from are.db import get_db
 def get_one(number):
     """ 1件取得
 
-    :param number: タスクの連番
+    :param number: タスクの番号
     :return: 辞書ライクオブジェクト
     """
     row = get_db().execute(
         'SELECT * '
         ' FROM task'
-        ' WHERE 連番 = ?',
+        ' WHERE 番号 = ?',
         (number,)
     ).fetchone()
 
@@ -42,7 +42,7 @@ def get_list(args):
         else:
             where += ' AND "重要度" <= "' + args['rate'] + '"  AND "重要度" <> 0 '
     if args['cost']:
-        where += ' AND "コスト" = "' + args['cost'] + '" '
+        where += ' AND "予測値" = "' + args['cost'] + '" '
     if args['tag1st']:
         if args['tag1st'][0] == '-':
             where += ' AND "タグ" NOT LIKE " ' + args['tag1st'][1:] + ' %" '
@@ -76,11 +76,11 @@ def get_list(args):
             ' CASE "重要度" WHEN 0 THEN 9 ELSE "重要度" END DESC, ' \
             ' "変更日時" DESC '
     if args['sort'] == 'time':
-        order = ' ORDER BY "状態" DESC, "完了日時" DESC, "連番" DESC '
+        order = ' ORDER BY "状態" DESC, "完了日時" DESC, "番号" DESC '
     if args['sort'] == 'update':
         order = ' ORDER BY "状態" DESC, "完了日時" DESC, "変更日時" DESC '
     if args['sort'] == 'cost':
-        order = ' ORDER BY "状態" DESC, "完了日時" DESC, "コスト" '
+        order = ' ORDER BY "状態" DESC, "完了日時" DESC, "予測値" '
     if args['sort'] == 'title':
         order = ' ORDER BY "状態" DESC, "タスク名" '
 
@@ -111,7 +111,7 @@ def create(db, author, owner, site, rate, cost, title, tag, body):
     :return:
     '''
     db.execute(
-        'INSERT INTO task ("作成者", "所有者", "サイト" ,"重要度", "コスト", "タスク名", "タグ", "備考")'
+        'INSERT INTO task ("作成者", "所有者", "サイト" ,"重要度", "予測値", "タスク名", "タグ", "備考")'
         ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
         (author, owner, site, rate, cost, title, tag, body)
     )
