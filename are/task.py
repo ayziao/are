@@ -574,6 +574,33 @@ def sitelist():
     return render_template('task/list.html', list=ret, type='サイト')
 
 
+@bp.route('/archive', methods=('GET',))
+def archive():
+    db = get_db()
+    db.execute(
+        'insert into task_archive '
+        ' (番号,サイト, 状態, 重要度, タスク名, タグ, 備考, 予測値, 実績値, 親番号, 予定日, 日時, 作成者, 所有者) '
+        ' select 番号, サイト, 状態, 重要度, タスク名, タグ, 備考, 予測値, 実績値, 親番号, 予定日, 完了日時, '
+        ' "", 所有者 from task '
+        ' WHERE 完了日時 <> "" '
+    )
+    db.execute(
+        'DELETE FROM task WHERE 完了日時 <> "" '
+        ' AND "タグ" NOT LIKE "% 年 %" AND "タグ" NOT LIKE "% 半期 %" AND "タグ" NOT LIKE "%月 %" '
+        ' AND "タグ" NOT LIKE "% 週 %" AND "タグ" NOT LIKE "%日 %" AND "タグ" NOT LIKE "% 季 %" '
+        ' AND "タグ" NOT LIKE "% 春 %" AND "タグ" NOT LIKE "% 夏 %" AND "タグ" NOT LIKE "% 秋 %" '
+        ' AND "タグ" NOT LIKE "% 冬 %" AND "タグ" NOT LIKE "% 常備 %" AND "タグ" NOT LIKE "% 繰り返し %" '
+    )
+    db.execute(
+        ' UPDATE task SET "変更日時" = "完了日時" '
+        ' WHERE 完了日時 <> "" '
+        ' AND ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %") '
+    )
+    task.完了日時消去(db, '')
+    db.commit()
+    return redirect(url_for('task.集計'))
+
+
 @bp.route('/集計', methods=('GET',))
 def 集計():
     args = get_args()
