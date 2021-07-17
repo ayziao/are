@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>{{ search['title'] }} {{ search['owner'] }} {{ search['tag'] }} タスク</title>
+    <style type="text/css">
+		* { font-size  : 1em;	line-height:1;}
+		body { margin  : 1px;	}
+		p { margin  : 5px;	}
+		section h1 { margin-bottom  : 0px;	}
+		footer { margin-top  : 3em;	}
+    </style>
+</head>
+<body>
+
+<h1><a href="{{ url_for('task.index') }}">タスク</a> <a href="{{ url_for('task.history') }}">履歴</a>
+    <select name="select" onChange="location.href=value;">
+        <option value="{{ url_for('task.history', change='status', to='', **search) }}">全状態</option>
+      {%- if search['status'][0] == '-' -%}
+        <option value="" selected>{{search['status']}}</option>
+      {%- endif %}
+        <option value="{{ url_for('task.history', change='status', to='完', **search) }}"{% if search['status'] == "完" %} selected{% endif %}>完</option>
+        <option value="{{ url_for('task.history', change='status', to='却下', **search) }}"{% if search['status'] == "却下" %} selected{% endif %}>却下</option>
+    </select>
+    <select name="select" onChange="location.href=value;">
+        <option value="{{ url_for('task.history', change='sort', to='', **search) }}">日時順</option>
+        <option value="{{ url_for('task.history', change='sort', to='', **search) }}">重要度順(未実装)</option>
+        <option value="{{ url_for('task.history', change='sort', to='cost', **search) }}"{% if search['sort'] == "cost" %} selected{% endif %}>ポイント順</option>
+        <option value="{{ url_for('task.history', change='sort', to='title', **search) }}"{% if search['sort'] == "title" %} selected{% endif %}>タスク名順</option>
+    </select>
+    <select name="select" onChange="location.href=value;">
+        <option value="{{ url_for('task.history', change='cycle', to='', **search) }}">全種</option>
+        <option value="{{ url_for('task.history', change='cycle', to='none', **search) }}"{% if search['cycle'] == "none" %} selected{% endif %}>単発</option>
+        <option value="{{ url_for('task.history', change='cycle', to='routine', **search) }}"{% if search['cycle'] == "routine" %} selected{% endif %}>定期</option>
+        <option value="{{ url_for('task.history', change='cycle', to='randomly', **search) }}"{% if search['cycle'] == "randomly" %} selected{% endif %}>不定</option>
+    </select>
+
+  {%- if search['owner'] %}
+    {{ search['owner'] }}
+  {%- endif -%}
+
+  {%- if search['tag1st'] %}
+    {{ search['tag1st'] }}
+  {%- endif -%}
+
+  {%- if search['cost'] %}
+    {{ search['cost'] }}p
+  {%- endif -%}
+
+  {%- if search['tag'] %}
+    {{ search['tag'] }}
+  {%- endif -%}
+</h1>
+
+<nav>
+
+    <select name="select" onChange="location.href=value;">
+        <option value="#">はじめに</option>
+        <option value="{{ url_for('task.history', tag='日 初') }}">日初</option>
+        <option value="{{ url_for('task.history', tag='週 初') }}">週初</option>
+        <option value="{{ url_for('task.history', tag='月 初') }}">月初</option>
+        <option value="{{ url_for('task.history', tag='年 初') }}">年初</option>
+        <option value="#">ーーーー</option>
+        <option value="{{ url_for('task.history', tag='考 -日') }}">考</option>
+        <option value="{{ url_for('task.history', tag='暮 -日') }}">暮</option>
+        <option value="{{ url_for('task.history', tag='環 -日') }}">環</option>
+        <option value="{{ url_for('task.history', tag='ｱﾚ') }}">ｱﾚ</option>
+        <option value="#">ーーーー</option>
+        <option value="{{ url_for('task.history', tag='日 末') }}">日末</option>
+        <option value="{{ url_for('task.history', notag='') }}">未分類</option>
+        <option value="{{ url_for('task.history', rate='0only') }}">未要度</option>
+        <option value="{{ url_for('task.history', cost='0') }}">未見積</option>
+        <option value="{{ url_for('task.history', cost='1', cycle='none', owner='-買', tag='-買' , rate='3over') }}">すぐやる</option>
+    </select>
+
+    <select name="select" onChange="location.href=value;">
+        <option value="#">よく使う</option>
+        <option value="{{ url_for('task.history', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</option>
+        <option value="{{ url_for('task.history', tag='週 -初 -末') }}">週</option>
+        <option value="{{ url_for('task.history', tag='月 -初 -末') }}">月</option>
+        <option value="{{ url_for('task.history', tag='年 -初 -末') }}">年</option>
+        <option value="{{ url_for('task.history', cycle='routine', tag='-日 -週 -月 -年') }}">他定期</option>
+        <option value="{{ url_for('task.history', cycle='randomly') }}">繰り返し</option>
+        <option value="{{ url_for('task.history', cycle='none') }}">単発</option>
+        <option value="{{ url_for('task.history', tag='処理待箱') }}">処理待箱</option>
+        <option value="#">ーーーー</option>
+        <option value="{{ url_for('task.history', tag='猫' ) }}">猫</option>
+        <option value="{{ url_for('task.history', tag='食' ) }}">食</option>
+        <option value="{{ url_for('task.history', tag='台所') }}">台所</option>
+        <option value="{{ url_for('task.history', tag='風呂') }}">風呂</option>
+        <option value="{{ url_for('task.history', tag='寝' ) }}">寝</option>
+        <option value="{{ url_for('task.history', tag='起床後' ) }}">起床後</option>
+        <option value="{{ url_for('task.history', tag='夕' ) }}">夕</option>
+        <option value="{{ url_for('task.history', tag='起床後' ) }}">就寝前</option>
+    </select>
+    <select name="select" onChange="location.href=value;">
+        <option value="#">他</option>
+        <option value="{{ url_for('task.history', tag='買') }}">買</option>
+        <option value="{{ url_for('task.history', tag='娯') }}">娯</option>
+        <option value="{{ url_for('task.history', tag='調') }}">調</option>
+        <option value="{{ url_for('task.history', tag='作') }}">作</option>
+    </select>
+
+
+    <a href="{{ url_for('task.history') }}">統計(未実装)</a>
+
+    <br>
+
+  {% if search['status'] %}
+    {%- if search['status'][0] != '-' -%}{%- set vst=search['status'] -%}{%- else -%}{%- set vst=search['status'][1:] -%}{%- endif %}
+    <select name="select" onChange="location.href=value;">
+        <option value="#">{{search['status']}}</option>
+      {%- if search['status'][0] != '-' -%}
+        <option value="{{ url_for('task.history', change='status', to='-{}'.format(vst), **search) }}">除外</option>
+      {%- else -%}
+        <option value="{{ url_for('task.history', change='status', to=vst, **search) }}">表示</option>
+      {%- endif %}
+        <option value="{{ url_for('task.history', change='status', to='', **search) }}">解除</option>
+    </select>
+  {% endif %}
+  {% if search['rate'] == "1only" -%}
+    <a href="{{ url_for('task.history', change='rate', to='', **search) }}">★</a>
+  {%- else -%}
+    <a href="{{ url_for('task.history', change='rate', to='1only', **search) }}">
+      {%- if not "only" in search['rate'] and search['rate'] | int >= 1 %}★{% else %}☆{% endif -%}
+    </a>
+  {%- endif -%}
+  {%- if search['rate'] == "2only" -%}
+    <a href="{{ url_for('task.history', change='rate', to='2', **search) }}">★</a>
+  {%- elif search['rate'] == "2" -%}
+    <a href="{{ url_for('task.history', change='rate', to='', **search) }}">★</a>
+  {%- else -%}
+    <a href="{{ url_for('task.history', change='rate', to='2only', **search) }}">
+      {%- if not "only" in search['rate'] and search['rate'] | int >= 2 %}★{% else %}☆{% endif -%}
+    </a>
+  {%- endif -%}
+  {%- if search['rate'] == "3only" -%}
+    <a href="{{ url_for('task.history', change='rate', to='3', **search) }}">★</a>
+  {%- elif search['rate'] == "3" -%}
+    <a href="{{ url_for('task.history', change='rate', to='', **search) }}">★</a>
+  {%- else -%}
+    <a href="{{ url_for('task.history', change='rate', to='3only', **search) }}">
+      {%- if not "only" in search['rate'] and search['rate'] | int >= 3 %}★{% else %}☆{% endif -%}
+    </a>
+  {%- endif -%}
+  {%- if search['rate'] == "4only" -%}
+    <a href="{{ url_for('task.history', change='rate', to='4', **search) }}">★</a>
+  {%- elif search['rate'] == "4" -%}
+    <a href="{{ url_for('task.history', change='rate', to='', **search) }}">★</a>
+  {%- else -%}
+    <a href="{{ url_for('task.history', change='rate', to='4only', **search) }}">
+      {%- if not "only" in search['rate'] and search['rate'] | int >= 4 %}★{% else %}☆{% endif -%}
+    </a>
+  {%- endif -%}
+  {%- if search['rate'] == "5only" -%}
+    <a href="{{ url_for('task.history', change='rate', to='5', **search) }}">★</a>
+  {%- elif search['rate'] == "5" -%}
+    <a href="{{ url_for('task.history', change='rate', to='', **search) }}">★</a>
+  {%- else -%}
+    <a href="{{ url_for('task.history', change='rate', to='5only', **search) }}">
+      {%- if not "only" in search['rate'] and search['rate'] | int >= 5 %}★{% else %}☆{% endif -%}
+    </a>
+  {%- endif %}
+
+  {%- if search['cost'] %}
+    <a href="{{ url_for('task.history', change='cost', to='', **search) }}">{{ search['cost'] }}p</a>
+  {%- endif %}
+  {%- if search['owner'] %}
+    <a href="{{ url_for('task.history', change='owner', to='', **search) }}">{{ search['owner'] }}</a>
+  {%- endif %}
+  {%- if search['tag1st'] %}
+    <a href="{{ url_for('task.history', change='tag1st', to='', **search) }}">{{ search['tag1st'] }}</a>
+  {%- endif %}
+  {%- if search['tag'] -%}
+    {%- set tagall=search['tag'].split() -%}
+    {%- for tag in tagall %}
+      {%- if tag[0] != '-' -%}{%- set vtag=tag -%}{%- else -%}{%- set vtag=tag[1:] -%}{%- endif %}
+      <select name="select" onChange="location.href=value;">
+          <option value="#">{{ tag }}</option>
+          {%- if tag[0] != '-' -%}
+          <option value="{{ url_for('task.history', hidetag=vtag, **search) }}">除外</option>
+          {%- else -%}
+          <option value="{{ url_for('task.history', showtag=vtag, **search) }}">表示</option>
+          {%- endif %}
+          <option value="{{ url_for('task.history', deltag=tag, **search) }}">解除</option>
+          <option value="{{ url_for('task.history', change='tag', to=vtag, **search) }}">のみ</option>
+      </select>
+    {%- endfor %}
+  {%- endif %}
+  {%- if search['title'] %}
+    <a href="{{ url_for('task.history', change='title', to='', **search) }}">{{ search['title'] }}</a>
+  {%- endif %}
+</nav>
+
+<article>
+  {% for key, value in tasks.items() %}
+    <section>
+        <h1><a href="{{ url_for('task.history', change='status', to=key , **search) }}">{{ key }}</a></h1>
+      {% for task in value %}
+        <div style="4px 0px 0px 0px;padding:4px 0px 0px 0px;">
+          <div style="border-style: solid none none solid; border-width: 1px; margin:0px 4px 0px 0px">
+          {% if task['完了日時'] %}
+            <span style="font-size  : 0.5em;">{{ task['utcP9time']}}</span>
+            [<a href="{{ url_for('task.archivecostup', number=task['保存番号'], **search) }}">{{ task['実績値'] }}</a>/{{ task['予測値'] }}]
+          {% else %}
+            {% if task['重要度'] == 1 -%}
+              <a href="{{ url_for('task.archiverateto', number=task['保存番号'], change=0, **search) }}">★</a>
+            {%- else -%}
+              <a href="{{ url_for('task.archiverateto', number=task['保存番号'], change=1, **search) }}">
+              {%- if task['重要度'] > 0 %}★{% else %}☆{% endif -%}
+              </a>
+            {%- endif -%}
+              <a href="{{ url_for('task.archiverateto', number=task['保存番号'], change=2, **search) }}">
+                {%- if task['重要度'] > 1 %}★{% else %}☆{% endif -%}
+              </a><a href="{{ url_for('task.archiverateto', number=task['保存番号'], change=3, **search) }}">
+                {%- if task['重要度'] > 2%}★{% else %}☆{% endif -%}
+              </a><a href="{{ url_for('task.archiverateto', number=task['保存番号'], change=4, **search) }}">
+                {%- if task['重要度'] > 3 %}★{% else %}☆{% endif -%}
+              </a><a href="{{ url_for('task.archiverateto', number=task['保存番号'], change=5, **search) }}">
+                {%- if task['重要度'] > 4 %}★{% else %}☆{% endif -%}
+              </a>
+              <a href="{{ url_for('task.archivecostup', number=task['保存番号'], **search) }}">{{ task['予測値'] }}</a>
+          {%- endif %}
+            :
+            {% if task['備考'] %} ※ {% endif %}
+          {% for tag in tags[task['保存番号']] %}
+            <a href="{{ url_for('task.history', addtag=tag, **search) }}" >{{ tag }}</a>
+          {% endfor %}
+          </div>
+          <div style="margin : 1px; ">
+            {% if tags[task['保存番号']][0] and search['tag1st'] == '' %}
+              <a href="{{ url_for('task.history', change='tag1st',to=tags[task['保存番号']][0] , **search) }}" >{{ tags[task['保存番号']][0] }}</a>
+            {%- endif %}
+            {{ task['タスク名'] }}
+            <a style="font-size  : 0.8em;" href="{{ url_for('task.archiveupdate', number=task['保存番号'], **search) }}">📝</a>
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+  {% endfor %}
+</article>
+
+
+<footer>
+    <form action="{{ url_for('task.history',site=site) }}" method="GET">
+        <input id="search" class="text" type="text" value="{{ search['title'] }}" name="title">
+        <input class="submitbutton" type="submit" value="検索">
+    </form>
+  {% if g.user %}
+    <span>{{ g.user['username'] }}</span>
+    <a href="{{ url_for('auth.logout') }}">Log Out</a>
+  {% else %}
+    <a href="{{ url_for('auth.register') }}">Register</a>
+    <a href="{{ url_for('auth.login') }}">Log In</a>
+  {% endif %}
+</footer>
+
+</body>
+</html>

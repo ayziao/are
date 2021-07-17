@@ -129,6 +129,7 @@
         <input class="submitbutton" type="submit" value="検索">
     </form>
     <a href="{{ url_for('task.集計') }}">集計</a>
+    <a href="{{ url_for('task.history') }}">履歴</a>
     <br>
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>
