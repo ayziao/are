@@ -99,3 +99,25 @@ def test_完了日消去(client, auth, app):
         assert item['完了日時'] == ''
 
 
+
+
+@pytest.mark.parametrize('path, pagetitle', ([
+    ('/x/task/history', '重要度順'),
+    ('/x/task/history?cycle=', '全種'),
+    ('/x/task/history?cycle=none', 'selected>単発'),
+    ('/x/task/history?cycle=routine', 'selected>定期'),
+    ('/x/task/history?cycle=randomly', 'selected>不定'),
+    ('/x/task/history?sort=', '重要度順'),
+    ('/x/task/history?sort=time', 'selected>日時'),
+    ('/x/task/history?sort=cost', 'selected>ポイント順'),
+    ('/x/task/history?sort=title', 'selected>タスク名順'),
+]))
+def test_履歴絞り込みタイトル(client, path, pagetitle):
+
+    # ('/x/task/history?sort=update', 'selected>更新順'),
+
+    response = client.get(path).data.decode('utf-8')
+    m = re.search(r'<h1>.*</h1>', response, re.DOTALL)
+    # print(m)
+    # print(response)
+    assert pagetitle in m.group()
