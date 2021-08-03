@@ -70,8 +70,9 @@
   {% endfor %}
 </article>
 
+<hr>
+
 <p>
-    <br>
     <a href="{{ url_for('task.index', cycle='none', status='完') }}">単発</a>
     <a href="{{ url_for('task.index', cycle='routine', status='完') }}">定期</a>
     <a href="{{ url_for('task.index', cycle='randomly', status='完') }}">不定</a>
@@ -83,15 +84,16 @@
 <hr>
 
 <select name="select" onChange="location.href=value;">
+    <option value="">アーカイブ</option>
+    <option value="{{ url_for('task.archive') }}">実行</option>
+</select>
+<br>
+
+<select name="select" onChange="location.href=value;">
     <option value="">完了タスクを未処理に戻す</option>
     <option value="{{ url_for('task.restore4tag', tag='日') }}">日</option>
     <option value="{{ url_for('task.restore4tag', tag='週') }}">週</option>
     <option value="{{ url_for('task.restore4tag', tag='月') }}">月</option>
-    <option value="{{ url_for('task.restore4tag', tag='春') }}">春</option>
-    <option value="{{ url_for('task.restore4tag', tag='夏') }}">夏</option>
-    <option value="{{ url_for('task.restore4tag', tag='秋') }}">秋</option>
-    <option value="{{ url_for('task.restore4tag', tag='冬') }}">冬</option>
-    <option value="{{ url_for('task.restore4tag', tag='年') }}">年</option>
 </select>
 
 <select name="select" onChange="location.href=value;">
@@ -120,18 +122,32 @@
     <option value="{{ url_for('task.restore4tag', tag='11月') }}">11月</option>
     <option value="{{ url_for('task.restore4tag', tag='12月') }}">12月</option>
 </select>
+
+<select name="select" onChange="location.href=value;">
+    <option value="">長</option>
+    <option value="{{ url_for('task.restore4tag', tag='春') }}">春</option>
+    <option value="{{ url_for('task.restore4tag', tag='夏') }}">夏</option>
+    <option value="{{ url_for('task.restore4tag', tag='秋') }}">秋</option>
+    <option value="{{ url_for('task.restore4tag', tag='冬') }}">冬</option>
+    <option value="{{ url_for('task.restore4tag', tag='年') }}">年</option>
+</select>
 <br>
 <select name="select" onChange="location.href=value;">
     <option value="">後でやるタスクを未処理に戻す</option>
     <option value="{{ url_for('task.restore4tag', tag='日', status='後') }}">日</option>
     <option value="{{ url_for('task.restore4tag', tag='週', status='後') }}">週</option>
     <option value="{{ url_for('task.restore4tag', tag='月', status='後') }}">月</option>
+</select>
+
+<select name="select" onChange="location.href=value;">
+    <option value="">長</option>
     <option value="{{ url_for('task.restore4tag', tag='春', status='後') }}">春</option>
     <option value="{{ url_for('task.restore4tag', tag='夏', status='後') }}">夏</option>
     <option value="{{ url_for('task.restore4tag', tag='秋', status='後') }}">秋</option>
     <option value="{{ url_for('task.restore4tag', tag='冬', status='後') }}">冬</option>
     <option value="{{ url_for('task.restore4tag', tag='年', status='後') }}">年</option>
 </select>
+<br>
 <br>
 
 <select name="select" onChange="location.href=value;">
@@ -140,11 +156,6 @@
     <option value="{{ url_for('task.完了日時消去') }}">すべて</option>
 </select>
 
-<br>
-<select name="select" onChange="location.href=value;">
-    <option value="">アーカイブ</option>
-    <option value="{{ url_for('task.archive') }}">実行</option>
-</select>
 
 
 
