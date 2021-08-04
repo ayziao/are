@@ -103,19 +103,11 @@ def create():
 
 
 def get_task(number):
-    db = get_db()
-
-    task = db.execute(
-        'SELECT *'
-        ' FROM task'
-        ' WHERE "番号" = ?',
-        (number,)
-    ).fetchone()
-
-    if task is None:
+    item = task.get_one(number)
+    if item is None:
         abort(404, "task id {0} doesn't exist.".format(number))
 
-    return task
+    return item
 
 
 def get_args():
@@ -206,9 +198,8 @@ def costup(number):
 @bp.route('/<int:number>/rateup', methods=('GET',))
 def rateup(number):
     args = get_args()
-
-    task = get_task(number)
-    if task['重要度'] < 5:
+    item = get_task(number)
+    if item['重要度'] < 5:
         db = get_db()
         db.execute(
             'UPDATE task SET "重要度" = "重要度" + 1 ,"変更日時" = datetime("now") '
@@ -224,9 +215,8 @@ def rateup(number):
 @bp.route('/<int:number>/ratedown', methods=('GET',))
 def ratedown(number):
     args = get_args()
-
-    task = get_task(number)
-    if task['重要度'] > 0:
+    item = get_task(number)
+    if item['重要度'] > 0:
         db = get_db()
         db.execute(
             'UPDATE task SET "重要度" = "重要度" - 1 , "変更日時" = datetime("now") '
@@ -243,11 +233,8 @@ def ratedown(number):
 def rateto(number):
     args = get_args()
     change = int(request.args.get('change', -1))
-    task = get_task(number)
-
-    # current_app.logger.debug(task['重要度'])
-
-    if 0 <= change != task['重要度']:
+    item = get_task(number)
+    if 0 <= change != item['重要度']:
         db = get_db()
         db.execute(
             'UPDATE task SET "重要度" = ? , "変更日時" = datetime("now")'
