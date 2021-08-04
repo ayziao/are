@@ -74,10 +74,11 @@
             <a href="{{ url_for('task.index', tag='風呂') }}">風呂</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">その他定期</a>
+            <a href="{{ url_for('task.index', cycle='routine', tag='-日') }}">定期日以外</a>
             <a href="{{ url_for('task.index', tag='週 -初 -末') }}">週</a>
             <a href="{{ url_for('task.index', tag='月 -初 -末') }}">月</a>
             <a href="{{ url_for('task.index', tag='年 -初 -末') }}">年</a>
+            <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">その他定期</a>
         </p>
         <p>
             <a href="{{ url_for('task.index', tag='寝') }}">寝</a>
