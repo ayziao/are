@@ -759,10 +759,14 @@ def 集計():
         row = ''
         for k in ks:
             if k != '実績' or int(r[k]) > 0:
-                if k == '件数':
-                    row += f"\t{k}:{str(r[k]).rjust(3)}"
+                if k == '状態':
+                    row += f"\t{r[k]}"
+                elif k == '件数':
+                    row += f":{str(r[k]).rjust(3)}件 "
                 elif k == '予想':
-                    row += f"\t{k}:{str(r[k]).rjust(4)}"
+                    row += f"\t{str(r[k]).rjust(4)}p "
+                elif k == '実績':
+                    row += f"\t{str(r[k]).rjust(4)}s "
                 elif k == '完了日':
                     if r[k]:
                         row += f"\t{k}:{r[k]}"
