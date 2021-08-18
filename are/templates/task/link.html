@@ -40,9 +40,17 @@
         <h2>はじめに</h2>
         <p>
             <a href="{{ url_for('task.index', tag='日 初') }}">日初</a>
+            <a href="{{ url_for('task.index', tag='-日 初') }}">初(日以外)</a>
             <a href="{{ url_for('task.index', tag='週 初') }}">週初</a>
             <a href="{{ url_for('task.index', tag='月 初') }}">月初</a>
             <a href="{{ url_for('task.index', tag='年 初') }}">年初</a>
+            <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">他定期</a>
+        </p>
+        <p>
+            <a href="{{ url_for('task.index', tag='日 末') }}">日末</a>
+            <a href="{{ url_for('task.index', notag='') }}">未分類</a>
+            <a href="{{ url_for('task.index', rate='0only') }}">未要度</a>
+            <a href="{{ url_for('task.index', cost='0') }}">未見積</a>
         </p>
         <p>
             <a href="{{ url_for('task.index', tag='考 -日') }}">考</a>
@@ -50,34 +58,29 @@
             <a href="{{ url_for('task.index', tag='環 -日') }}">環(環境改善)</a>
             <a href="{{ url_for('task.index', tag='ｱﾚ') }}">ｱﾚ(開発)</a>
         </p>
-        <p>
-            <a href="{{ url_for('task.index', tag='日 末') }}">日末</a>
-            <a href="{{ url_for('task.index', notag='') }}">未分類</a>
-            <a href="{{ url_for('task.index', rate='0only') }}">未要度</a>
-            <a href="{{ url_for('task.index', cost='0') }}">未見積</a>
-            <a href="{{ url_for('task.index', cost='1', cycle='none', owner='-買', tag='-買' , rate='3over') }}">すぐやる</a>
-        </p>
     </section>
     <section>
         <h2>よく使う</h2>
         <p>
-            <a href="{{ url_for('task.index', cycle='none') }}">単発</a>
-            <a href="{{ url_for('task.index', cycle='randomly') }}">不定期繰返</a>
-            <a href="{{ url_for('task.index', tag='処理待箱') }}">処理待箱</a>
+            <a href="{{ url_for('task.index', cost='1', cycle='none', tag='-買' , rate='3over') }}">すぐやる</a>
+            <a href="{{ url_for('task.index', cycle='none', tag='-買') }}">単発</a>
+            <a href="{{ url_for('task.index', cycle='randomly', tag='-買') }}">不定期繰返</a>
+            <a href="{{ url_for('task.index', tag='処理箱') }}">処理箱</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</a>
             <a href="{{ url_for('task.index', tag='就寝前' ) }}">就寝前</a>
             <a href="{{ url_for('task.index', tag='起床後' ) }}">起床後</a>
             <a href="{{ url_for('task.index', tag='夕') }}">夕</a>
+            <a href="{{ url_for('task.index', tag='居間') }}">居間</a>
             <a href="{{ url_for('task.index', tag='台所') }}">台所</a>
             <a href="{{ url_for('task.index', tag='風呂') }}">風呂</a>
+            <a href="{{ url_for('task.index', tag='寝室') }}">寝室</a>
+            <a href="{{ url_for('task.index', tag='サンルーム') }}">陽室</a>
+            <a href="{{ url_for('task.index', tag='庭') }}">庭</a>
         </p>
         <p>
+            <a href="{{ url_for('task.index', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</a>
             <a href="{{ url_for('task.index', cycle='routine', tag='-日') }}">定期日以外</a>
-            <a href="{{ url_for('task.index', tag='週 -初 -末') }}">週</a>
-            <a href="{{ url_for('task.index', tag='月 -初 -末') }}">月</a>
-            <a href="{{ url_for('task.index', tag='年 -初 -末') }}">年</a>
             <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">その他定期</a>
         </p>
         <p>
@@ -87,14 +90,16 @@
             <a href="{{ url_for('task.index', tag='娯') }}">娯 楽</a>
             <a href="{{ url_for('task.index', tag='調') }}">調 べ物</a>
             <a href="{{ url_for('task.index', tag='作') }}">作(創作)</a>
+            <a href="{{ url_for('task.index', tag='家') }}">家</a>
             <a href="{{ url_for('task.index', tag='買') }}">買 い物</a>
         </p>
     </section>
     <section>
         <h2>時期</h2>
         <p>
-            <a href="{{ url_for('task.index', tag='半期') }}">半期</a>
-            <a href="{{ url_for('task.index', tag='季') }}">季</a>
+            <a href="{{ url_for('task.index', tag='週 -初 -末') }}">週</a>
+            <a href="{{ url_for('task.index', tag='月 -初 -末') }}">月</a>
+            <a href="{{ url_for('task.index', tag='年 -初 -末') }}">年</a>
             <a href="{{ url_for('task.index', tag='春') }}">春</a>
             <a href="{{ url_for('task.index', tag='夏') }}">夏</a>
             <a href="{{ url_for('task.index', tag='秋') }}">秋</a>

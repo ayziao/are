@@ -47,6 +47,9 @@ def index():
     if 'notag' in request.args:
         args['notag'] = ''
 
+    if 'nosite' in request.args:
+        args['nosite'] = ''
+
     rows = task.get_list(args)
 
     joutai = ''
@@ -120,6 +123,7 @@ def get_args():
         'tag': request.args.get('tag', ''),
         'sort': request.args.get('sort', ''),
         'cycle': request.args.get('cycle', ''),
+        'site': request.args.get('site', ''),
         'title': request.args.get('title', '')}
     return args
 
@@ -139,6 +143,7 @@ def update(number):
         cost = request.form['cost']
         actual = request.form['actual']
 
+        # site = ' ' + request.form['site'].strip() + ' '
         site = request.form['site']
         owner = request.form['owner']
         error = None

@@ -61,7 +61,11 @@
           {%- elif type == '状態' -%}
             <a href="{{ url_for('task.index', status=item['状態']) }}">{{ item['状態'] }}</a> : {{item["件数"]}} ({%- if item['実績値'] != 0 -%}{{ item["実績値"] }}/{%- endif -%}{{ item["予測値"] }}p)
           {%- elif type == 'サイト' -%}
-            <a href="{{ url_for('task.index', site=item['サイト']) }}">{% if item['サイト'] %}{{ item['サイト'] }}{% else %}(なし){% endif %}</a> : {{item["件数"]}} ({%- if item['実績値'] != 0 -%}{{ item["実績値"] }}/{%- endif -%}{{ item["予測値"] }}p)
+            {%- if item['サイト'] == '' -%}
+              <a href="{{ url_for('task.index', nosite='') }}">(サイトなし)</a> : {{item["件数"]}} ({%- if item['実績値'] != 0 -%}{{ item["実績値"] }}/{%- endif -%}{{ item["予測値"] }}p)
+            {%- else -%}
+              <a href="{{ url_for('task.index', site=item['サイト']) }}">{% if item['サイト'] %}{{ item['サイト'] }}{% else %}(なし){% endif %}</a> : {{item["件数"]}} ({%- if item['実績値'] != 0 -%}{{ item["実績値"] }}/{%- endif -%}{{ item["予測値"] }}p)
+            {%- endif -%}
           {%- else -%}
             {{ item[0] }} : {{ item[1] }} ({{ item[2] }}/{{ item[3] }})
           {%- endif -%}

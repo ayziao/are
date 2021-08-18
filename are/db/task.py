@@ -69,6 +69,19 @@ def get_list(args):
                      ' AND "タグ" NOT LIKE "% 週 %" AND "タグ" NOT LIKE "%日 %" AND "タグ" NOT LIKE "% 季 %" ' \
                      ' AND "タグ" NOT LIKE "% 春 %" AND "タグ" NOT LIKE "% 夏 %" AND "タグ" NOT LIKE "% 秋 %" ' \
                      ' AND "タグ" NOT LIKE "% 冬 %" AND "タグ" NOT LIKE "% 常備 %" AND "タグ" NOT LIKE "% 繰り返し %" '
+    if args['site']:
+        if args['site'][0] == '-':
+            where += ' AND "サイト" <> "' + args['site'][1:] + '" '
+        else:
+            where += ' AND "サイト" = "' + args['site'] + '" '
+        # siteall = args['site'].split()
+        # for site in siteall:
+        #     if site[0] == '-':
+        #         where += ' AND "サイト" NOT LIKE "% ' + site[1:] + ' %" '
+        #     else:
+        #         where += ' AND "サイト" LIKE "% ' + site + ' %" '
+    if 'nosite' in args:
+        where += ' AND "サイト" = "" '
     if args['title']:
         where += ' AND "タスク名" LIKE "%' + args['title'] + '%" '
 
