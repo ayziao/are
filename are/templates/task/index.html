@@ -70,7 +70,7 @@
         <option value="#">ーーー</option>
         <option value="{{ url_for('task.index', tag='日 末') }}">日末</option>
         <option value="{{ url_for('task.index', notag='') }}">未分類</option>
-        <option value="{{ url_for('task.index', rate='0only') }}">未要度</option>
+        <option value="{{ url_for('task.index', rate='0') }}">未要度</option>
         <option value="{{ url_for('task.index', cost='0') }}">未見積</option>
         <option value="#">ーーー</option>
         <option value="{{ url_for('task.index', tag='考 -日') }}">考</option>
@@ -115,6 +115,9 @@
         <option value="{{ url_for('task.index', tag='週 -初 -末') }}">週</option>
         <option value="{{ url_for('task.index', tag='月 -初 -末') }}">月</option>
         <option value="{{ url_for('task.index', tag='年 -初 -末') }}">年</option>
+        <option value="#">--</option>
+        <option value="{{ url_for('task.index', status='完') }}">完</option>
+        <option value="{{ url_for('task.index', status='待') }}">待</option>
     </select>
 
     <a href="{{ url_for('task.集計') }}">集計</a>
@@ -133,47 +136,67 @@
         <option value="{{ url_for('task.index', change='status', to='', **search) }}">解除</option>
     </select>
   {% endif %}
-  {% if search['rate'] == "1only" -%}
+  {% if search['rate'] == "1" -%}
+    <a href="{{ url_for('task.index', change='rate', to='1over', **search) }}">★</a>
+  {%- elif search['rate'] == "1over" -%}
     <a href="{{ url_for('task.index', change='rate', to='', **search) }}">★</a>
   {%- else -%}
-    <a href="{{ url_for('task.index', change='rate', to='1only', **search) }}">
-      {%- if not "only" in search['rate'] and search['rate'] | int >= 1 %}★{% else %}☆{% endif -%}
+    <a href="{{ url_for('task.index', change='rate', to='1', **search) }}">
+      {%- if "under" in search['rate'] %}★{% else %}☆{% endif -%}
     </a>
   {%- endif -%}
-  {%- if search['rate'] == "2only" -%}
-    <a href="{{ url_for('task.index', change='rate', to='2', **search) }}">★</a>
-  {%- elif search['rate'] == "2" -%}
+  {%- if search['rate'] == "2" -%}
+    <a href="{{ url_for('task.index', change='rate', to='2over', **search) }}">★</a>
+  {%- elif search['rate'] == "2over" -%}
+    <a href="{{ url_for('task.index', change='rate', to='2under', **search) }}">★</a>
+  {%- elif search['rate'] == "2under" -%}
     <a href="{{ url_for('task.index', change='rate', to='', **search) }}">★</a>
   {%- else -%}
-    <a href="{{ url_for('task.index', change='rate', to='2only', **search) }}">
-      {%- if not "only" in search['rate'] and search['rate'] | int >= 2 %}★{% else %}☆{% endif -%}
+    <a href="{{ url_for('task.index', change='rate', to='2', **search) }}">
+      {%- if "over" in search['rate'] and search['rate'][0] | int < 2 -%}
+        ★
+      {%- elif "under" in search['rate'] and search['rate'][0] | int > 2 -%}
+        ★
+      {%- else %}☆{% endif -%}
     </a>
   {%- endif -%}
-  {%- if search['rate'] == "3only" -%}
-    <a href="{{ url_for('task.index', change='rate', to='3', **search) }}">★</a>
-  {%- elif search['rate'] == "3" -%}
+  {%- if search['rate'] == "3" -%}
+    <a href="{{ url_for('task.index', change='rate', to='3over', **search) }}">★</a>
+  {%- elif search['rate'] == "3over" -%}
+    <a href="{{ url_for('task.index', change='rate', to='3under', **search) }}">★</a>
+  {%- elif search['rate'] == "3under" -%}
     <a href="{{ url_for('task.index', change='rate', to='', **search) }}">★</a>
   {%- else -%}
-    <a href="{{ url_for('task.index', change='rate', to='3only', **search) }}">
-      {%- if not "only" in search['rate'] and search['rate'] | int >= 3 %}★{% else %}☆{% endif -%}
+    <a href="{{ url_for('task.index', change='rate', to='3', **search) }}">
+      {%- if "over" in search['rate'] and search['rate'][0] | int < 3 -%}
+        ★
+      {%- elif "under" in search['rate'] and search['rate'][0] | int > 3 -%}
+        ★
+      {%- else %}☆{% endif -%}
     </a>
   {%- endif -%}
-  {%- if search['rate'] == "4only" -%}
-    <a href="{{ url_for('task.index', change='rate', to='4', **search) }}">★</a>
-  {%- elif search['rate'] == "4" -%}
+  {%- if search['rate'] == "4" -%}
+    <a href="{{ url_for('task.index', change='rate', to='4over', **search) }}">★</a>
+  {%- elif search['rate'] == "4over" -%}
+    <a href="{{ url_for('task.index', change='rate', to='4under', **search) }}">★</a>
+  {%- elif search['rate'] == "4under" -%}
     <a href="{{ url_for('task.index', change='rate', to='', **search) }}">★</a>
   {%- else -%}
-    <a href="{{ url_for('task.index', change='rate', to='4only', **search) }}">
-      {%- if not "only" in search['rate'] and search['rate'] | int >= 4 %}★{% else %}☆{% endif -%}
+    <a href="{{ url_for('task.index', change='rate', to='4', **search) }}">
+      {%- if "over" in search['rate'] and search['rate'][0] | int < 4 -%}
+        ★
+      {%- elif "under" in search['rate'] and search['rate'][0] | int > 4 -%}
+        ★
+      {%- else %}☆{% endif -%}
     </a>
   {%- endif -%}
-  {%- if search['rate'] == "5only" -%}
-    <a href="{{ url_for('task.index', change='rate', to='5', **search) }}">★</a>
-  {%- elif search['rate'] == "5" -%}
+  {%- if search['rate'] == "5" -%}
+    <a href="{{ url_for('task.index', change='rate', to='5under', **search) }}">★</a>
+  {%- elif search['rate'] == "5under" -%}
     <a href="{{ url_for('task.index', change='rate', to='', **search) }}">★</a>
   {%- else -%}
-    <a href="{{ url_for('task.index', change='rate', to='5only', **search) }}">
-      {%- if not "only" in search['rate'] and search['rate'] | int >= 5 %}★{% else %}☆{% endif -%}
+    <a href="{{ url_for('task.index', change='rate', to='5', **search) }}">
+      {%- if "over" in search['rate'] %}★{% else %}☆{% endif -%}
     </a>
   {%- endif %}
 

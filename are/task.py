@@ -72,7 +72,7 @@ def create():
     default = {
         'tag': request.args.get('tag', ''),
         'cost': request.args.get('cost', 0),
-        'rate': int(request.args.get('rate', '0').strip('only').strip('over')),
+        'rate': int(request.args.get('rate', '0').strip('over').strip('under')),
         'site': request.args.get('site', ''),
         'owner': request.args.get('owner', '未')
     }
@@ -81,7 +81,7 @@ def create():
 
     if request.method == 'POST':
         title = request.form['title']
-        rate = int(request.form['rate'].strip('only').strip('over')) if request.form['rate'] else default['rate']
+        rate = int(request.form['rate'].strip('over').strip('under')) if request.form['rate'] else default['rate']
         cost = request.form['cost'] if request.form['cost'] else default['cost']
         tag = ' ' + request.form['tag'].strip() + ' '
         body = request.form['body']
@@ -460,7 +460,7 @@ def ownerlist():
 def ratelist():
     db = get_db()
     sql = '''
-        SELECT 重要度 || "only" as 重要度,
+        SELECT 重要度 as 重要度,
         CASE WHEN  重要度 = 5 THEN "★★★★★"
              WHEN  重要度 = 4 THEN "★★★★☆"
              WHEN  重要度 = 3 THEN "★★★☆☆"
@@ -662,12 +662,12 @@ def history():
         else:
             where += ' AND "所有者" = "' + args['owner'] + '" '
     if args['rate']:
-        if 'only' in args['rate']:
-            where += ' AND "重要度" = "' + args['rate'][0] + '" '
-        elif 'over' in args['rate']:
+        if 'over' in args['rate']:
             where += ' AND "重要度" >= "' + args['rate'][0] + '" '
+        elif 'under' in args['rate']:
+            where += ' AND "重要度" <= "' + args['rate'][0] + '"  AND "重要度" <> 0 '
         else:
-            where += ' AND "重要度" <= "' + args['rate'] + '"  AND "重要度" <> 0 '
+            where += ' AND "重要度" = "' + args['rate'] + '" '
     if args['cost']:
         where += ' AND "予測値" = "' + args['cost'] + '" '
     if args['tag1st']:
