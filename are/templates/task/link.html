@@ -51,6 +51,7 @@
             <a href="{{ url_for('task.index', notag='') }}">未分類</a>
             <a href="{{ url_for('task.index', rate='0') }}">未要度</a>
             <a href="{{ url_for('task.index', cost='0') }}">未見積</a>
+            <a href="{{ url_for('task.index', status='未', cycle='none') }}">単発未分類</a>
         </p>
         <p>
             <a href="{{ url_for('task.index', tag='考 -日') }}">考</a>
