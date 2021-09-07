@@ -264,9 +264,12 @@
     <section>
         <h1><a href="{{ url_for('task.index', change='status', to=key , **search) }}">{{ key }}</a></h1>
       {% for task in value %}
-        <div style="4px 0px 0px 0px;padding:4px 0px 0px 0px;">
-          <div style="border-style: solid none none solid; border-width: 1px; margin:0px 4px 0px 0px">
-            &thinsp;
+        <div style="padding:2px 0px 0px 0px;">
+          <div style="
+          {%- if task['サイト'] in colors -%}
+            border-color: {{colors[task['サイト']]}};
+          {%- endif -%}
+          border-style: solid none none solid; border-width: 1px 0 0 4px ; margin:0px 4px 0px 0px ;padding:0px 0px 0px 2px;">
           {% if task['状態'] == '完' %}
             <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">☑</a>
             <a href="{{ url_for('task.next', number=task['番号'], **search) }}">▷</a>

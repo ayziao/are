@@ -14,3 +14,21 @@ def get_sitesetting(site):
         ret = loads(_data['value'])
 
     return ret
+
+
+def get_task_colors():
+    sql = '''
+        SELECT * FROM keyvalue
+        WHERE key Like "sitesetting%"
+    '''
+    rows = get_db().execute(sql).fetchall()
+
+    print(rows)
+
+    ret = {}
+    for item in rows:
+        value = loads(item['value'])
+        if 'task_border_color' in value:
+            ret[item['key'].replace("sitesetting_", "")] = value['task_border_color']
+
+    return ret

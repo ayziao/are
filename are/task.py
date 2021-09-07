@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
     make_response, g  # , current_app
-from are.db import get_db, task
+from are.db import get_db, task ,keyvalue
 from are.auth import login_required
 
 bp = Blueprint('task', __name__, url_prefix='/x/task')
@@ -9,6 +9,8 @@ bp = Blueprint('task', __name__, url_prefix='/x/task')
 @bp.route('')
 def index():
     args = get_args()
+    colors = keyvalue.get_task_colors()
+    print(colors)
 
     change = request.args.get('change', '')
     if change:
@@ -64,7 +66,7 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('task/index.html', tasks=tasks, tags=tags, search=args)
+    return render_template('task/index.html', tasks=tasks, tags=tags, search=args, colors=colors)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
