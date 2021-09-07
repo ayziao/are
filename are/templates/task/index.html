@@ -268,6 +268,8 @@
           <div style="
           {%- if task['サイト'] in colors -%}
             border-color: {{colors[task['サイト']]}};
+          {% else %}
+            border-color: #aaa;
           {%- endif -%}
           border-style: solid none none solid; border-width: 1px 0 0 4px ; margin:0px 4px 0px 0px ;padding:0px 0px 0px 2px;">
           {% if task['状態'] == '完' %}
