@@ -22,9 +22,6 @@ def get_task_colors():
         WHERE key Like "sitesetting%"
     '''
     rows = get_db().execute(sql).fetchall()
-
-    print(rows)
-
     ret = {}
     for item in rows:
         value = loads(item['value'])
