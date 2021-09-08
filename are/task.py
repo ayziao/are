@@ -714,9 +714,9 @@ def history():
           ' strftime("%Y-%m-%d ", "日時") || ' \
           '     substr("0"||(strftime("%H", "日時")+9),-2,2) || ' \
           '     strftime(":%M:%S", "日時") as utcP9time ' \
-          ' FROM task_archive ' + where + order
+          ' FROM task_archive ' + where + order + ' LIMIT 1000'
 
-    print(sql)
+    # print(sql)
 
     rows = get_db().execute(sql).fetchall()
 
