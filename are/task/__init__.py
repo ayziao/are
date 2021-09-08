@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, flash, url_for,
 from are.db import get_db, task ,keyvalue
 from are.auth import login_required
 
-bp = Blueprint('task', __name__, url_prefix='/x/task')
+bp = Blueprint('task', __name__, template_folder='templates', url_prefix='/x/task')
 
 
 @bp.route('')
@@ -66,7 +66,7 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('task/index.html', tasks=tasks, tags=tags, search=args, colors=colors)
+    return render_template('index.html', tasks=tasks, tags=tags, search=args, colors=colors)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -104,7 +104,7 @@ def create():
             db.commit()
             return redirect(url_for('task.index', tag=tag.strip()))
 
-    return render_template('task/create.html', default=default)
+    return render_template('create.html', default=default)
 
 
 def get_task(number):
@@ -167,7 +167,7 @@ def update(number):
             db.commit()
             return redirect(url_for('task.index', tag=tag.strip()))
 
-    return render_template('task/update.html', task=task, fi=fi)
+    return render_template('update.html', task=task, fi=fi)
 
 
 @bp.route('/<int:number>/delete', methods=('POST',))
@@ -340,7 +340,7 @@ def restore4tag():
 
 @bp.route('/linklist', methods=('GET',))
 def linklist():
-    return render_template('task/link.html')
+    return render_template('link.html')
 
 
 @bp.route('/tag1stlist', methods=('GET',))
@@ -403,7 +403,7 @@ def tag1stlist():
     for k, v in sorted(count_sum.items(), key=lambda x: -x[1]):
         result.append({'タグ': k, '件数': v})
 
-    return render_template('task/list.html', list=result, type='第一タグ')
+    return render_template('list.html', list=result, type='第一タグ')
 
 
 @bp.route('/taglist', methods=('GET',))
@@ -434,7 +434,7 @@ def taglist():
     for k, v in sorted(count_sum.items(), key=lambda x: -x[1]):
         result.append({'タグ': k, '件数': v})
 
-    return render_template('task/list.html', list=result, type='タグ')
+    return render_template('list.html', list=result, type='タグ')
 
 
 @bp.route('/ownerlist', methods=('GET',))
@@ -452,7 +452,7 @@ def ownerlist():
         ' GROUP BY 所有者 '
         'ORDER BY cycle  DESC, 件数 DESC '
     ).fetchall()
-    return render_template('task/list.html', list=ret, type='所有者')
+    return render_template('list.html', list=ret, type='所有者')
 
 
 @bp.route('/ratelist', methods=('GET',))
@@ -478,7 +478,7 @@ def ratelist():
     '''
     # print(sql)
     ret = db.execute(sql).fetchall()
-    return render_template('task/list.html', list=ret, type='重要度')
+    return render_template('list.html', list=ret, type='重要度')
 
 
 @bp.route('/pointlist', methods=('GET',))
@@ -495,7 +495,7 @@ def pointlist():
         ' GROUP BY 予測値 '
         ' ORDER BY 予測値 DESC '
     ).fetchall()
-    return render_template('task/list.html', list=ret, type='ポイント')
+    return render_template('list.html', list=ret, type='ポイント')
 
 
 @bp.route('/cyclelist', methods=('GET',))
@@ -532,7 +532,7 @@ def cyclelist():
         ' FROM task '
         ' WHERE ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %")'
     ).fetchall()
-    return render_template('task/list.html', list=ret, type='サイクル')
+    return render_template('list.html', list=ret, type='サイクル')
 
 
 @bp.route('/statuslist', methods=('GET',))
@@ -547,7 +547,7 @@ def statuslist():
         ' GROUP BY 状態 '
         ' ORDER BY 状態 DESC '
     ).fetchall()
-    return render_template('task/list.html', list=ret, type='状態')
+    return render_template('list.html', list=ret, type='状態')
 
 
 @bp.route('/sitelist', methods=('GET',))
@@ -562,7 +562,7 @@ def sitelist():
         ' GROUP BY サイト '
         ' ORDER BY サイト DESC '
     ).fetchall()
-    return render_template('task/list.html', list=ret, type='サイト')
+    return render_template('list.html', list=ret, type='サイト')
 
 
 @bp.route('/archive', methods=('GET',))
@@ -732,7 +732,7 @@ def history():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('task/history.html', tasks=tasks, tags=tags, search=args)
+    return render_template('history.html', tasks=tasks, tags=tags, search=args)
 
 
 @bp.route('/集計', methods=('GET',))
@@ -805,7 +805,7 @@ def 集計():
 
     args['cycle'] = ''
 
-    return render_template('task/summary.html', summary=res.strip(), tasks=tasks, tags=tags, search=args)
+    return render_template('summary.html', summary=res.strip(), tasks=tasks, tags=tags, search=args)
 
 
 @bp.route('/完了日時消去', methods=('GET',))
