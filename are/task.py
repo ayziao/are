@@ -248,9 +248,6 @@ def rateto(number):
             ' WHERE "番号" = ?', (change, number))
         db.commit()
 
-        if args['rate'].isnumeric():
-            args['rate'] = change
-
     return redirect(url_for('task.index', **args))
 
 
