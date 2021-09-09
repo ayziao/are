@@ -82,7 +82,7 @@
 
     <select name="select" onChange="location.href=value;">
         <option value="#">よく使</option>
-        <option value="{{ url_for('task.index', cost='1', cycle='none', tag='-買', rate='3over') }}">すぐ</option>
+        <option value="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買', rate='3over') }}">すぐ</option>
         <option value="{{ url_for('task.index', cycle='none', tag='-買') }}">単発</option>
         <option value="{{ url_for('task.index', cycle='randomly', tag='-買') }}">不定</option>
         <option value="{{ url_for('task.index', tag='処理箱') }}">処理箱</option>
