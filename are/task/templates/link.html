@@ -112,13 +112,15 @@
         <h2>衣食住</h2>
         <p>
             <a href="{{ url_for('task.index', tag='衣') }}">衣</a>
-            <a href="{{ url_for('task.index', tag='食') }}">食</a>
+            <a href="{{ url_for('task.index', tag='飲食') }}">飲食</a>
             <a href="{{ url_for('task.index', tag='住') }}">住</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', tag='飲食') }}">飲食</a>
+            <a href="{{ url_for('task.index', tag='食') }}">食</a>
             <a href="{{ url_for('task.index', tag='飲') }}">飲</a>
             <a href="{{ url_for('task.index', tag='剤') }}">剤</a>
+            <a href="{{ url_for('task.index', tag='料理') }}">料理</a>
+            <a href="{{ url_for('task.index', tag='外食') }}">外食</a>
         </p>
     </section>
     <section>
@@ -127,7 +129,8 @@
             <a href="{{ url_for('task.index', tag='映画') }}">映画</a>
             <a href="{{ url_for('task.index', tag='アニメ') }}">アニメ</a>
             <a href="{{ url_for('task.index', tag='漫画') }}">漫画</a>
-            <a href="{{ url_for('task.index', tag='娯 -映画 -アニメ -漫画') }}">他</a>
+            <a href="{{ url_for('task.index', tag='漫画') }}">ゲーム</a>
+            <a href="{{ url_for('task.index', tag='娯 -映画 -アニメ -漫画 -ゲーム') }}">他</a>
         </p>
     </section>
     <section>
