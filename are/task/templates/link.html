@@ -47,6 +47,10 @@
             <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">他定期</a>
         </p>
         <p>
+            <a href="{{ url_for('task.index', cost='1', cycle='none', tag='-買' , rate='3over') }}">すぐやる</a>
+            <a href="{{ url_for('task.index', tag='処理箱') }}">処理箱</a>
+        </p>
+        <p>
             <a href="{{ url_for('task.index', tag='日 末') }}">日末</a>
             <a href="{{ url_for('task.index', notag='') }}">未分類</a>
             <a href="{{ url_for('task.index', rate='0') }}">未要度</a>
@@ -63,38 +67,58 @@
     <section>
         <h2>よく使う</h2>
         <p>
-            <a href="{{ url_for('task.index', cost='1', cycle='none', tag='-買' , rate='3over') }}">すぐやる</a>
             <a href="{{ url_for('task.index', cycle='none', tag='-買') }}">単発</a>
+            <a href="{{ url_for('task.index', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</a>
+            <a href="{{ url_for('task.index', cycle='routine', tag='-日') }}">定期日以外</a>
             <a href="{{ url_for('task.index', cycle='randomly', tag='-買') }}">不定期繰返</a>
-            <a href="{{ url_for('task.index', tag='処理箱') }}">処理箱</a>
         </p>
         <p>
             <a href="{{ url_for('task.index', tag='就寝前' ) }}">就寝前</a>
             <a href="{{ url_for('task.index', tag='起床後' ) }}">起床後</a>
             <a href="{{ url_for('task.index', tag='夕') }}">夕</a>
-            <a href="{{ url_for('task.index', tag='居間') }}">居間</a>
-            <a href="{{ url_for('task.index', tag='台所') }}">台所</a>
-            <a href="{{ url_for('task.index', tag='風呂') }}">風呂</a>
-            <a href="{{ url_for('task.index', tag='寝室') }}">寝室</a>
-            <a href="{{ url_for('task.index', tag='サンルーム') }}">陽室</a>
-            <a href="{{ url_for('task.index', tag='庭') }}">庭</a>
-        </p>
-        <p>
-            <a href="{{ url_for('task.index', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</a>
-            <a href="{{ url_for('task.index', cycle='routine', tag='-日') }}">定期日以外</a>
             <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">その他定期</a>
             <a href="{{ url_for('task.index', cost='1', cycle='none', tag='-買' , rate='2under') }}">暇をみてやる</a>
         </p>
         <p>
             <a href="{{ url_for('task.index', tag='寝') }}">寝</a>
             <a href="{{ url_for('task.index', tag='猫') }}">猫</a>
-            <a href="{{ url_for('task.index', tag='食') }}">食</a>
-            <a href="{{ url_for('task.index', tag='娯') }}">娯 楽</a>
-            <a href="{{ url_for('task.index', tag='調') }}">調 べ物</a>
+            <a href="{{ url_for('task.index', tag='作') }}">創作</a>
+            <a href="{{ url_for('task.index', tag='調') }}">調べ物</a>
             <a href="{{ url_for('task.index', tag='読') }}">読む</a>
-            <a href="{{ url_for('task.index', tag='作') }}">作(創作)</a>
-            <a href="{{ url_for('task.index', tag='家') }}">家</a>
-            <a href="{{ url_for('task.index', tag='買') }}">買 い物</a>
+            <a href="{{ url_for('task.index', tag='娯') }}">娯楽</a>
+            <a href="{{ url_for('task.index', tag='買') }}">買い物</a>
+        </p>
+    </section>
+    <section>
+        <h2>場所</h2>
+        <p>
+            <a href="{{ url_for('task.index', tag='寝室') }}">寝室</a>
+            <a href="{{ url_for('task.index', tag='居間') }}">居間</a>
+            <a href="{{ url_for('task.index', tag='台所') }}">台所</a>
+            <a href="{{ url_for('task.index', tag='風呂') }}">風呂</a>
+            <a href="{{ url_for('task.index', tag='サンルーム') }}">陽室</a>
+            <a href="{{ url_for('task.index', tag='庭') }}">庭</a>
+            <a href="{{ url_for('task.index', tag='外出') }}">外出</a>
+        </p>
+        <p>
+            <a href="{{ url_for('task.index', tag='スーパー') }}">スーパー</a>
+            <a href="{{ url_for('task.index', tag='ホムセン') }}">ホムセン</a>
+            <a href="{{ url_for('task.index', tag='百均') }}">百均</a>
+            <a href="{{ url_for('task.index', tag='駅前') }}">駅前</a>
+            <a href="{{ url_for('task.index', tag='実家') }}">実家</a>
+        </p>
+    </section>
+    <section>
+        <h2>衣食住</h2>
+        <p>
+            <a href="{{ url_for('task.index', tag='衣') }}">衣</a>
+            <a href="{{ url_for('task.index', tag='食') }}">食</a>
+            <a href="{{ url_for('task.index', tag='住') }}">住</a>
+        </p>
+        <p>
+            <a href="{{ url_for('task.index', tag='飲食') }}">飲食</a>
+            <a href="{{ url_for('task.index', tag='飲') }}">飲</a>
+            <a href="{{ url_for('task.index', tag='剤') }}">剤</a>
         </p>
     </section>
     <section>

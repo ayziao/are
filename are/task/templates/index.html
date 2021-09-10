@@ -67,6 +67,8 @@
         <option value="#">初めに</option>
         <option value="{{ url_for('task.index', tag='日 初') }}">日初</option>
         <option value="{{ url_for('task.index', tag='-日 初') }}">-日 初</option>
+        <option value="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買', rate='3over') }}">すぐ</option>
+        <option value="{{ url_for('task.index', tag='処理箱') }}">処理箱</option>
         <option value="#">ーーー</option>
         <option value="{{ url_for('task.index', tag='日 末') }}">日末</option>
         <option value="{{ url_for('task.index', notag='') }}">未分類</option>
@@ -82,36 +84,32 @@
 
     <select name="select" onChange="location.href=value;">
         <option value="#">よく使</option>
-        <option value="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買', rate='3over') }}">すぐ</option>
         <option value="{{ url_for('task.index', cycle='none', tag='-買') }}">単発</option>
+        <option value="{{ url_for('task.index', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</option>
+        <option value="{{ url_for('task.index', cycle='routine', tag='-日') }}">日以外</option>
         <option value="{{ url_for('task.index', cycle='randomly', tag='-買') }}">不定</option>
-        <option value="{{ url_for('task.index', tag='処理箱') }}">処理箱</option>
         <option value="#">ーーー</option>
-        <option value="{{ url_for('task.index', tag='就寝前' ) }}">就寝前</option>
-        <option value="{{ url_for('task.index', tag='起床後') }}">起床後</option>
-        <option value="{{ url_for('task.index', tag='夕') }}">夕</option>
+        <option value="{{ url_for('task.index', tag='寝室') }}">寝室</option>
         <option value="{{ url_for('task.index', tag='居間') }}">居間</option>
         <option value="{{ url_for('task.index', tag='台所') }}">台所</option>
         <option value="{{ url_for('task.index', tag='風呂') }}">風呂</option>
-        <option value="{{ url_for('task.index', tag='寝室') }}">寝室</option>
         <option value="{{ url_for('task.index', tag='サンルーム') }}">陽室</option>
         <option value="{{ url_for('task.index', tag='庭') }}">庭</option>
         <option value="{{ url_for('task.index', tag='外出') }}">外出</option>
         <option value="#">ーーー</option>
-        <option value="{{ url_for('task.index', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</option>
-        <option value="{{ url_for('task.index', cycle='routine', tag='-日') }}">日以外</option>
-        <option value="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">他定期</option>
+        <option value="{{ url_for('task.index', tag='就寝前' ) }}">就寝前</option>
+        <option value="{{ url_for('task.index', tag='起床後') }}">起床後</option>
+        <option value="{{ url_for('task.index', tag='夕') }}">夕</option>
     </select>
     <select name="select" onChange="location.href=value;">
         <option value="#">他</option>
         <option value="{{ url_for('task.index', tag='寝') }}">寝</option>
         <option value="{{ url_for('task.index', tag='猫') }}">猫</option>
-        <option value="{{ url_for('task.index', tag='食') }}">食</option>
-        <option value="{{ url_for('task.index', tag='娯 -映画 -アニメ -漫画') }}">娯</option>
+        <option value="{{ url_for('task.index', tag='飲食') }}">食</option>
+        <option value="{{ url_for('task.index', tag='作') }}">作</option>
         <option value="{{ url_for('task.index', tag='調') }}">調</option>
         <option value="{{ url_for('task.index', tag='読') }}">読</option>
-        <option value="{{ url_for('task.index', tag='作') }}">作</option>
-        <option value="{{ url_for('task.index', tag='家') }}">家</option>
+        <option value="{{ url_for('task.index', tag='娯 -映画 -アニメ -漫画') }}">娯</option>
         <option value="{{ url_for('task.index', tag='買') }}">買</option>
         <option value="#">--</option>
         <option value="{{ url_for('task.index', tag='週 -初 -末') }}">週</option>
