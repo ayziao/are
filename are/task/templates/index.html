@@ -69,6 +69,7 @@
         <option value="{{ url_for('task.index', tag='-日 初') }}">-日 初</option>
         <option value="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買', rate='3over') }}">すぐ</option>
         <option value="{{ url_for('task.index', tag='処理箱') }}">処理箱</option>
+        <option value="{{ url_for('task.index', tag='検討') }}">検討</option>
         <option value="#">ーーー</option>
         <option value="{{ url_for('task.index', tag='日 末') }}">日末</option>
         <option value="{{ url_for('task.index', notag='') }}">未分類</option>
@@ -118,6 +119,7 @@
         <option value="#">--</option>
         <option value="{{ url_for('task.index', status='完') }}">完</option>
         <option value="{{ url_for('task.index', status='待') }}">待</option>
+        <option value="{{ url_for('task.index', status='保留') }}">保</option>
     </select>
 
     <a href="{{ url_for('task.集計') }}">集計</a>
