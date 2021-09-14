@@ -65,7 +65,7 @@ def _テンプレートフィルタ登録(app):
 
 def create_app(test_config=None):
     """
-    フラスコアプリケーションの生成と設定
+    フラスクアプリケーションの生成と設定
     :param test_config:
     :return:
     """
