@@ -69,9 +69,15 @@ flask ran
 
 ---
 ## 開発
+### 開発環境実行
 export FLASK_APP=are  
 export FLASK_ENV=development  
 flask ran  
+
+### テスト
+coverage run -m pytest && coverage html  
+coverage run -m pytest tests/test_task.py && coverage html  
+coverage run -m pytest tests/db && coverage html  
 
 ### ドメイン
 メインサービスドメイン
