@@ -80,12 +80,30 @@ coverage run -m pytest tests/test_task.py && coverage html
 coverage run -m pytest tests/db && coverage html  
 
 ### ドメイン
+コアドメイン
+
+	データ
+		日時(ID)
+		タイトル
+		内容
+
+	タグ
+		データID
+		タグ
+
+	チェイン
+		データID
+		データハッシュ？
+		チェインハッシュ？
+
 メインサービスドメイン
 
-	サイト  
-		公開
-		統計
+	サイト
+		表示
+		日時順表示
+		タイトル別表示
 		検索
+	統計
 	タスク
 		表示 検索
 		一覧
