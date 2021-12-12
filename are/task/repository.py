@@ -137,3 +137,8 @@ def 完了日時消去(db, option):
         sql += 'AND strftime("%Y-%m-%d", 完了日時) < strftime("%Y-%m-%d", datetime("now"))'
 
     db.execute(sql)
+
+
+def 第一タグ一覧取得():
+    return True
+
