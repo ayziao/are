@@ -39,6 +39,9 @@ def queue():
     if que['queue_type'] == 'backup':
         return _バックアップ(db, que)
 
+    if que['queue_type'] == 'タスク日次集計':
+        return _タスク日次集計(db, que)
+
     return "ok" + " " + que['queue_type'] + " " + que['content']
 
 
@@ -111,6 +114,12 @@ def _マルチポスト(db, que):
     db.commit()
     return "ok " + que['queue_type'] + " " + que['content'] + msg
 
+def _タスク日次集計(db, que):
+    db.execute('UPDATE queue '
+               ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
+               ' WHERE serial_number = ?', (que['serial_number'],))
+    db.commit()
+    return 'タスク日次集計'
 
 def _get_data(site, identifier):
     db = get_db()

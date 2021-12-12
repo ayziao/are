@@ -69,6 +69,15 @@ CREATE TABLE IF NOT EXISTS "task_archive" (
 	PRIMARY KEY("保存番号" AUTOINCREMENT)
 );
 
+CREATE TABLE 'タスク日次集計' (
+	'サイト' TEXT NOT NULL,
+	'日付' TEXT NOT NULL,
+	'集計区分' TEXT NOT NULL,
+	'状態' TEXT NOT NULL,
+	'件数' INTEGER NOT NULL DEFAULT 0 ,
+	'ポイント' INTEGER NOT NULL DEFAULT 0 ,
+	PRIMARY KEY ('サイト', '日付', '集計区分', '状態')
+);
 
 --ベースデータ
 CREATE TABLE IF NOT EXISTS "basedata" (
@@ -103,4 +112,7 @@ CREATE TABLE IF NOT EXISTS "queue" (
 	PRIMARY KEY("serial_number" AUTOINCREMENT)
 );
 INSERT INTO queue (reservation_time, queue_type, content, add_time)
-VALUES (strftime('%Y-%m-%d %H:59:59', CURRENT_TIMESTAMP), "backup", "", CURRENT_TIMESTAMP)
+VALUES
+(strftime('%Y-%m-%d %H:59:59', CURRENT_TIMESTAMP), "backup", "", CURRENT_TIMESTAMP) ,
+(strftime('%Y-%m-%d 08:59:59', CURRENT_TIMESTAMP), "タスク日次集計", "", CURRENT_TIMESTAMP)
+;
