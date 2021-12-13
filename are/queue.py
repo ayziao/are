@@ -11,7 +11,7 @@ from werkzeug.exceptions import abort
 from are.auth import login_required
 from are.db import get_db, keyvalue
 from are.ext import multipost
-from are.task import repository as taskrep
+from are import task
 
 bp = Blueprint('queue', __name__, url_prefix='/x/queue')
 
@@ -117,7 +117,7 @@ def _マルチポスト(db, que):
 
 
 def _タスク日次集計(db, que):
-    taskrep.日次集計(db)
+    task.日次集計(db)
     db.execute('UPDATE queue '
                ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))

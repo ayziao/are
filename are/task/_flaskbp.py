@@ -10,10 +10,10 @@ MVCのコントローラ？
 from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
     g  # , current_app
 from are.db import get_db, keyvalue
-from are.task import repository
+from are.task import _repository
 from are.auth import login_required
 
-bp = Blueprint('task', __name__, template_folder='templates', url_prefix='/x/task')
+bp: Blueprint = Blueprint('task', __name__, template_folder='templates', url_prefix='/x/task')
 
 
 @bp.route('')
@@ -62,7 +62,7 @@ def index():
     if 'nosite' in request.args:
         args['nosite'] = ''
 
-    rows = repository.get_list(args)
+    rows = _repository.get_list(args)
 
     joutai = ''
     tags = {}
@@ -110,7 +110,7 @@ def create():
             flash(error)
         else:
             db = get_db()
-            repository.create(db, g.user['id'], owner, site, rate, cost, title, tag, body)
+            _repository.create(db, g.user['id'], owner, site, rate, cost, title, tag, body)
             db.commit()
             return redirect(url_for('task.index', tag=tag.strip()))
 
@@ -118,7 +118,7 @@ def create():
 
 
 def get_task(number):
-    item = repository.get_one(number)
+    item = _repository.get_one(number)
     if item is None:
         abort(404, "task id {0} doesn't exist.".format(number))
 
@@ -277,7 +277,7 @@ def done(number):
 def doing(number):
     args = get_args()
 
-    item = repository.get_one(number)
+    item = _repository.get_one(number)
 
     if item['状態'] == '！':
         _状態 = '！！'
@@ -602,7 +602,7 @@ def archive():
         ' WHERE 完了日時 <> "" '
         ' AND ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %") '
     )
-    repository.完了日時消去(db, '')
+    _repository.完了日時消去(db, '')
     db.commit()
     return redirect(url_for('task.集計'))
 
@@ -794,21 +794,21 @@ def 集計():
 
     args['cycle'] = 'none'
     tasks["単発"] = []
-    rows = repository.get_list(args)
+    rows = _repository.get_list(args)
     for item in rows:
         tags[item['番号']] = item['タグ'].split()
         tasks["単発"].append(item)
 
     args['cycle'] = 'routine'
     tasks["定期"] = []
-    rows = repository.get_list(args)
+    rows = _repository.get_list(args)
     for item in rows:
         tags[item['番号']] = item['タグ'].split()
         tasks["定期"].append(item)
 
     args['cycle'] = 'randomly'
     tasks["不定"] = []
-    rows = repository.get_list(args)
+    rows = _repository.get_list(args)
     for item in rows:
         tags[item['番号']] = item['タグ'].split()
         tasks["不定"].append(item)
@@ -822,7 +822,7 @@ def 集計():
 def 完了日時消去():
     option = request.args.get('option', '')
     db = get_db()
-    repository.完了日時消去(db, option)
+    _repository.完了日時消去(db, option)
     db.commit()
 
     return redirect(url_for('task.集計'))
