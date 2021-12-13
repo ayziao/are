@@ -2,8 +2,37 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 from are.task import _flaskbp
+from are.task import _repository
 
 bp = _flaskbp.bp
+
+def アーカイブ(db):
+    db.execute(
+        'insert into task_archive '
+        ' (番号,サイト, 状態, 重要度, タスク名, タグ, 備考, 予測値, 実績値, 親番号,'
+        ' 予定日, 完了日, 日時,'
+        ' 作成者, 所有者, 対応者) '
+        ' select '
+        ' 番号, サイト, 状態, 重要度, タスク名, タグ, 備考, 予測値, 実績値, 親番号,'
+        ' 予定日, substr(完了日時, 1, 10), 完了日時,'
+        ' 作成者, 所有者, 対応者'
+        ' from task '
+        ' WHERE 完了日時 <> "" '
+    )
+    db.execute(
+        'DELETE FROM task WHERE 完了日時 <> "" '
+        ' AND "タグ" NOT LIKE "% 年 %" AND "タグ" NOT LIKE "% 半期 %" AND "タグ" NOT LIKE "%月 %" '
+        ' AND "タグ" NOT LIKE "% 週 %" AND "タグ" NOT LIKE "%日 %" AND "タグ" NOT LIKE "% 季 %" '
+        ' AND "タグ" NOT LIKE "% 春 %" AND "タグ" NOT LIKE "% 夏 %" AND "タグ" NOT LIKE "% 秋 %" '
+        ' AND "タグ" NOT LIKE "% 冬 %" AND "タグ" NOT LIKE "% 常備 %" AND "タグ" NOT LIKE "% 繰り返し %" '
+    )
+    db.execute(
+        ' UPDATE task SET "変更日時" = "完了日時" '
+        ' WHERE 完了日時 <> "" '
+        ' AND ("タグ" LIKE "% 繰り返し %" OR "タグ" LIKE "% 常備 %") '
+    )
+    _repository.完了日時消去(db, '')
+    return True
 
 
 def 日次集計(db):

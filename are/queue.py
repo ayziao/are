@@ -118,6 +118,7 @@ def _マルチポスト(db, que):
 
 def _タスク日次集計(db, que):
     task.日次集計(db)
+    task.アーカイブ(db)  # TODO 自動じゃないときのこと考える
     db.execute('UPDATE queue '
                ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))
