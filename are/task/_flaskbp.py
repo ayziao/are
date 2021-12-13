@@ -14,7 +14,7 @@ from are.task import _repository
 from are.auth import login_required
 from are import task
 
-bp: Blueprint = Blueprint('task', __name__, template_folder='templates', url_prefix='/x/task')
+bp = Blueprint('task', __name__, template_folder='templates', url_prefix='/x/task')
 
 
 @bp.route('')
