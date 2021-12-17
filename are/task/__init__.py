@@ -6,6 +6,15 @@ from are.task import _repository
 
 bp = _flaskbp.bp
 
+
+def restore4tag(db, tag, status, to):
+    tag = '% ' + tag + ' %'
+
+    db.execute(
+        'UPDATE task SET "状態" = ?, "完了日時" = "", "実績値" = 0 '
+        ' WHERE "状態" = ? AND "タグ" LIKE ? ', (to, status, tag))
+
+
 def アーカイブ(db):
     db.execute(
         'insert into task_archive '

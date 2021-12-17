@@ -6,7 +6,6 @@ MVCのコントローラ？
 ユースケース？
 """
 
-
 from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
     g  # , current_app
 from are.db import get_db, keyvalue
@@ -337,15 +336,13 @@ def restore4tag():
     if tag == '':
         return redirect(url_for('task.集計'))
 
-    tag = '% ' + tag + ' %'
     status = request.args.get('status', '完')
     to = request.args.get('to', '未')
 
     db = get_db()
-    db.execute(
-        'UPDATE task SET "状態" = ?, "完了日時" = "", "実績値" = 0 '
-        ' WHERE "状態" = ? AND "タグ" LIKE ? ', (to, status, tag))
+    task.restore4tag(db, tag, status, to)
     db.commit()
+
     return redirect(url_for('task.集計'))
 
 
