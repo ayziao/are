@@ -109,6 +109,13 @@ def get_list(args):
     rows = get_db().execute(sql).fetchall()
     return rows
 
+def get_sites():
+    return get_db().execute(
+            'SELECT サイト '
+            ' FROM task '
+            ' GROUP BY サイト '
+            ' ORDER BY サイト DESC '
+        ).fetchall()
 
 def create(db, author, owner, site, rate, cost, title, tag, body):
     ''' 新規タスク作成

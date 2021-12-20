@@ -42,6 +42,16 @@
         <option value="{{ url_for('task.index', change='cycle', to='routine', **search) }}"{% if search['cycle'] == "routine" %} selected{% endif %}>定期</option>
         <option value="{{ url_for('task.index', change='cycle', to='randomly', **search) }}"{% if search['cycle'] == "randomly" %} selected{% endif %}>不定</option>
     </select>
+    <select name="select" onChange="location.href=value;">
+        <option value="{{ url_for('task.index', change='site', to='', **search) }}">全サイト</option>
+      {% for site in sites %}
+       {%- if site['サイト'] == '' -%}
+        <option value="{{ url_for('task.index', change='nosite', to='', **search) }}"{% if 'nosite' in search %} selected{% endif %}>(サイトなし)</option>
+       {%- else -%}
+        <option value="{{ url_for('task.index', change='site', to=site['サイト'], **search) }}"{% if search['site'] == site['サイト'] %} selected{% endif %}>{{ site['サイト'] }}</option>
+       {%- endif -%}
+      {% endfor %}
+    </select>
 
   {%- if search['owner'] %}
     {{ search['owner'] }}

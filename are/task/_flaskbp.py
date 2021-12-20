@@ -20,7 +20,6 @@ bp = Blueprint('task', __name__, template_folder='templates', url_prefix='/x/tas
 def index():
     args = get_args()
     colors = keyvalue.get_task_colors()
-    print(colors)
 
     change = request.args.get('change', '')
     if change:
@@ -62,6 +61,8 @@ def index():
     if 'nosite' in request.args:
         args['nosite'] = ''
 
+    sites = _repository.get_sites()
+
     rows = _repository.get_list(args)
 
     joutai = ''
@@ -76,7 +77,7 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', tasks=tasks, tags=tags, search=args, colors=colors)
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
