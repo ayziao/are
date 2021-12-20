@@ -2,7 +2,8 @@ import os
 import pathlib
 import subprocess
 import zipfile
-from datetime import datetime
+import datetime
+import locale
 import json
 
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for, current_app
@@ -65,7 +66,7 @@ def _バックアップ(db, que):
     bk = pathlib.Path(_backup_path + '/' + dbpath.name)
 
     if bk.exists():
-        dt = datetime.fromtimestamp(bk.stat().st_mtime)
+        dt = datetime.datetime.fromtimestamp(bk.stat().st_mtime)
         bkz = pathlib.Path(_backup_path + '/hourly' + dt.strftime('%H') + '.zip')
         with zipfile.ZipFile(str(bkz), "w", zipfile.ZIP_DEFLATED) as zf:
             zf.write(str(bk), dbpath.name)
@@ -117,9 +118,21 @@ def _マルチポスト(db, que):
 
 
 def _タスク日次集計(db, que):
+    locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
+    date = datetime.date.today()
+
     task.日次集計(db)
     task.アーカイブ(db)  # TODO 自動じゃないときのこと考える
-    task.restore4tag(db, '日', '完', '未')
+    task.restore4tag(db, '日', '完', '未')  # 完了日タスクを未処理に戻す
+    task.restore4tag(db, date.strftime('%A'), '完', '未')  # 完了曜日タスクを未処理に戻す
+    if date.strftime('%A') == '月曜日':
+        task.restore4tag(db, '週', '完', '未')  # 完了週タスクを未処理に戻す
+    if date.strftime('%d') == '01':
+        task.restore4tag(db, '月', '完', '未')  # 完了月タスクを未処理に戻す
+        task.restore4tag(db, str(int(date.strftime('%d')))+'月', '完', '未')  # 完了当月タスクを未処理に戻す
+    if date.strftime('%m%d') == '0701':
+        task.restore4tag(db, '年', '完', '未')  # 完了年タスクを未処理に戻す
+
     db.execute('UPDATE queue '
                ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))
