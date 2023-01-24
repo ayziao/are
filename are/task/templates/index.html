@@ -71,7 +71,7 @@
 </h1>
 
 <nav>
-    <a href="{{ url_for('task.linklist') }}">一覧</a>
+    <a title="リンク一覧" href="{{ url_for('task.linklist') }}">🔗</a>
 
     <select name="select" onChange="location.href=value;">
         <option value="#">初めに</option>
@@ -136,8 +136,8 @@
         <option value="{{ url_for('task.index', status='保留') }}">保</option>
     </select>
 
-    <a href="{{ url_for('task.集計') }}">集計</a>
-    <a href="{{ url_for('task.history') }}">履歴</a>
+    <a title="集計" href="{{ url_for('task.集計') }}">📊</a>
+    <a title="履歴" href="{{ url_for('task.history') }}">🕘</a>
     <br>
 
   {% if search['status'] %}
