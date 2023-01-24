@@ -723,7 +723,10 @@ def history():
 @bp.route('/集計', methods=('GET',))
 def 集計():
     args = get_args()
+    res = ''
+
     db = get_db()
+ 
     sql = '''
     SELECT 
         "状態",
@@ -741,8 +744,6 @@ def 集計():
     '''
     rows = db.execute(sql).fetchall()
 
-    res = ''
-    # res += sql + '\n'
     ks = rows[0].keys()
     for r in rows:
         row = ''
@@ -762,6 +763,39 @@ def 集計():
                 else:
                     row += f"\t{k}:{r[k]}"
         res += '\n' + row.strip()
+
+
+    res += '\n\n完了 サイト別内訳'
+    sql = '''
+    SELECT
+        "サイト",
+        COUNT("番号") as "件数",
+        sum("実績値") as "実績",
+        sum("予測値")  as "予想" 
+    FROM "task" 
+    WHERE "完了日時" != ""
+    GROUP BY "サイト"  
+    '''
+    rows = db.execute(sql).fetchall()
+    ks = rows[0].keys()
+    for r in rows:
+        row = ''
+        for k in ks:
+                if k == 'サイト':
+                    row += f"\t{r[k]}"
+                elif k == '件数':
+                    row += f":{str(r[k]).rjust(3)}件 "
+                elif k == '予想':
+                    row += f"\t{str(r[k]).rjust(4)}p "
+                elif k == '実績':
+                    row += f"\t{str(r[k]).rjust(4)}s "
+                elif k == '完了日':
+                    if r[k]:
+                        row += f"\t{k}:{r[k]}"
+                else:
+                    row += f"\t{k}:{r[k]}"
+        res += '\n' + row.strip()
+
 
     tags = {}
     tasks = {}
