@@ -750,7 +750,7 @@ def 集計():
         for k in ks:
             if k != '実績' or int(r[k]) > 0:
                 if k == '状態':
-                    row += f"\t{r[k]}"
+                    row += f"\t{r[k].ljust(2,'　')}"
                 elif k == '件数':
                     row += f":{str(r[k]).rjust(3)}件 "
                 elif k == '予想':
