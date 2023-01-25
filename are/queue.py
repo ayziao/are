@@ -118,7 +118,9 @@ def _マルチポスト(db, que):
 
 
 def _タスク日次集計(db, que):
-    locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
+    # locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
+    # locale.setlocale(locale.LC_TIME, 'Japanese_Japan.UTF-8')
+    locale.setlocale(locale.LC_ALL, '')
     date = datetime.date.today()
 
     task.日次集計(db)
