@@ -20,6 +20,10 @@ bp = Blueprint('task', __name__, template_folder='templates', url_prefix='/x/tas
 @bp.route('')
 def index():
     args = get_args()
+
+    if len(request.args) == 0:
+        return today()
+
     colors = keyvalue.get_task_colors()
 
     change = request.args.get('change', '')
@@ -78,7 +82,7 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors ,taglink=_タグリンク())
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors, taglink=_タグリンク())
 
 @bp.route('/all')
 def all():
@@ -100,7 +104,30 @@ def all():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors)
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors, taglink=_タグリンク())
+
+
+@bp.route('/today')
+def today():
+    args = get_args()
+
+    colors = keyvalue.get_task_colors()
+    sites = _repository.get_sites()
+    rows = _repository.本日分取得(args)
+
+    joutai = ''
+    tags = {}
+    tasks = {}
+    for item in rows:
+        tags[item['番号']] = item['タグ'].split()
+        if item["状態"] == joutai:
+            tasks[item['状態']].append(item)
+        else:
+            joutai = item['状態']
+            tasks[item['状態']] = []
+            tasks[item['状態']].append(item)
+
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors, taglink=_タグリンク())
 
 
 @bp.route('/create', methods=('GET', 'POST'))

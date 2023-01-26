@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>{{ search['title'] }} {{ search['owner'] }} {{ search['tag'] }} タスク</title>
+    <title>{{ search['title'] }} {{ search['owner'] }} {{ search['tag'] }} {{ search['site'] }} タスク</title>
     <style type="text/css">
 		* { font-size  : 1em;	line-height:1;}
 		body { margin  : 1px;	}
@@ -67,6 +67,10 @@
 
   {%- if search['tag'] %}
     {{ search['tag'] }}
+  {%- endif -%}
+
+  {%- if search['site'] %}
+    {{ search['site'] }}
   {%- endif -%}
 </h1>
 
@@ -136,6 +140,7 @@
         <option value="{{ url_for('task.index', status='保留') }}">保</option>
     </select>
 
+    <a title="今日のタスク" href="{{ url_for('task.today') }}">今日</a>
     <a title="全てのタスク" href="{{ url_for('task.all') }}">ALL</a>
     <a title="集計" href="{{ url_for('task.集計') }}">📊</a>
     <a title="履歴" href="{{ url_for('task.history') }}">🕘</a>
