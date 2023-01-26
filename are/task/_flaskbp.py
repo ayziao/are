@@ -6,6 +6,7 @@ MVCのコントローラ？
 ユースケース？
 """
 
+import re
 from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
     g  # , current_app
 from are.db import get_db, keyvalue
@@ -77,7 +78,7 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors)
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors ,taglink=_タグリンク())
 
 @bp.route('/all')
 def all():
@@ -857,3 +858,20 @@ def 完了日時消去():
     db.commit()
 
     return redirect(url_for('task.集計'))
+
+
+def _タグリンク():
+    def taglink(text):
+
+        m = re.search('\[.+\]', text)
+        if m == None:
+            return text
+
+        tag =m.group()[1:-1]
+        s = re.split('\[.+\]', text)
+
+        rep = "<a href='" + url_for('task.index', tag=tag) + "'>[" + tag + "]</a>"
+
+        return s[0] + rep + s[1] 
+
+    return taglink
