@@ -75,6 +75,7 @@
 </h1>
 
 <nav>
+    <a title="集計" href="{{ url_for('task.集計') }}">📊</a>
     <a title="リンク一覧" href="{{ url_for('task.linklist') }}">🔗</a>
 
     <select name="select" onChange="location.href=value;">
@@ -142,7 +143,6 @@
 
     <a title="今日のタスク" href="{{ url_for('task.today') }}">今日</a>
     <a title="全てのタスク" href="{{ url_for('task.all') }}">ALL</a>
-    <a title="集計" href="{{ url_for('task.集計') }}">📊</a>
     <a title="履歴" href="{{ url_for('task.history') }}">🕘</a>
     <br>
 
