@@ -8,7 +8,7 @@ def test_register(client, app):
     response = client.post(
         '/x/auth/register', data={'username': 'a', 'password': 'a'}
     )
-    assert 'http://localhost/x/auth/login' == response.headers['Location']
+    assert '/x/auth/login' == response.headers['Location']
 
     with app.app_context():
         assert get_db().execute(
@@ -32,7 +32,7 @@ def test_register_validate_input(client, username, password, message):
 def test_login(client, auth):
     assert client.get('/x/auth/login').status_code == 200
     response = auth.login()
-    assert response.headers['Location'] == 'http://localhost/x/blog'
+    assert response.headers['Location'] == '/x/blog'
 
     with client:
         client.get('/')

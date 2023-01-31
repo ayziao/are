@@ -23,7 +23,7 @@ def test_index(client, auth):
 ))
 def test_login_required(client, path):
     response = client.post(path)
-    assert response.headers['Location'] == 'http://localhost/x/auth/login'
+    assert response.headers['Location'] == '/x/auth/login'
 
 
 def test_author_required(app, client, auth):
@@ -85,7 +85,7 @@ def test_create_update_validate(client, auth, path):
 def test_delete(client, auth, app):
     auth.login()
     response = client.post('/x/blog/1/delete')
-    assert response.headers['Location'] == 'http://localhost/x/blog'
+    assert response.headers['Location'] == '/x/blog'
 
     with app.app_context():
         db = get_db()
