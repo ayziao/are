@@ -66,8 +66,10 @@ def index():
     if 'nosite' in request.args:
         args['nosite'] = ''
 
-    sites = _repository.get_sites()
+    if "".join(args.values()) == "":
+        return today()
 
+    sites = _repository.get_sites()
     rows = _repository.get_list(args)
 
     joutai = ''
@@ -87,6 +89,7 @@ def index():
 @bp.route('/all')
 def all():
     args = get_args()
+    args["all"] = "yes"
 
     colors = keyvalue.get_task_colors()
     sites = _repository.get_sites()
@@ -187,7 +190,8 @@ def get_args():
         'sort': request.args.get('sort', ''),
         'cycle': request.args.get('cycle', ''),
         'site': request.args.get('site', ''),
-        'title': request.args.get('title', '')}
+        'title': request.args.get('title', ''),
+        'all': request.args.get('all', '')}
     return args
 
 
