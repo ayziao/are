@@ -153,9 +153,9 @@ def 第一タグ一覧取得():
 
 def 本日分取得(args):
     where = ' WHERE "状態" <> "保留" AND "状態" <> "後"'
-    where += ' AND ("状態" = "！" OR "状態" = "！！"'
-    where += '      OR "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 初 %"'
-    where += '      OR ("完了日時" != "" AND "状態" = "完" ))'
+    where += ' AND NOT("完了日時" = "" AND "状態" = "完" )'
+    where += ' AND ("状態" = "！" OR "状態" = "！！" OR "状態" = "完" '
+    where += '      OR "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 初 %")'
     # TODO 曜日
 
     if args['status']:
