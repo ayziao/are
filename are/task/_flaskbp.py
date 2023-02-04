@@ -825,7 +825,9 @@ def 集計():
         "サイト",
         COUNT("番号") as "件数",
         sum("実績値") as "実績",
-        sum("予測値")  as "予想" 
+        sum("予測値")  as "予想", 
+        sum("実績値" * "重要度") as "★実績",
+        sum("予測値" * "重要度")  as "★予想" 
     FROM "task" 
     WHERE "完了日時" != ""
     GROUP BY "サイト"  
@@ -843,6 +845,10 @@ def 集計():
                     row += f"\t{str(r[k]).rjust(4)}p "
                 elif k == '実績':
                     row += f"\t{str(r[k]).rjust(4)}s "
+                elif k == '★予想':
+                    row += f"\t{str(r[k]).rjust(4)}★p "
+                elif k == '★実績':
+                    row += f"\t{str(r[k]).rjust(4)}★s "
                 elif k == '完了日':
                     if r[k]:
                         row += f"\t{k}:{r[k]}"
