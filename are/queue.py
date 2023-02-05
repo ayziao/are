@@ -125,15 +125,15 @@ def _タスク日次集計(db, que):
 
     task.日次集計(db)
     task.アーカイブ(db)  # TODO 自動じゃないときのこと考える
-    task.restore4tag(db, '日', '完', '未')  # 完了日タスクを未処理に戻す
-    task.restore4tag(db, date.strftime('%A'), '完', '未')  # 完了曜日タスクを未処理に戻す
-    if date.strftime('%A') == '月曜日':
-        task.restore4tag(db, '週', '完', '未')  # 完了週タスクを未処理に戻す
+    task.restore4tag(db, '日', '完', '次')  # 完了日タスクを次に戻す
+    task.restore4tag(db, date.strftime('%A'), '完', '未')  # 完了曜日タスクを次に戻す
+    if date.strftime('%A') == 'Monday':
+        task.restore4tag(db, '週', '完', '次')  # 完了週タスクを次に戻す
     if date.strftime('%d') == '01':
-        task.restore4tag(db, '月', '完', '未')  # 完了月タスクを未処理に戻す
-        task.restore4tag(db, str(int(date.strftime('%d')))+'月', '完', '未')  # 完了当月タスクを未処理に戻す
+        task.restore4tag(db, '月', '完', '次')  # 完了月タスクを次に戻す
+        task.restore4tag(db, str(int(date.strftime('%d')))+'月', '完', '次')  # 完了当月タスクを次に戻す
     if date.strftime('%m%d') == '0701':
-        task.restore4tag(db, '年', '完', '未')  # 完了年タスクを未処理に戻す
+        task.restore4tag(db, '年', '完', '次')  # 完了年タスクを次に戻す
 
     db.execute('UPDATE queue '
                ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
