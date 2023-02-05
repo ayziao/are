@@ -68,7 +68,7 @@
     <section>
         <h2>よく使う</h2>
         <p>
-            <a href="{{ url_for('task.index', cycle='none', tag='-買') }}">単発</a>
+            <a href="{{ url_for('task.index', rate='3over', cycle='none', tag='-買 -映画 -アニメ -漫画 -ゲーム -ドラマ') }}">単発★３以上</a>
             <a href="{{ url_for('task.index', tag='日 -初 -末 -食 -寝 -猫 -ｱﾚ' ) }}">日</a>
             <a href="{{ url_for('task.index', cycle='routine', tag='-日') }}">定期日以外</a>
             <a href="{{ url_for('task.index', cycle='randomly', tag='-買') }}">不定期繰返</a>
