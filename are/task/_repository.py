@@ -244,7 +244,7 @@ def 本日分取得(args):
           '     strftime(":%M:%S", "完了日時") as utcP9time ' \
           ' FROM task ' + where + order
 
-    print(sql)
+    # print(sql)
 
     rows = get_db().execute(sql).fetchall()
     return rows
