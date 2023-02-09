@@ -2,6 +2,8 @@
 
 説明  # fixme
 """
+import datetime
+import locale
 
 from are.db import get_db
 
@@ -152,13 +154,16 @@ def 第一タグ一覧取得():
 
 
 def 本日分取得(args):
+    locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
+    date = datetime.date.today()
+
     where = ' WHERE "状態" <> "保留" AND "状態" <> "後"'
     where += ' AND NOT("完了日時" = "" AND "状態" = "完" )'
     where += ' AND ("状態" = "！！" OR "状態" = "！" OR "状態" = "未" OR "状態" = "完" '
-    where += '      OR "予測値" = 0 '
+    where += '      OR "予測値" = 0 OR "重要度" = 0 '
     where += '      OR "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 初 %" '
+    where += '      OR "タグ" LIKE "% ' + date.strftime('%A') + ' %" '
     where += '      OR ("状態" = "次" AND "重要度" > 3))'
-    # TODO 曜日
 
     if args['status']:
         if args['status'][0] == '-':
@@ -239,7 +244,7 @@ def 本日分取得(args):
           '     strftime(":%M:%S", "完了日時") as utcP9time ' \
           ' FROM task ' + where + order
 
-    # print(sql)
+    print(sql)
 
     rows = get_db().execute(sql).fetchall()
     return rows
