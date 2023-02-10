@@ -215,6 +215,8 @@ def update(number):
         owner = request.form['owner']
         error = None
 
+        timewhere = '' if task['状態'] == '完' else ' ,"変更日時" = datetime("now")'
+
         if not title:
             error = 'Title is required.'
 
@@ -223,9 +225,10 @@ def update(number):
         else:
             db = get_db()
             db.execute(
-                'UPDATE task SET '
-                ' "状態" = ?, "所有者" = ?, "サイト" = ?, "タスク名" = ?, "タグ" = ?, "備考" = ?, "予測値" = ?, "実績値" = ?, "重要度" = ?, '
-                ' "変更日時" = datetime("now")'
+                'UPDATE task SET'
+                ' "状態" = ?, "所有者" = ?, "サイト" = ?, "タスク名" = ?'
+                ' ,"タグ" = ?, "備考" = ?, "予測値" = ?, "実績値" = ?, "重要度" = ?'
+                + timewhere +
                 ' WHERE "番号" = ?',
                 (status, owner, site, title, tag, body, cost, actual, rate, number)
             )
@@ -252,15 +255,13 @@ def costup(number):
     fi = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 
     task = get_task(number)
-    if task['状態'] == '完':
-        _対象 = '実績値'
-    else:
-        _対象 = '予測値'
+    timewhere = '' if task['状態'] == '完' else ' ,"変更日時" = datetime("now")'
+    _対象 = '実績値' if task['状態'] == '完' else '予測値'
     if task[_対象] < 89:
         aa = fi.index(task[_対象])
         db = get_db()
         db.execute(
-            f'UPDATE task SET "{_対象}" = ? , "変更日時" = datetime("now")'
+            f'UPDATE task SET "{_対象}" = ? ' + timewhere +
             ' WHERE "番号" = ?', (fi[aa + 1], number))
         db.commit()
 
@@ -271,10 +272,11 @@ def costup(number):
 def rateup(number):
     args = get_args()
     item = get_task(number)
+    timewhere = '' if item['状態'] == '完' else ' ,"変更日時" = datetime("now")'
     if item['重要度'] < 5:
         db = get_db()
         db.execute(
-            'UPDATE task SET "重要度" = "重要度" + 1 ,"変更日時" = datetime("now") '
+            'UPDATE task SET "重要度" = "重要度" + 1 ' + timewhere +
             ' WHERE "番号" = ?', (number,))
         db.commit()
 
@@ -306,10 +308,11 @@ def rateto(number):
     args = get_args()
     change = int(request.args.get('change', -1))
     item = get_task(number)
+    timewhere = '' if item['状態'] == '完' else ' ,"変更日時" = datetime("now")'
     if 0 <= change != item['重要度']:
         db = get_db()
         db.execute(
-            'UPDATE task SET "重要度" = ? , "変更日時" = datetime("now")'
+            'UPDATE task SET "重要度" = ? ' + timewhere +
             ' WHERE "番号" = ?', (change, number))
         db.commit()
 
@@ -333,11 +336,7 @@ def doing(number):
     args = get_args()
 
     item = _repository.get_one(number)
-
-    if item['状態'] == '！':
-        _状態 = '！！'
-    else:
-        _状態 = '！'
+    _状態 = '！！' if item['状態'] == '！' else '！'
 
     db = get_db()
     db.execute(
