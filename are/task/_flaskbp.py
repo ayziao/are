@@ -819,7 +819,6 @@ def 集計():
         res += '\n' + row.strip()
 
 
-    res += '\n\n完了 サイト別内訳'
     sql = '''
     SELECT
         "サイト",
@@ -832,30 +831,32 @@ def 集計():
     WHERE "完了日時" != ""
     GROUP BY "サイト"  
     '''
-    rows = db.execute(sql).fetchall()
-    ks = rows[0].keys()
-    for r in rows:
-        row = ''
-        for k in ks:
-                if k == 'サイト':
-                    row += f"\t{r[k]}"
-                elif k == '件数':
-                    row += f":{str(r[k]).rjust(3)}件 "
-                elif k == '予想':
-                    row += f"\t{str(r[k]).rjust(4)}p "
-                elif k == '実績':
-                    row += f"\t{str(r[k]).rjust(4)}s "
-                elif k == '★予想':
-                    row += f"\t{str(r[k]).rjust(4)}★p "
-                elif k == '★実績':
-                    row += f"\t{str(r[k]).rjust(4)}★s "
-                elif k == '完了日':
-                    if r[k]:
-                        row += f"\t{k}:{r[k]}"
-                else:
-                    row += f"\t{k}:{r[k]}"
-        res += '\n' + row.strip()
 
+    rows = db.execute(sql).fetchall()
+    if rows:
+        res += '\n\n完了 サイト別内訳'
+        ks = rows[0].keys()
+        for r in rows:
+            row = ''
+            for k in ks:
+                    if k == 'サイト':
+                        row += f"\t{r[k]}"
+                    elif k == '件数':
+                        row += f":{str(r[k]).rjust(3)}件 "
+                    elif k == '予想':
+                        row += f"\t{str(r[k]).rjust(4)}p "
+                    elif k == '実績':
+                        row += f"\t{str(r[k]).rjust(4)}s "
+                    elif k == '★予想':
+                        row += f"\t{str(r[k]).rjust(4)}★p "
+                    elif k == '★実績':
+                        row += f"\t{str(r[k]).rjust(4)}★s "
+                    elif k == '完了日':
+                        if r[k]:
+                            row += f"\t{k}:{r[k]}"
+                    else:
+                        row += f"\t{k}:{r[k]}"
+            res += '\n' + row.strip()
 
     tags = {}
     tasks = {}
