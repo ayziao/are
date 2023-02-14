@@ -61,7 +61,7 @@ def get_post(id_, check_author=True):
     return post
 
 
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@bp.route('/<int:id_>/update', methods=('GET', 'POST'))
 @login_required
 def update(id_):
     post = get_post(id_)
@@ -89,7 +89,7 @@ def update(id_):
     return render_template('blog/update.html', post=post)
 
 
-@bp.route('/<int:id>/delete', methods=('POST',))
+@bp.route('/<int:id_>/delete', methods=('POST',))
 @login_required
 def delete(id_):
     get_post(id_)
