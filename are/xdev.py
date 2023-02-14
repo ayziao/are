@@ -193,7 +193,7 @@ def キーワードリンク():  # pragma: no cover
 
     # ret = text.split("リンクの冒険", 1)
     # print(ret)
-    return ret
+    # return ret
 
     # for kye in ls:
     #     text = text.replace(kye, f"[{kye}]")

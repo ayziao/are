@@ -148,7 +148,6 @@ def weekcount():
     return render_template('toukei/count.html', counts=ret_week, tags=tags, path='weekcount', site=site)
 
 
-
 @bp.route('/hourcount')
 def hourcount():
     db = get_db()
@@ -193,12 +192,11 @@ def hourcount():
     return render_template('toukei/count.html', counts=ret, tags=tags, path='hourcount', site=site)
 
 
-
 def tagcount():
     db = get_db()
     site = request.args.get('site', 'test')
 
-    param = [site,site]
+    param = [site, site]
 
     tags = "replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(" \
            "replace(tags,'0',''),'1',''),'2',''),'3',''),'4',''),'5',''),'6',''),'7',''),'8',''),'9',''),':','')"
@@ -235,5 +233,3 @@ def tagcount():
         result.append({'tag': k, 'count': v})
 
     return result
-
-

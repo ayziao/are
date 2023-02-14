@@ -187,14 +187,14 @@ def _パス解析(site, path):
         abort(404, f"Not Found : {site} {path}")
 
     prev = basedata.prev_identifier(site, path)[0:8]
-    next = basedata.next_identifier(site, path)[0:8]
+    next_ = basedata.next_identifier(site, path)[0:8]
 
     itinenmae = str(int(path[0:4]) - 1) + path[4:8]  # fixme 雑コーディング
     nananenmae = str(int(path[0:4]) - 7) + path[4:8]  # fixme 雑コーディング
 
     return render_template('site/timeline.html', title=path, datalist=datas, site=site, path=path,
-                           locale=locale, order=order, prev=prev, next=next, itinenmae=itinenmae, nananenmae=nananenmae,
-                           titlelink=_タイトルリンク(site))
+                           locale=locale, order=order, prev=prev, next=next_, itinenmae=itinenmae,
+                           nananenmae=nananenmae, titlelink=_タイトルリンク(site))
 
 
 def _静的ファイル(path):

@@ -6,7 +6,6 @@
 使い方
 export FLASK_APP=are
 python3 -m flask run
-
 """
 
 import datetime
@@ -99,7 +98,6 @@ def create_app(test_config=None):
 
     from .ext import db as ext_db
     ext_db.init_app(app)
-
 
     _URL経路設定(app)
 

@@ -45,7 +45,7 @@ def get_timeline(site, locale=None):
     return db.execute(sql, (site,)).fetchall()
 
 
-def get_likeid(site, search, locale=None, order='ASC'):
+def get_likeid(site, search_, locale=None, order='ASC'):
     db = get_db()
     if locale == 'utc' or locale == 'utcP9':
         datatimehenkan = ''
@@ -58,13 +58,13 @@ def get_likeid(site, search, locale=None, order='ASC'):
         ' FROM basedata '
         ' WHERE site = ? AND identifier LIKE ? '
         f' ORDER BY datetime {order} LIMIT 1000;',
-        (site, search + "%",)
+        (site, search_ + "%",)
     ).fetchall()
 
     return ret
 
 
-def search(site, search, order=None, locale=None):
+def search(site, search_, order=None, locale=None):
     db = get_db()
     if locale == 'utc' or locale == 'utcP9':
         datatimehenkan = ''
@@ -82,13 +82,13 @@ def search(site, search, order=None, locale=None):
         ' AND ( body LIKE ? OR title LIKE ? ) '
         ' AND tags NOT LIKE "% gyazo_posted %" '
         ' ORDER BY datetime ' + order + ' LIMIT 100;',
-        (site, "%" + search + "%", "%" + search + "%",)
+        (site, "%" + search_ + "%", "%" + search_ + "%",)
     ).fetchall()
 
     return ret
 
 
-def tagsearch(site, search, order=None, locale=None):
+def tagsearch(site, search_, order=None, locale=None):
     db = get_db()
     if locale == 'utc' or locale == 'utcP9':
         datatimehenkan = ''
@@ -104,7 +104,7 @@ def tagsearch(site, search, order=None, locale=None):
         ' FROM basedata '
         ' WHERE site = ? AND tags LIKE ? AND tags NOT LIKE "% gyazo_posted %" '
         ' ORDER BY datetime ' + order + ' LIMIT 100;',
-        (site, "%#" + search + "%",)
+        (site, "%#" + search_ + "%",)
     ).fetchall()
 
     return ret
