@@ -51,13 +51,17 @@ def queue():
 def list():
     db = get_db()
     #         ' WHERE reservation_time < CURRENT_TIMESTAMP'
-    que = db.execute(
+    rows = db.execute(
         'SELECT *'
         ' FROM queue '
         ' ORDER BY reservation_time , serial_number ASC LIMIT 1000'
     ).fetchall()
 
-    return dict(que)
+    ques = []
+    for item in rows:
+        ques.append(dict(item))
+
+    return ques
 
 
 def _バックアップ(db, que):
