@@ -142,7 +142,7 @@
     </select>
 
     <a title="今日のタスク" href="{{ url_for('task.today') }}">今日</a>
-    <a title="全てのタスク" href="{{ url_for('task.all') }}">ALL</a>
+    <a title="全てのタスク" href="{{ url_for('task.all_') }}">ALL</a>
     <a title="履歴" href="{{ url_for('task.history') }}">🕘</a>
     <br>
 
@@ -295,10 +295,10 @@
           border-style: solid none none solid; border-width: 1px 0 0 4px ; margin:0px 4px 0px 0px ;padding:0px 0px 0px 2px;">
           {% if task['状態'] == '完' %}
             <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">☑</a>
-            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>
           {% elif task['状態'] == '未' %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
-            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>
             <a href="{{ url_for('task.later', number=task['番号'], **search) }}">⤵</a>
               {% elif task['状態'] == '次' %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
@@ -306,12 +306,12 @@
             <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
           {% elif task['状態'] == '後' %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
-            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>
             <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
           {% elif '！' in task['状態'] %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
-            <a href="{{ url_for('task.next', number=task['番号'], **search) }}">↩</a>
+            <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">↩</a>
             <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
           {% else %}
             <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>

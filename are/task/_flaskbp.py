@@ -89,7 +89,7 @@ def index():
 
 
 @bp.route('/all')
-def all():
+def all_():
     args = get_args()
     args["all"] = "yes"
 
@@ -353,7 +353,7 @@ def doing(number):
 
 
 @bp.route('/<int:number>/next', methods=('GET',))
-def next(number):
+def next_(number):
     args = get_args()
 
     db = get_db()
@@ -901,12 +901,12 @@ def 完了日時消去():
 
 def _タグリンク():
     def taglink(text):
-        m = re.search('\[.+]', text)
+        m = re.search(r'\[.+]', text)
         if m is None:
             return text
 
         tag = m.group()[1:-1]
-        s = re.split('\[.+]', text)
+        s = re.split(r'\[.+]', text)
 
         rep = "<a href='" + url_for('task.index', tag=tag) + "'>[" + tag + "]</a>"
 
