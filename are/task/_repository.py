@@ -111,6 +111,7 @@ def get_list(args):
     rows = get_db().execute(sql).fetchall()
     return rows
 
+
 def get_sites():
     return get_db().execute(
             'SELECT サイト '
@@ -119,8 +120,9 @@ def get_sites():
             ' ORDER BY サイト DESC '
         ).fetchall()
 
+
 def create(db, author, owner, site, rate, cost, title, tag, body):
-    ''' 新規タスク作成
+    """ 新規タスク作成
 
     :param db: 書き込み用DBオブジェクト トランザクション管理はコントローラで行うため DBオブジェクトの取得をここで行わない
     :param author:
@@ -132,7 +134,7 @@ def create(db, author, owner, site, rate, cost, title, tag, body):
     :param tag:
     :param body:
     :return:
-    '''
+    """
     db.execute(
         'INSERT INTO task ("作成者", "所有者", "サイト" ,"重要度", "予測値", "タスク名", "タグ", "備考")'
         ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
@@ -248,4 +250,3 @@ def 本日分取得(args):
 
     rows = get_db().execute(sql).fetchall()
     return rows
-

@@ -84,7 +84,9 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors, taglink=_タグリンク())
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors,
+                           taglink=_タグリンク())
+
 
 @bp.route('/all')
 def all():
@@ -107,7 +109,8 @@ def all():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors, taglink=_タグリンク())
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors,
+                           taglink=_タグリンク())
 
 
 @bp.route('/today')
@@ -130,7 +133,8 @@ def today():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors, taglink=_タグリンク())
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors,
+                           taglink=_タグリンク())
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -198,7 +202,7 @@ def get_args():
 @bp.route('/<int:number>/update', methods=('GET', 'POST'))
 # @login_required
 def update(number):
-    task = get_task(number)
+    item = get_task(number)
     fi = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 
     if request.method == 'POST':
@@ -215,7 +219,7 @@ def update(number):
         owner = request.form['owner']
         error = None
 
-        timewhere = '' if task['状態'] == '完' else ' ,"変更日時" = datetime("now")'
+        timewhere = '' if item['状態'] == '完' else ' ,"変更日時" = datetime("now")'
 
         if not title:
             error = 'Title is required.'
@@ -235,7 +239,7 @@ def update(number):
             db.commit()
             return redirect(url_for('task.index', tag=tag.strip()))
 
-    return render_template('update.html', task=task, fi=fi)
+    return render_template('update.html', task=item, fi=fi)
 
 
 @bp.route('/<int:number>/delete', methods=('POST',))
@@ -254,11 +258,11 @@ def costup(number):
 
     fi = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 
-    task = get_task(number)
-    timewhere = '' if task['状態'] == '完' else ' ,"変更日時" = datetime("now")'
-    _対象 = '実績値' if task['状態'] == '完' else '予測値'
-    if task[_対象] < 89:
-        aa = fi.index(task[_対象])
+    item = get_task(number)
+    timewhere = '' if item['状態'] == '完' else ' ,"変更日時" = datetime("now")'
+    _対象 = '実績値' if item['状態'] == '完' else '予測値'
+    if item[_対象] < 89:
+        aa = fi.index(item[_対象])
         db = get_db()
         db.execute(
             f'UPDATE task SET "{_対象}" = ? ' + timewhere +
@@ -505,12 +509,14 @@ def ownerlist():
     ret = db.execute(
         'SELECT 所有者, count(所有者) as 件数, "定期" as cycle '
         ' FROM task '
-        ' WHERE "所有者" = "年" OR "所有者" = "月" OR "所有者" = "週" OR "所有者" = "日" OR "所有者" = "半期" OR "所有者" = "季" OR "所有者" = "寝" '
+        ' WHERE "所有者" = "年" OR "所有者" = "月" OR "所有者" = "週" OR "所有者" = "日" OR'
+        '       "所有者" = "半期" OR "所有者" = "季" OR "所有者" = "寝" '
         ' GROUP BY 所有者 '
         'UNION '
         'SELECT 所有者, count(所有者) as 件数 , "単発" as cycle '
         ' FROM task '
-        ' WHERE "所有者" <> "年" AND "所有者" <> "月" AND "所有者" <> "週" AND "所有者" <> "日" AND "所有者" <> "半期" AND "所有者" <> "季" AND "所有者" <> "寝" '
+        ' WHERE "所有者" <> "年" AND "所有者" <> "月" AND "所有者" <> "週" AND "所有者" <> "日" AND'
+        '       "所有者" <> "半期" AND "所有者" <> "季" AND "所有者" <> "寝" '
         ' GROUP BY 所有者 '
         'ORDER BY cycle  DESC, 件数 DESC '
     ).fetchall()
@@ -779,7 +785,7 @@ def 集計():
     res = ''
 
     db = get_db()
- 
+
     sql = '''
     SELECT 
         "状態",
@@ -803,7 +809,7 @@ def 集計():
         for k in ks:
             if k != '実績' or int(r[k]) > 0:
                 if k == '状態':
-                    row += f"\t{r[k].ljust(2,'　')}"
+                    row += f"\t{r[k].ljust(2, '　')}"
                 elif k == '件数':
                     row += f":{str(r[k]).rjust(3)}件 "
                 elif k == '予想':
@@ -816,7 +822,6 @@ def 集計():
                 else:
                     row += f"\t{k}:{r[k]}"
         res += '\n' + row.strip()
-
 
     sql = '''
     SELECT
@@ -838,45 +843,42 @@ def 集計():
         for r in rows:
             row = ''
             for k in ks:
-                    if k == 'サイト':
-                        row += f"\t{r[k]}"
-                    elif k == '件数':
-                        row += f":{str(r[k]).rjust(3)}件 "
-                    elif k == '予想':
-                        row += f"\t{str(r[k]).rjust(4)}p "
-                    elif k == '実績':
-                        row += f"\t{str(r[k]).rjust(4)}s "
-                    elif k == '★予想':
-                        row += f"\t{str(r[k]).rjust(4)}★p "
-                    elif k == '★実績':
-                        row += f"\t{str(r[k]).rjust(4)}★s "
-                    elif k == '完了日':
-                        if r[k]:
-                            row += f"\t{k}:{r[k]}"
-                    else:
+                if k == 'サイト':
+                    row += f"\t{r[k]}"
+                elif k == '件数':
+                    row += f":{str(r[k]).rjust(3)}件 "
+                elif k == '予想':
+                    row += f"\t{str(r[k]).rjust(4)}p "
+                elif k == '実績':
+                    row += f"\t{str(r[k]).rjust(4)}s "
+                elif k == '★予想':
+                    row += f"\t{str(r[k]).rjust(4)}★p "
+                elif k == '★実績':
+                    row += f"\t{str(r[k]).rjust(4)}★s "
+                elif k == '完了日':
+                    if r[k]:
                         row += f"\t{k}:{r[k]}"
+                else:
+                    row += f"\t{k}:{r[k]}"
             res += '\n' + row.strip()
 
     tags = {}
-    tasks = {}
+    tasks = {"単発": [], "定期": [], "不定": []}
     args['status'] = '完'
 
     args['cycle'] = 'none'
-    tasks["単発"] = []
     rows = _repository.get_list(args)
     for item in rows:
         tags[item['番号']] = item['タグ'].split()
         tasks["単発"].append(item)
 
     args['cycle'] = 'routine'
-    tasks["定期"] = []
     rows = _repository.get_list(args)
     for item in rows:
         tags[item['番号']] = item['タグ'].split()
         tasks["定期"].append(item)
 
     args['cycle'] = 'randomly'
-    tasks["不定"] = []
     rows = _repository.get_list(args)
     for item in rows:
         tags[item['番号']] = item['タグ'].split()
@@ -899,16 +901,15 @@ def 完了日時消去():
 
 def _タグリンク():
     def taglink(text):
-
-        m = re.search('\[.+\]', text)
-        if m == None:
+        m = re.search('\[.+]', text)
+        if m is None:
             return text
 
-        tag =m.group()[1:-1]
-        s = re.split('\[.+\]', text)
+        tag = m.group()[1:-1]
+        s = re.split('\[.+]', text)
 
         rep = "<a href='" + url_for('task.index', tag=tag) + "'>[" + tag + "]</a>"
 
-        return s[0] + rep + s[1] 
+        return s[0] + rep + s[1]
 
     return taglink
