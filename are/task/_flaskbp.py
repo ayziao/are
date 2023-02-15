@@ -1,6 +1,8 @@
 """
 フラスクブループリント タスク
 
+フラスクへの登録はモジュールトップから行う
+
 web周り対応
 MVCのコントローラ？
 ユースケース？
@@ -175,35 +177,11 @@ def create():
     return render_template('create.html', default=default)
 
 
-def get_task(number):
-    item = _repository.get_one(number)
-    if item is None:
-        abort(404, "task id {0} doesn't exist.".format(number))
-
-    return item
-
-
-def get_args():
-    args = {
-        'status': request.args.get('status', ''),
-        'owner': request.args.get('owner', ''),
-        'rate': request.args.get('rate', ''),
-        'cost': request.args.get('cost', ''),
-        'tag1st': request.args.get('tag1st', ''),
-        'tag': request.args.get('tag', ''),
-        'sort': request.args.get('sort', ''),
-        'cycle': request.args.get('cycle', ''),
-        'site': request.args.get('site', ''),
-        'title': request.args.get('title', ''),
-        'all': request.args.get('all', '')}
-    return args
-
-
 @bp.route('/<int:number>/update', methods=('GET', 'POST'))
 # @login_required
 def update(number):
     item = get_task(number)
-    fi = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+    fibonacci_numbers = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
 
     if request.method == 'POST':
         status = request.form['status']
@@ -239,7 +217,7 @@ def update(number):
             db.commit()
             return redirect(url_for('task.index', tag=tag.strip()))
 
-    return render_template('update.html', task=item, fi=fi)
+    return render_template('update.html', task=item, fibonacci_numbers=fibonacci_numbers)
 
 
 @bp.route('/<int:number>/delete', methods=('POST',))
@@ -897,6 +875,30 @@ def 完了日時消去():
     db.commit()
 
     return redirect(url_for('task.集計'))
+
+
+def get_task(number):
+    item = _repository.get_one(number)
+    if item is None:
+        abort(404, "task id {0} doesn't exist.".format(number))
+
+    return item
+
+
+def get_args():
+    args = {
+        'status': request.args.get('status', ''),
+        'owner': request.args.get('owner', ''),
+        'rate': request.args.get('rate', ''),
+        'cost': request.args.get('cost', ''),
+        'tag1st': request.args.get('tag1st', ''),
+        'tag': request.args.get('tag', ''),
+        'sort': request.args.get('sort', ''),
+        'cycle': request.args.get('cycle', ''),
+        'site': request.args.get('site', ''),
+        'title': request.args.get('title', ''),
+        'all': request.args.get('all', '')}
+    return args
 
 
 def _タグリンク():

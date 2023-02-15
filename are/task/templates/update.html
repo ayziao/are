@@ -61,15 +61,15 @@
 
         <label for="cost">ポイント</label>
         <select name="cost" id="cost">
-          {% for aa in fi %}
-            <option value="{{aa}}" {% if aa == task["予測値"] -%} selected="selected" {%- endif %}>{{aa}}</option>
+          {% for i in fibonacci_numbers %}
+            <option value="{{i}}" {% if i == task["予測値"] -%} selected="selected" {%- endif %}>{{i}}</option>
           {% endfor %}
         </select>
 
         <label for="actual">スコア</label>
         <select name="actual" id="actual">
-          {% for aa in fi %}
-            <option value="{{aa}}" {% if aa == task["実績値"] %} selected="selected" {% endif %}>{{aa}}</option>
+          {% for i in fibonacci_numbers %}
+            <option value="{{i}}" {% if i == task["実績値"] %} selected="selected" {% endif %}>{{i}}</option>
           {% endfor %}
         </select>
 

@@ -1,3 +1,12 @@
+"""
+タスクモジュール
+
+関数定義はフラスクと直接関係ないもの
+フラスクブループリントは見えるところに変数化
+MVCのコントローラ？
+ユースケース？
+"""
+
 import datetime
 from dateutil.relativedelta import relativedelta
 
