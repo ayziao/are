@@ -128,7 +128,7 @@ def _タスク日次集計(db, que):
     task.日次集計(db)
     task.アーカイブ(db)  # TODO 自動じゃないときのこと考える
     task.restore4tag(db, '日', '完', '次')  # 完了日タスクを次に戻す
-    task.restore4tag(db, date.strftime('%A'), '完', '未')  # 完了曜日タスクを次に戻す
+    task.restore4tag(db, date.strftime('%A'), '完', '次')  # 完了曜日タスクを次に戻す
     if date.strftime('%A') == '月曜日':
         task.restore4tag(db, '週', '完', '次')  # 完了週タスクを次に戻す
     if date.strftime('%d') == '01':
