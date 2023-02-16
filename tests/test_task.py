@@ -16,7 +16,7 @@ def test_ログイン状態(client, auth):
     assert 'タスク'.encode('utf-8') in response.data
 
 
-@pytest.mark.parametrize('path, pagetitle', ([
+@pytest.mark.parametrize('path, page_title', ([
     ('/x/task', '重要度順'),
     ('/x/task?cycle=', '全種'),
     ('/x/task?cycle=none', 'selected>単発'),
@@ -28,12 +28,12 @@ def test_ログイン状態(client, auth):
     ('/x/task?sort=cost', 'selected>ポイント順'),
     ('/x/task?sort=title', 'selected>タスク名順'),
 ]))
-def test_タスク絞り込みタイトル(client, path, pagetitle):
+def test_タスク絞り込みタイトル(client, path, page_title):
     response = client.get(path).data.decode('utf-8')
     m = re.search(r'<h1>.*</h1>', response, re.DOTALL)
     # print(m)
     # print(response)
-    assert pagetitle in m.group()
+    assert page_title in m.group()
 
 
 def test_新規タスク(client, auth, app):
@@ -55,15 +55,12 @@ def test_完了日消去(client, auth, app):
                 data={'title': 'create', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '',
                       'sort': ''})
 
-    def dict_from_row(row):
-        return dict(zip(row.keys(), row))
-
     assert client.get('/x/task/1/done').status_code == 302
 
     with app.app_context():
         db = get_db()
         item = db.execute('SELECT * FROM task').fetchone()
-        # print(dict_from_row(item))
+        # print("\n");print(dict(zip(item.keys(), item)))
         assert item['完了日時'] != ''
 
     assert client.get('/x/task/完了日時消去?option=昨日以前').status_code == 302
@@ -74,20 +71,16 @@ def test_完了日消去(client, auth, app):
         # print(dict_from_row(item))
         assert item['完了日時'] != ''
 
-
     client.post('/x/task/create',
                 data={'title': 'create', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '',
                       'sort': ''})
-
-    def dict_from_row(row):
-        return dict(zip(row.keys(), row))
 
     assert client.get('/x/task/2/done').status_code == 302
 
     with app.app_context():
         db = get_db()
         item = db.execute('SELECT * FROM task WHERE 番号 = 2').fetchone()
-        # print(dict_from_row(item))
+        # print("\n");print(dict(zip(item.keys(), item)))
         assert item['完了日時'] != ''
 
     assert client.get('/x/task/完了日時消去').status_code == 302
@@ -99,9 +92,7 @@ def test_完了日消去(client, auth, app):
         assert item['完了日時'] == ''
 
 
-
-
-@pytest.mark.parametrize('path, pagetitle', ([
+@pytest.mark.parametrize('path, page_title', ([
     ('/x/task/history', '重要度順'),
     ('/x/task/history?cycle=', '全種'),
     ('/x/task/history?cycle=none', 'selected>単発'),
@@ -112,12 +103,11 @@ def test_完了日消去(client, auth, app):
     ('/x/task/history?sort=cost', 'selected>ポイント順'),
     ('/x/task/history?sort=title', 'selected>タスク名順'),
 ]))
-def test_履歴絞り込みタイトル(client, path, pagetitle):
-
+def test_履歴絞り込みタイトル(client, path, page_title):
     # ('/x/task/history?sort=update', 'selected>更新順'),
 
     response = client.get(path).data.decode('utf-8')
     m = re.search(r'<h1>.*</h1>', response, re.DOTALL)
     # print(m)
     # print(response)
-    assert pagetitle in m.group()
+    assert page_title in m.group()
