@@ -49,6 +49,35 @@ def test_新規タスク(client, auth, app):
         assert count == 1
 
 
+def test_タスク更新(client, auth, app):
+    auth.login()
+    assert client.get('/x/task/create').status_code == 200
+    client.post('/x/task/create',
+                data={'title': 'update test', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '',
+                      'sort': ''})
+
+    assert client.get('/x/task/1/done').status_code == 302
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task').fetchone()
+        # print("\n");print(dict(zip(item.keys(), item)))
+        assert item['タスク名'] == 'update test'
+
+    client.post('/x/task/1/update',
+                data={'title': 'update test done',
+                      'status': '', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '', 'actual': ''})
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task').fetchone()
+        # print("\n");print(dict(zip(item.keys(), item)))
+        assert item['タスク名'] == 'update test done'
+
+
+
+
+
 def test_完了日消去(client, auth, app):
     auth.login()
     client.post('/x/task/create',
