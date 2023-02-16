@@ -191,13 +191,9 @@ def update(number):
         rate = request.form['rate']
         cost = request.form['cost']
         actual = request.form['actual']
-
-        # site = ' ' + request.form['site'].strip() + ' '
         site = request.form['site']
         owner = request.form['owner']
         error = None
-
-        timewhere = '' if item['状態'] == '完' else ' ,"変更日時" = datetime("now")'
 
         if not title:
             error = 'Title is required.'
@@ -206,14 +202,7 @@ def update(number):
             flash(error)
         else:
             db = get_db()
-            db.execute(
-                'UPDATE task SET'
-                ' "状態" = ?, "所有者" = ?, "サイト" = ?, "タスク名" = ?'
-                ' ,"タグ" = ?, "備考" = ?, "予測値" = ?, "実績値" = ?, "重要度" = ?'
-                + timewhere +
-                ' WHERE "番号" = ?',
-                (status, owner, site, title, tag, body, cost, actual, rate, number)
-            )
+            _repository.update(db, item, status, owner, site, title, tag, body, cost, actual, rate)
             db.commit()
             return redirect(url_for('task.index', tag=tag.strip()))
 

@@ -142,6 +142,18 @@ def create(db, author, owner, site, rate, cost, title, tag, body):
     )
     pass
 
+def update(db, item, status, owner, site, title, tag, body, cost, actual, rate):
+    timewhere = '' if item['状態'] == '完' and status == '完' else ' ,"変更日時" = datetime("now")'
+
+    db.execute(
+        'UPDATE task SET'
+        ' "状態" = ?, "所有者" = ?, "サイト" = ?, "タスク名" = ?'
+        ' ,"タグ" = ?, "備考" = ?, "予測値" = ?, "実績値" = ?, "重要度" = ?'
+        + timewhere +
+        ' WHERE "番号" = ?',
+        (status, owner, site, title, tag, body, cost, actual, rate, item['番号'])
+    )
+
 
 def 完了日時消去(db, option):
     sql = 'UPDATE task SET "完了日時" = "" WHERE "状態" = "完" '
