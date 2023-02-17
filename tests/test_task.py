@@ -65,8 +65,8 @@ def test_タスク更新(client, auth, app):
         assert item['タスク名'] == 'update test'
 
     client.post('/x/task/1/update',
-                data={'title': 'update test done',
-                      'status': '', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '', 'actual': ''})
+                data={'title': 'update test done', 'status': '', 'body': '', 'owner': '', 'tag': '', 'rate': '',
+                      'site': '', 'cost': '', 'actual': ''})
 
     with app.app_context():
         db = get_db()
@@ -75,7 +75,29 @@ def test_タスク更新(client, auth, app):
         assert item['タスク名'] == 'update test done'
 
 
+def test_ポイントアップ(client, auth, app):
+    auth.login()
+    assert client.get('/x/task/create').status_code == 200
+    client.post('/x/task/create',
+                data={'title': 'ポイントUPテスト', 'body': '', 'owner': '', 'tag': '', 'rate': '', 'site': '', 'cost': '3',
+                      'sort': ''})
 
+    assert client.get('/x/task/1/costup').status_code == 302
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task').fetchone()
+        # print("\n");print(dict(zip(item.keys(), item)))
+        assert item['予測値'] == 5
+
+    assert client.get('/x/task/1/done').status_code == 302
+    assert client.get('/x/task/1/costup').status_code == 302
+
+    with app.app_context():
+        db = get_db()
+        item = db.execute('SELECT * FROM task').fetchone()
+        # print("\n");print(dict(zip(item.keys(), item)))
+        assert item['実績値'] == 8
 
 
 def test_完了日消去(client, auth, app):

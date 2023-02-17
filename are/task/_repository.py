@@ -114,11 +114,11 @@ def get_list(args):
 
 def get_sites():
     return get_db().execute(
-            'SELECT サイト '
-            ' FROM task '
-            ' GROUP BY サイト '
-            ' ORDER BY サイト DESC '
-        ).fetchall()
+        'SELECT サイト '
+        ' FROM task '
+        ' GROUP BY サイト '
+        ' ORDER BY サイト DESC '
+    ).fetchall()
 
 
 def create(db, author, owner, site, rate, cost, title, tag, body):
@@ -142,6 +142,7 @@ def create(db, author, owner, site, rate, cost, title, tag, body):
     )
     pass
 
+
 def update(db, item, status, owner, site, title, tag, body, cost, actual, rate):
     timewhere = '' if item['状態'] == '完' and status == '完' else ' ,"変更日時" = datetime("now")'
 
@@ -153,6 +154,24 @@ def update(db, item, status, owner, site, title, tag, body, cost, actual, rate):
         ' WHERE "番号" = ?',
         (status, owner, site, title, tag, body, cost, actual, rate, item['番号'])
     )
+
+
+def 予測値up(db, item):
+    fibonacci_numbers = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+    i = fibonacci_numbers.index(item['予測値'])
+    if item['予測値'] < 89:
+        db.execute(
+            f'UPDATE task SET "予測値" = ? WHERE "番号" = ?',
+            (fibonacci_numbers[i + 1], item['番号']))
+
+
+def 実績値up(db, item):
+    fibonacci_numbers = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+    i = fibonacci_numbers.index(item['実績値'])
+    if item['実績値'] < 89:
+        db.execute(
+            f'UPDATE task SET "実績値" = ? , "変更日時" = datetime("now") WHERE "番号" = ? ',
+            (fibonacci_numbers[i + 1], item['番号']))
 
 
 def 完了日時消去(db, option):

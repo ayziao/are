@@ -221,19 +221,16 @@ def delete(number):
 
 @bp.route('/<int:number>/costup', methods=('GET',))
 def costup(number):
+    item = get_task(number)
     args = get_args()
 
-    fi = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
-
-    item = get_task(number)
-    timewhere = '' if item['状態'] == '完' else ' ,"変更日時" = datetime("now")'
-    _対象 = '実績値' if item['状態'] == '完' else '予測値'
-    if item[_対象] < 89:
-        aa = fi.index(item[_対象])
+    target = '実績値' if item['状態'] == '完' else '予測値'
+    if item[target] < 89:
         db = get_db()
-        db.execute(
-            f'UPDATE task SET "{_対象}" = ? ' + timewhere +
-            ' WHERE "番号" = ?', (fi[aa + 1], number))
+        if item['状態'] == '完':
+            _repository.実績値up(db, item)
+        else:
+            _repository.予測値up(db, item)
         db.commit()
 
     return redirect(url_for('task.index', **args))
