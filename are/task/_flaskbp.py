@@ -63,10 +63,10 @@ def index():
         return redirect(url_for('task.index', **args))
 
     if 'notag' in request.args:
-        args['notag'] = ''
+        args['notag'] = 'yes'
 
     if 'nosite' in request.args:
-        args['nosite'] = ''
+        args['nosite'] = 'yes'
 
     if "".join(args.values()) == "":
         return today()
