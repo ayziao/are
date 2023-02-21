@@ -21,7 +21,7 @@ bp = Blueprint('queue', __name__, url_prefix='/x/queue')
 def queue():
     db = get_exclusive_db()
 
-    db.execute('begin')
+    db.execute('BEGIN DEFERRED')
     que = db.execute(
         'SELECT *'
         ' FROM queue '
