@@ -20,6 +20,8 @@ bp = Blueprint('queue', __name__, url_prefix='/x/queue')
 @bp.route('')
 def queue():
     db = get_exclusive_db()
+
+    db.execute('begin')
     que = db.execute(
         'SELECT *'
         ' FROM queue '
