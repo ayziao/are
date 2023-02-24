@@ -10,7 +10,7 @@ from flask import Blueprint, flash, g, redirect, render_template, request, url_f
 from werkzeug.exceptions import abort
 
 from are.auth import login_required
-from are.db import get_exclusive_db, get_db, keyvalue
+from are.db import get_db, keyvalue
 from are.ext import multipost
 from are import task
 
@@ -19,9 +19,8 @@ bp = Blueprint('queue', __name__, url_prefix='/x/queue')
 
 @bp.route('')
 def queue():
-    db = get_exclusive_db()
+    db = get_db()
 
-    db.execute('BEGIN EXCLUSIVE')
     que = db.execute(
         'SELECT *'
         ' FROM queue '
@@ -32,10 +31,15 @@ def queue():
     if not que:
         return 'no queue'
 
+    db.execute('UPDATE queue '
+               ' SET reservation_time = datetime("now" , "+5 minutes") '
+               ' WHERE serial_number = ?', (que['serial_number'],))
+    db.commit()
+
+
     if que['queue_type'] == 'test':
         db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
         db.commit()
-        db.close()
         return "ok" + " " + que['queue_type'] + " " + que['content']
 
     if que['queue_type'] == 'multipost':
@@ -96,7 +100,6 @@ def _バックアップ(db, que):
                ' SET reservation_time = strftime("%Y-%m-%d %H:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
-    db.close()
     return 'バックアップ ' + bk.name
 
 
@@ -122,7 +125,6 @@ def _マルチポスト(db, que):
 
     db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
-    db.close()
     return "ok " + que['queue_type'] + " " + que['content'] + msg
 
 
@@ -148,7 +150,6 @@ def _タスク日次集計(db, que):
                ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
-    db.close()
     return 'タスク日次集計'
 
 
