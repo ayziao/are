@@ -113,6 +113,11 @@ def _マルチポスト(db, que):
 
     siteseting = keyvalue.get_sitesetting(arr[0])
     if siteseting:
+        if "calckey" in siteseting:
+            ca = multipost.note(siteseting["calckey"], body)
+            # if 'id' in ca['createdNote']:
+            #     msg += ' ca:' + str(ca['createdNote']['id'])
+
         if "twitter_main" in siteseting:
             tw = multipost.tweet(siteseting["twitter_main"], body)
             if 'id_str' in tw:
@@ -122,11 +127,6 @@ def _マルチポスト(db, que):
             to = multipost.toot(siteseting["mstdnkey"], body)
             if 'id' in to:
                 msg += ' to:' + str(to['id'])
-
-        if "calckey" in siteseting:
-            ca = multipost.note(siteseting["calckey"], body)
-            # if 'id' in ca['createdNote']:
-            #     msg += ' ca:' + str(ca['createdNote']['id'])
 
     db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
