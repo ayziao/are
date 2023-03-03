@@ -123,6 +123,11 @@ def _マルチポスト(db, que):
             if 'id' in to:
                 msg += ' to:' + str(to['id'])
 
+        if "calckey" in siteseting:
+            ca = multipost.note(siteseting["calckey"], body)
+            # if 'id' in ca['createdNote']:
+            #     msg += ' ca:' + str(ca['createdNote']['id'])
+
     db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
     return "ok " + que['queue_type'] + " " + que['content'] + msg

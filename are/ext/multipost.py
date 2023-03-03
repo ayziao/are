@@ -1,3 +1,4 @@
+import requests
 from requests_oauthlib import OAuth1Session
 from mastodon import Mastodon
 
@@ -24,3 +25,14 @@ def toot(access_token,body):
     # print(type(r))
     # print(r)
     return r
+
+
+def note(access_token,body):
+    POST_URL = "https://calckey.jp/api/notes/create"
+
+    request_body = {'i': access_token, 'visibility': 'home',
+                    'text': body}
+
+    response = requests.post(POST_URL, json=request_body, headers={'Content-Type': 'application/json'})
+
+    return response
