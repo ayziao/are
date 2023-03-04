@@ -1,6 +1,7 @@
 import requests
 from requests_oauthlib import OAuth1Session
 from mastodon import Mastodon
+# from pprint import pprint
 
 
 def tweet(seting, body):
@@ -16,7 +17,7 @@ def tweet(seting, body):
     return r
 
 
-def toot(access_token, body):
+def jptoot(access_token, body):
     mastodon = Mastodon(
         access_token=access_token,
         api_base_url='https://mstdn.jp'
@@ -27,43 +28,13 @@ def toot(access_token, body):
     return r
 
 
-def note(access_token, body):
-    POST_URL = "https://calckey.jp/api/notes/create"
-
-    visibility = homepub(body)
-
-    request_body = dict(i=access_token, visibility=visibility, text=body)
-
-    response = requests.post(POST_URL, json=request_body, headers={'Content-Type': 'application/json'})
-
-    return response
-
-
-def homepub(body):
-    if '殺' in body:
-        return 'home'
-    if '死' in body:
-        return 'home'
-    if '糞' in body:
-        return 'home'
-    if 'クソ' in body:
-        return 'home'
-    if 'うんこ' in body:
-        return 'home'
-    if 'ファック' in body:
-        return 'home'
-    if 'ファッキ' in body:
-        return 'home'
-    if 'ネガティブ' in body:
-        return 'home'
-
-    if 'な' in body:
-        return 'public'
-    if 'ナ' in body:
-        return 'public'
-    if 'カルクキー' in body:
-        return 'public'
-    if 'calckey' in body:
-        return 'public'
-
-    return 'home'
+def fttoot(access_token, body):
+    mastodon = Mastodon(
+        access_token=access_token,
+        api_base_url='https://futen.work'
+    )
+    # pprint(mastodon.toot)
+    r = mastodon.toot(body)
+    # print(type(r))
+    # print(r)
+    return r
