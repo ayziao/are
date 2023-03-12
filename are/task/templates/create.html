@@ -52,17 +52,17 @@
         </select>
         <label for="cost">ポイント</label>
         <select name="cost" id="cost">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="8">8</option>
-            <option value="13">13</option>
-            <option value="21">21</option>
-            <option value="34">34</option>
-            <option value="55">55</option>
-            <option value="89">89</option>
+            <option value="0">&nbsp;0</option>
+            <option value="1">&nbsp;1　&nbsp;&nbsp;数分　睡眠15分</option>
+            <option value="2">&nbsp;2　&nbsp;&nbsp;10分　睡眠30分</option>
+            <option value="3">&nbsp;3　&nbsp;&nbsp;30分　睡眠1時間</option>
+            <option value="5">&nbsp;5　&nbsp;1時間　睡眠2時間</option>
+            <option value="8">&nbsp;8　&nbsp;2時間　睡眠3時間</option>
+            <option value="13">13　&nbsp;4時間　睡眠4時間</option>
+            <option value="21">21　&nbsp;8時間　睡眠5時間</option>
+            <option value="34">34　16時間　睡眠6時間</option>
+            <option value="55">55　数日　睡眠7時間</option>
+            <option value="89">89　週？　睡眠8時間</option>
         </select>
         <label for="tag">タグ</label>
         <input name="tag" id="tag" value="{{ request.form['tag'] or default['tag'] }}">

@@ -61,16 +61,32 @@
 
         <label for="cost">ポイント</label>
         <select name="cost" id="cost">
-          {% for i in fibonacci_numbers %}
-            <option value="{{i}}" {% if i == task["予測値"] -%} selected="selected" {%- endif %}>{{i}}</option>
-          {% endfor %}
+            <option value="0">0</option>
+            <option value="1" {% if task["予測値"] == 1 -%} selected="selected" {%- endif %}> 1 数分 睡眠15分</option>
+            <option value="2" {% if task["予測値"] == 2 -%} selected="selected" {%- endif %}> 2 10分 睡眠30分</option>
+            <option value="3" {% if task["予測値"] == 3 -%} selected="selected" {%- endif %}> 3 30分 睡眠1時間</option>
+            <option value="5" {% if task["予測値"] == 5 -%} selected="selected" {%- endif %}> 5 1時間 睡眠2時間</option>
+            <option value="8" {% if task["予測値"] == 8 -%} selected="selected" {%- endif %}> 8 2時間 睡眠3時間</option>
+            <option value="13" {% if task["予測値"] == 13 -%} selected="selected" {%- endif %}>13 4時間 睡眠4時間</option>
+            <option value="21" {% if task["予測値"] == 21 -%} selected="selected" {%- endif %}>21 8時間 睡眠5時間</option>
+            <option value="34" {% if task["予測値"] == 34 -%} selected="selected" {%- endif %}>34 16時間 睡眠6時間</option>
+            <option value="55" {% if task["予測値"] == 55 -%} selected="selected" {%- endif %}>55 数日 睡眠7時間</option>
+            <option value="89" {% if task["予測値"] == 89 -%} selected="selected" {%- endif %}>89 週？ 睡眠8時間</option>
         </select>
 
         <label for="actual">スコア</label>
         <select name="actual" id="actual">
-          {% for i in fibonacci_numbers %}
-            <option value="{{i}}" {% if i == task["実績値"] %} selected="selected" {% endif %}>{{i}}</option>
-          {% endfor %}
+            <option value="0"> 0</option>
+            <option value="1" {% if task["実績値"] == 1 -%} selected="selected" {%- endif %}> 1 数分　 睡眠15分</option>
+            <option value="2" {% if task["実績値"] == 2 -%} selected="selected" {%- endif %}> 2 10分　 睡眠30分</option>
+            <option value="3" {% if task["実績値"] == 3 -%} selected="selected" {%- endif %}> 3 30分　 睡眠1時間</option>
+            <option value="5" {% if task["実績値"] == 5 -%} selected="selected" {%- endif %}> 5  1時間 睡眠2時間</option>
+            <option value="8" {% if task["実績値"] == 8 -%} selected="selected" {%- endif %}> 8  2時間 睡眠3時間</option>
+            <option value="13" {% if task["実績値"] == 13 -%} selected="selected" {%- endif %}>13  4時間 睡眠4時間</option>
+            <option value="21" {% if task["実績値"] == 21 -%} selected="selected" {%- endif %}>21  8時間 睡眠5時間</option>
+            <option value="34" {% if task["実績値"] == 34 -%} selected="selected" {%- endif %}>34 16時間 睡眠6時間</option>
+            <option value="55" {% if task["実績値"] == 55 -%} selected="selected" {%- endif %}>55 数日　 睡眠7時間</option>
+            <option value="89" {% if task["実績値"] == 89 -%} selected="selected" {%- endif %}>89 週？　 睡眠8時間</option>
         </select>
 
         <label for="tag">タグ</label>
