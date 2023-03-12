@@ -300,10 +300,14 @@
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>
             <a href="{{ url_for('task.later', number=task['番号'], **search) }}">⤵</a>
-              {% elif task['状態'] == '次' %}
+          {% elif task['状態'] == '次' %}
+            <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
+            <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>
+            <a href="{{ url_for('task.later', number=task['番号'], **search) }}">↩</a>
+          {% elif task['状態'] == '近' %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
-            <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
+            <a href="{{ url_for('task.later', number=task['番号'], **search) }}">↩</a>
           {% elif task['状態'] == '後' %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>

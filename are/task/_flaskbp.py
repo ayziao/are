@@ -320,10 +320,13 @@ def doing(number):
 def next_(number):
     args = get_args()
 
+    item = _repository.get_one(number)
+    _状態 = '近' if item['状態'] == '次' else '次'
+
     db = get_db()
     db.execute(
-        'UPDATE task SET "状態" = "次" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
-        ' WHERE "番号" = ?', (number,))
+        'UPDATE task SET "状態" = ? , "完了日時"  = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
+        ' WHERE "番号" = ?', (_状態, number))
     db.commit()
     return redirect(url_for('task.index', **args))
 
