@@ -792,19 +792,34 @@ def 集計():
 
     sql = '''
     SELECT
-        "サイト",
+        CASE WHEN "サイト" = '' THEN "(ｻｲﾄなし)"  ELSE "サイト"  END as "サイト" ,
         COUNT("番号") as "件数",
-        sum("実績値") as "実績",
         sum("予測値")  as "予想", 
-        sum("実績値" * "重要度") as "★実績",
-        sum("予測値" * "重要度")  as "★予想" 
+        sum("実績値") as "実績",
+	    sum("予測値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5
+	                        WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予",
+	    sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+	                        WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実"
     FROM "task" 
     WHERE "完了日時" != ""
     GROUP BY "サイト"  
+    UNION
+    SELECT
+        "合計" as "サイト",
+        COUNT("番号") as "件数",
+        sum("予測値")  as "予想", 
+        sum("実績値") as "実績",
+	    sum("予測値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5
+	                        WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予",
+	    sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+	                        WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実"
+    FROM "task" 
+    WHERE "完了日時" != ""    
+    ORDER BY "サイト"  
     '''
 
     rows = db.execute(sql).fetchall()
-    if rows:
+    if rows and rows[0]['件数'] > 0:
         res += '\n\n完了 サイト別内訳'
         ks = rows[0].keys()
         for r in rows:
@@ -818,10 +833,10 @@ def 集計():
                     row += f"\t{str(r[k]).rjust(4)}p "
                 elif k == '実績':
                     row += f"\t{str(r[k]).rjust(4)}s "
-                elif k == '★予想':
-                    row += f"\t{str(r[k]).rjust(4)}★p "
-                elif k == '★実績':
-                    row += f"\t{str(r[k]).rjust(4)}★s "
+                elif k == '★予':
+                    row += f"\t{str(r[k]).rjust(4)}★p"
+                elif k == '★実':
+                    row += f"\t{str(r[k]).rjust(4)}★s"
                 elif k == '完了日':
                     if r[k]:
                         row += f"\t{k}:{r[k]}"
