@@ -871,6 +871,26 @@ def 集計():
     return render_template('summary.html', summary=res.strip(), tasks=tasks, tags=tags, search=args)
 
 
+@bp.route('/統計', methods=('GET',))
+def 統計():
+    rows = _repository.完了分日集計()
+
+    if not rows :
+        return 'なし'
+
+    res = ''
+    ks = rows[0].keys()
+    for k in ks:
+        res += f"{str(k).rjust(2,'　')}\t"
+    res += '<br>\n'
+    for r in rows:
+        row = ''
+        for k in ks:
+            row += f"{str(r[k]).rjust(4)}\t"
+        res += row.strip() + '<br>\n'
+
+    return res
+
 @bp.route('/完了日時消去', methods=('GET',))
 def 完了日時消去():
     option = request.args.get('option', '')

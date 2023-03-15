@@ -281,3 +281,40 @@ def 本日分取得(args):
 
     rows = get_db().execute(sql).fetchall()
     return rows
+
+
+def 完了分日集計():
+    sql = '''
+    SELECT
+        "完了日" as "完 了 日",
+        "サイト" as "ｻｲﾄ",
+        COUNT("保存番号") as "数",
+        sum("実績値") as "実",
+        sum("予測値") as "予",
+        sum("実績値" * "重要度") as "★実",
+        sum("予測値" * "重要度") as "★予",
+        sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実f",
+        sum("予測値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予f"
+    FROM "task_archive" GROUP BY "サイト","完了日" 
+    UNION
+    SELECT
+        "完了日" as "完 了 日",
+        '計' as "ｻｲﾄ",
+        COUNT("保存番号") as "数",
+        sum("実績値") as "実",
+        sum("予測値") as "予", 
+        sum("実績値" * "重要度") as "★実",
+        sum("予測値" * "重要度") as "★予",
+        sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実f",
+        sum("予測値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予f"
+    FROM "task_archive" GROUP BY "完了日" 
+    ORDER BY "完 了 日" DESC , "ｻｲﾄ" ASC 
+    LIMIT 28
+    '''
+
+    rows = get_db().execute(sql).fetchall()
+    return rows
