@@ -121,7 +121,7 @@ def item2text(site, path):
 
     data = basedata.get_one(site, path)
     if not data:
-        abort(404)
+        return _パス解析txt(site, path)
 
     if data['identifier'] == data['title']:
         text = data['body']
@@ -195,6 +195,39 @@ def _パス解析(site, path):
     return render_template('site/timeline.html', title=path, datalist=datas, site=site, path=path,
                            locale=locale, order=order, prev=prev, next=next_, itinenmae=itinenmae,
                            nananenmae=nananenmae, titlelink=_タイトルリンク(site))
+
+
+def _パス解析txt(site, path):
+    _add_header('X-rute2', 'pathcheck /<site>/<path>.txt')
+
+    order = request.args.get('order', 'ASC')
+
+    locale = session['locale'] if 'locale' in session else 'utcP9'
+    datas = basedata.get_likeid(site, path, locale, order)
+    if not datas:
+        abort(404, f"Not Found : {site} {path}")
+
+    day = {'current': ''}
+
+    current = ''
+
+    text = ''
+
+    for data in datas:
+        if current != data["datetime"][:10]:
+            current = data["datetime"][:10]
+            text += '\n' + current + '\n'
+
+        if locale != "utcP9":
+            text += data["datetime"][11:] + ' '
+        else:
+            text += data["utcP9time"] + ' '
+
+        if data["identifier"] != data["title"]:
+            text += data["title"] + '\n'
+        text +=  data["body"] + '\n'
+
+    return str.lstrip(text), 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
 
 def _静的ファイル(path):
