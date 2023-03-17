@@ -196,7 +196,8 @@ def 本日分取得(args):
     where += '      OR "予測値" = 0 OR "重要度" = 0 '
     where += '      OR "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 初 %" '
     where += '      OR "タグ" LIKE "% ' + date.strftime('%A') + ' %" '
-    where += '      OR ("状態" = "次" AND "重要度" > 3))'
+    where += '      OR ("状態" = "近" AND "重要度" > 3)'
+    where += '      OR ("状態" = "次" AND "重要度" > 4))'
 
     if args['status']:
         if args['status'][0] == '-':
