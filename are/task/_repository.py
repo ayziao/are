@@ -290,14 +290,12 @@ def 完了分日集計():
         "完了日" as "完 了 日",
         "サイト" as "ｻｲﾄ",
         COUNT("保存番号") as "数",
-        sum("実績値") as "実",
         sum("予測値") as "予",
-        sum("実績値" * "重要度") as "★実",
-        sum("予測値" * "重要度") as "★予",
-        sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
-                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実f",
+        sum("実績値") as "実",
         sum("予測値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
-                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予f"
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予",
+        sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実"
     FROM "task_archive" 
     WHERE "完了日" >= date('now', '-7 days')
     GROUP BY "サイト","完了日" 
@@ -306,14 +304,12 @@ def 完了分日集計():
         "完了日" as "完 了 日",
         '計' as "ｻｲﾄ",
         COUNT("保存番号") as "数",
-        sum("実績値") as "実",
         sum("予測値") as "予", 
-        sum("実績値" * "重要度") as "★実",
-        sum("予測値" * "重要度") as "★予",
-        sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
-                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実f",
+        sum("実績値") as "実",
         sum("予測値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
-                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予f"
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★予",
+        sum("実績値" * (CASE WHEN 重要度 = 5 THEN 13 WHEN 重要度 = 4 THEN 8 WHEN 重要度 = 3 THEN 5 
+                            WHEN 重要度 = 2 THEN 3 WHEN 重要度 = 1 THEN 2 ELSE 1 END)) as "★実"
     FROM "task_archive" 
     WHERE "完了日" >= date('now', '-7 days')
     GROUP BY "完了日" 
