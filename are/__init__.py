@@ -41,7 +41,7 @@ def _URL経路設定(app):
     from . import site
     app.register_blueprint(site.bp)
 
-    # 開発お勉強用
+    # 開発のお勉強用
     from . import xdev
     app.register_blueprint(xdev.bp)
 

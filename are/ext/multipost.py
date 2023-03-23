@@ -1,4 +1,4 @@
-import requests
+# import requests
 from requests_oauthlib import OAuth1Session
 from mastodon import Mastodon
 # from pprint import pprint

@@ -4,12 +4,13 @@ import subprocess
 import zipfile
 import datetime
 import locale
-import json
+# import json
 
-from flask import Blueprint, flash, g, redirect, render_template, request, url_for, current_app
-from werkzeug.exceptions import abort
+from flask import Blueprint, current_app
+# , flash, g, redirect, render_template, request, url_for
+# from werkzeug.exceptions import abort
 
-from are.auth import login_required
+# from are.auth import login_required
 from are.db import get_db, keyvalue
 from are.ext import multipost
 from are import task
@@ -35,7 +36,6 @@ def queue():
                ' SET reservation_time = datetime("now" , "+5 minutes") '
                ' WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
-
 
     if que['queue_type'] == 'test':
         db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
@@ -111,24 +111,22 @@ def _マルチポスト(db, que):
         body = ret['title'] + "\n\n" + body
     msg = ""
 
-    siteseting = keyvalue.get_sitesetting(arr[0])
-    if siteseting:
-        if "twitter_main" in siteseting:
-            tw = multipost.tweet(siteseting["twitter_main"], body)
+    site_setting = keyvalue.get_sitesetting(arr[0])
+    if site_setting:
+        if "twitter_main" in site_setting:
+            tw = multipost.tweet(site_setting["twitter_main"], body)
             if 'id_str' in tw:
                 msg += ' tw:' + tw['id_str']
 
-        if "mstdnkey" in siteseting:
-            to = multipost.jptoot(siteseting["mstdnkey"], body)
+        if "mstdnkey" in site_setting:
+            to = multipost.jptoot(site_setting["mstdnkey"], body)
             if 'id' in to:
-                msg += ' jpto:' + str(to['id'])
+                msg += ' jp_to:' + str(to['id'])
 
-        if "futen" in siteseting:
-            to = multipost.fttoot(siteseting["futen"], body)
+        if "futen" in site_setting:
+            to = multipost.fttoot(site_setting["futen"], body)
             if 'id' in to:
-                msg += ' ftto:' + str(to['id'])
-
-
+                msg += ' ft_to:' + str(to['id'])
 
     db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
@@ -149,7 +147,7 @@ def _タスク日次集計(db, que):
         task.restore4tag(db, '週', '完', '次')  # 完了週タスクを次に戻す
     if date.strftime('%d') == '01':
         task.restore4tag(db, '月', '完', '次')  # 完了月タスクを次に戻す
-        task.restore4tag(db, str(int(date.strftime('%d')))+'月', '完', '次')  # 完了当月タスクを次に戻す
+        task.restore4tag(db, str(int(date.strftime('%d'))) + '月', '完', '次')  # 完了当月タスクを次に戻す
     if date.strftime('%m%d') == '0701':
         task.restore4tag(db, '年', '完', '次')  # 完了年タスクを次に戻す
 
