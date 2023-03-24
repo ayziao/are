@@ -882,14 +882,15 @@ def 統計():
     ks = rows[0].keys()
     for k in ks:
         res += f"{str(k).rjust(2,'　')}\t"
-    res += '<br>\n'
+    res += '\n'
     for r in rows:
         row = ''
         for k in ks:
             row += f"{str(r[k]).rjust(4)}\t"
-        res += row.strip() + '<br>\n'
+        res += row.strip() + '\n'
 
-    return res
+    return res, 200, {'Content-Type': 'text/plain; charset=utf-8'}
+
 
 @bp.route('/完了日時消去', methods=('GET',))
 def 完了日時消去():
