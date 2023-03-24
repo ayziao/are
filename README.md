@@ -61,7 +61,8 @@ https://github.com/ayziao/are
 ---
 ## インストール
 git clone https://github.com/ayziao/are.git  
-モジュールのインストール  # fixme  
+cd are  
+sudo python3 setup.py install  
 export FLASK_APP=are  
 flask init-db  
 flask init-ext_db  
@@ -71,7 +72,7 @@ flask ran
 ## 開発
 ### 開発環境実行
 export FLASK_APP=are  
-export FLASK_ENV=development  
+export FLASK_DEBUG=1  
 flask ran  
 
 ### テスト
