@@ -854,17 +854,17 @@ def 集計():
         tags[item['番号']] = item['タグ'].split()
         tasks["単発"].append(item)
 
-    args['cycle'] = 'routine'
-    rows = _repository.get_list(args)
-    for item in rows:
-        tags[item['番号']] = item['タグ'].split()
-        tasks["定期"].append(item)
-
     args['cycle'] = 'randomly'
     rows = _repository.get_list(args)
     for item in rows:
         tags[item['番号']] = item['タグ'].split()
         tasks["不定"].append(item)
+
+    args['cycle'] = 'routine'
+    rows = _repository.get_list(args)
+    for item in rows:
+        tags[item['番号']] = item['タグ'].split()
+        tasks["定期"].append(item)
 
     args['cycle'] = ''
 
