@@ -66,14 +66,14 @@ sudo python3 setup.py install
 export FLASK_APP=are  
 flask init-db  
 flask init-ext_db  
-flask ran  
+flask run  
 
 ---
 ## 開発
 ### 開発環境実行
 export FLASK_APP=are  
 export FLASK_DEBUG=1  
-flask ran  
+flask run  
 
 ### テスト
 coverage run -m pytest && coverage html  
