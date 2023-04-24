@@ -845,7 +845,7 @@ def 集計():
             res += '\n' + row.strip()
 
     tags = {}
-    tasks = {"単発": [], "定期": [], "不定": []}
+    tasks = {"単発": [], "不定": [], "定期": []}
     args['status'] = '完'
 
     args['cycle'] = 'none'
