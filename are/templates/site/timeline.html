@@ -214,11 +214,28 @@
 
 </div>
 
+{% if prev or next %}
+<div class="navi">
+	{% if prev %}
+	<a href="{{ url_for('site.item',site=site,path=prev) }}">{{prev}}</a>
+	{% endif %}
+	{% if next %}
+	<a href="{{ url_for('site.item',site=site,path=next) }}">{{next}}</a>
+	{% endif %}
+</div>
+{% endif %}
+
 {% if itinenmae %}
 	<br>
 	<a href="{{ url_for('site.item',site=site,path=itinenmae) }}">一年前</a>
 	<a href="{{ url_for('site.item',site=site,path=nananenmae) }}">七年前</a>
 {% endif %}
+
+
+{% if g.user and title == 'タイムライン' %}
+{% else %}
+	<a href="{{ url_for('site.top',site=site) }}/{{title}}.txt">txt</a>
+{% endif -%}
 
 <div>
 	<br>
