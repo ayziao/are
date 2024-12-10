@@ -82,6 +82,7 @@
 
     <select name="select" onChange="location.href=value;">
         <option value="#">初めに</option>
+        <option value="{{ url_for('task.index', tag='日 初') }}">日初</option>
         <option value="{{ url_for('task.index', tag='朝') }}">朝</option>
         <option value="{{ url_for('task.index', tag='日 締') }}">日締</option>
         <option value="{{ url_for('task.index', tag='初') }}">初</option>
@@ -104,6 +105,7 @@
         <option value="#">よく使</option>
         <option value="{{ url_for('task.index', tag='飲食') }}">飲食</option>
         <option value="{{ url_for('task.index', tag='台所') }}">台所</option>
+        <option value="{{ url_for('task.index', tag='風呂') }}">風呂</option>
         <option value="{{ url_for('task.index', tag='就寝前' ) }}">就寝前</option>
         <option value="{{ url_for('task.index', tag='起床後') }}">起床後</option>
         <option value="{{ url_for('task.index', tag='外出') }}">外出</option>
