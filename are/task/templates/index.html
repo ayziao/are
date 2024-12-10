@@ -37,6 +37,8 @@
         <option value="{{ url_for('task.index', change='sort', to='update', **search) }}"{% if search['sort'] == "update" %} selected{% endif %}>更新順</option>
         <option value="{{ url_for('task.index', change='sort', to='cost', **search) }}"{% if search['sort'] == "cost" %} selected{% endif %}>ポイント順</option>
         <option value="{{ url_for('task.index', change='sort', to='title', **search) }}"{% if search['sort'] == "title" %} selected{% endif %}>タスク名順</option>
+        <option value="{{ url_for('task.index', change='sort', to='zenkai', **search) }}"{% if search['sort'] == "zenkai" %} selected{% endif %}>前回完了順</option>
+        <option value="{{ url_for('task.index', change='sort', to='kanryou', **search) }}"{% if search['sort'] == "kanryou" %} selected{% endif %}>完了回数順</option>
     </select>
     <select name="select" onChange="location.href=value;">
         <option value="{{ url_for('task.index', change='cycle', to='', **search) }}">全種</option>
@@ -336,11 +338,16 @@
               </a>
               <a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['予測値'] }}</a>
           {%- endif %}
+            {% if task['前回完了日時'] %}
+            {{ task['前回完了日時'] | jptime}}({{ task['完了回数'] }})
+            {%- else -%}
             :
+            {%- endif %}  
             {% if task['備考'] %} ※ {% endif %}
           {% for tag in tags[task['番号']] %}
             <a href="{{ url_for('task.index', addtag=tag, **search) }}" >{{ tag }}</a>
           {% endfor %}
+          
           </div>
           <div style="margin : 1px; ">
             {% if tags[task['番号']][0] -%} {# and search['tag1st'] == '' -%} #}
