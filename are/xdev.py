@@ -67,9 +67,9 @@ def keyvalue():
 
 @bp.route('/locale/<tz>')
 def locale(tz):
-    session['locale'] = tz
-    current_app.logger.debug(tz)
     ref = request.args.get('ref', '')
+    session['locale_'+ref] = tz
+    current_app.logger.debug(tz)
     if ref:
         return redirect(url_for('site.top', site=ref))
     else:

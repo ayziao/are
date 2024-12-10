@@ -52,7 +52,7 @@ def post(site):
 def top(site):
     _add_header('X-rute', f'top /<site>')
     # locale = request.args.get('locale', 'utcP9')
-    locale = session['locale'] if 'locale' in session else 'utcP9'
+    locale = session['locale_'+site] if 'locale_'+site in session else 'utcP9'
     current_app.logger.debug(locale)
     datas = basedata.get_timeline(site, locale)
     if not datas:
@@ -92,7 +92,7 @@ def item(site, path):
     if file:
         return file
 
-    locale = session['locale'] if 'locale' in session else 'utcP9'
+    locale = session['locale_'+site] if 'locale_'+site in session else 'utcP9'
     data = basedata.get_one(site, path, locale)
     if not data:
         return _パス解析(site, path)
@@ -158,7 +158,7 @@ def staticfile(name, ext):
 
 def _検索(site, search):
     order = request.args.get('order', 'DESC')
-    locale = session['locale'] if 'locale' in session else 'utcP9'
+    locale = session['locale_'+site] if 'locale_'+site in session else 'utcP9'
     posts = basedata.search(site, search, order, locale)
 
     return render_template('site/timeline.html', title=search, datalist=posts, site=site, order=order, locale=locale,
@@ -167,7 +167,7 @@ def _検索(site, search):
 
 def _タグ検索(site, tag):
     order = request.args.get('order', 'DESC')
-    locale = session['locale'] if 'locale' in session else 'utcP9'
+    locale = session['locale_'+site] if 'locale_'+site in session else 'utcP9'
     posts = basedata.tagsearch(site, tag, order, locale)
 
     return render_template('site/timeline.html', title=tag, datalist=posts, site=site, order=order, locale=locale,
@@ -181,7 +181,7 @@ def _パス解析(site, path):
 
     # PENDING YYYYMMDD型かどうかチェックするか
 
-    locale = session['locale'] if 'locale' in session else 'utcP9'
+    locale = session['locale_'+site] if 'locale_'+site in session else 'utcP9'
     datas = basedata.get_likeid(site, path, locale, order)
     if not datas:
         abort(404, f"Not Found : {site} {path}")
@@ -202,7 +202,7 @@ def _パス解析txt(site, path):
 
     order = request.args.get('order', 'ASC')
 
-    locale = session['locale'] if 'locale' in session else 'utcP9'
+    locale = session['locale_'+site] if 'locale_'+site in session else 'utcP9'
     datas = basedata.get_likeid(site, path, locale, order)
     if not datas:
         abort(404, f"Not Found : {site} {path}")
