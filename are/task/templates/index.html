@@ -84,17 +84,17 @@
 
     <select name="select" onChange="location.href=value;">
         <option value="#">初めに</option>
-        <option value="{{ url_for('task.index', tag='日 初') }}">日初</option>
-        <option value="{{ url_for('task.index', tag='朝') }}">朝</option>
-        <option value="{{ url_for('task.index', tag='日 締') }}">日締</option>
-        <option value="{{ url_for('task.index', tag='初') }}">初</option>
+        <option value="{{ url_for('task.index', tag='初', sort='zenkai') }}">初</option>
+        <option value="{{ url_for('task.index', tag='日 初', sort='zenkai') }}">日初</option>
+        <option value="{{ url_for('task.index', tag='日 締', sort='zenkai') }}">日締</option>
         <option value="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買', rate='3over') }}">すぐ</option>
-        <option value="{{ url_for('task.index', tag='昼') }}">昼</option>
-        <option value="{{ url_for('task.index', tag='夕') }}">夕</option>
-        <option value="{{ url_for('task.index', tag='夜') }}">夜</option>
-        <option value="{{ url_for('task.index', tag='末') }}">末</option>
+        <option value="{{ url_for('task.index', tag='朝', sort='zenkai') }}">朝</option>
+        <option value="{{ url_for('task.index', tag='昼', sort='zenkai') }}">昼</option>
+        <option value="{{ url_for('task.index', tag='夕', sort='zenkai') }}">夕</option>
+        <option value="{{ url_for('task.index', tag='夜', sort='zenkai') }}">夜</option>
+        <option value="{{ url_for('task.index', tag='末', sort='zenkai') }}">末</option>
         <option value="">ーーー</option>
-        <option value="{{ url_for('task.index', rate='3over', cycle='none', tag='-買 -コンテンツ') }}">単発絞</option>
+        <option value="{{ url_for('task.index', rate='3over', cycle='none', tag='-買 -映画 -アニメ -ゲーム -漫画 -小説 -ドラマ -ドキュメンタリー') }}">単発絞</option>
         <option value="{{ url_for('task.index', tag='考 -日') }}">考</option>
         <option value="{{ url_for('task.index', tag='暮 -日') }}">暮</option>
         <option value="{{ url_for('task.index', tag='環 -日') }}">環</option>
@@ -112,11 +112,11 @@
         <option value="{{ url_for('task.index', tag='起床後') }}">起床後</option>
         <option value="{{ url_for('task.index', tag='外出') }}">外出</option>
         <option value="{{ url_for('task.index', tag='帰宅') }}">帰宅</option>
-        <option value="{{ url_for('task.index', tag='日 -締 -食 -寝 -猫 -ｱﾚ' ) }}">日</option>
-        <option value="{{ url_for('task.index', cycle='routine', tag='-日') }}">日以外</option>
+        <option value="{{ url_for('task.index', tag='日 -締 -食 -寝 -猫 -ｱﾚ', sort='zenkai' ) }}">日</option>
+        <option value="{{ url_for('task.index', cycle='routine', tag='-日', sort='zenkai') }}">日以外</option>
         <option value="{{ url_for('task.index', cycle='randomly', tag='-買') }}">不定</option>
-        <option value="{{ url_for('task.index', tag='娯 コンテンツ') }}">娯媒体</option>
-        <option value="{{ url_for('task.index', tag='娯 -コンテンツ') }}">他娯楽</option>
+        <option value="{{ url_for('task.index', tag='娯') }}">娯楽</option>
+        <option value="{{ url_for('task.index', tag='娯 -映画 -アニメ -ゲーム -漫画 -小説 -ドラマ -ドキュメンタリー') }}">他娯楽</option>
     </select>
     <select name="select" onChange="location.href=value;">
         <option value="#">他</option>
@@ -129,6 +129,7 @@
         <option value="{{ url_for('task.index', tag='衣') }}">衣</option>
         <option value="{{ url_for('task.index', tag='作') }}">作</option>
         <option value="{{ url_for('task.index', tag='火遊び') }}">火</option>
+        <option value="{{ url_for('task.index', tag='排泄') }}">便</option>
         <option value="">--</option>
         <option value="{{ url_for('task.index', tag='週 -初 -末') }}">週</option>
         <option value="{{ url_for('task.index', tag='月 -初 -末') }}">月</option>

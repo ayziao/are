@@ -39,16 +39,16 @@
     <section>
         <h2>はじめに</h2>
         <p>
-            <a href="{{ url_for('task.index', tag='日 初') }}">日初</a>
-            <a href="{{ url_for('task.index', tag='朝') }}">朝</a>
-            <a href="{{ url_for('task.index', tag='日 締') }}">日締</a>
+            <a href="{{ url_for('task.index', tag='日 初', sort='zenkai') }}">日初</a>
+            <a href="{{ url_for('task.index', tag='日 締', sort='zenkai') }}">日締</a>
             <a href="{{ url_for('task.index', tag='初') }}">初</a>
             <a href="{{ url_for('task.index', tag='週 初') }}">週初</a>
             <a href="{{ url_for('task.index', tag='月 初') }}">月初</a>
             <a href="{{ url_for('task.index', tag='年 初') }}">年初</a>
             <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">他定期</a>
             <a href="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買' , rate='3over') }}">すぐやる</a>
-            <a href="{{ url_for('task.index', tag='朝') }}">昼</a>
+            <a href="{{ url_for('task.index', tag='朝') }}">朝</a>
+            <a href="{{ url_for('task.index', tag='昼') }}">昼</a>
             <a href="{{ url_for('task.index', tag='夕') }}">夕</a>
             <a href="{{ url_for('task.index', tag='夜') }}">夜</a>
             <a href="{{ url_for('task.index', tag='末') }}">末</a>
@@ -107,7 +107,7 @@
             <a href="{{ url_for('task.index', tag='娯 小説') }}">小説</a>
             <a href="{{ url_for('task.index', tag='娯 ドラマ') }}">ドラマ</a>
             <a href="{{ url_for('task.index', tag='娯 ドキュメンタリー') }}">ドキュメンタリー</a>
-            <a href="{{ url_for('task.index', tag='娯 -コンテンツ') }}">他娯楽</a>
+            <a href="{{ url_for('task.index', tag='娯 -映画 -アニメ -ゲーム -漫画 -小説 -ドラマ -ドキュメンタリー') }}">他娯楽</a>
         </p>
     </section>
     <section>
