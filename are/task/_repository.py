@@ -203,15 +203,15 @@ def 第一タグ一覧取得():
 def 本日分取得(args):
     locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
     date = datetime.date.today()
-
-    where = ' WHERE "状態" <> "保留" AND "状態" <> "後"'
+  
+    where = ' WHERE "状態" <> "保留" AND "状態" <> "後" AND "状態" <> "削除"'
     where += ' AND NOT("完了日時" = "" AND "状態" = "完" )'
     where += ' AND ("状態" = "！！" OR "状態" = "！" OR "状態" = "未" OR "状態" = "完" '
     where += '      OR "予測値" = 0 OR "重要度" = 0 '
     where += '      OR "タグ" LIKE "% 日 %" OR "タグ" LIKE "% 初 %" '
     where += '      OR "タグ" LIKE "% ' + date.strftime('%A') + ' %" '
-    where += '      OR ("状態" = "近" AND "重要度" > 3)'
-    where += '      OR ("状態" = "次" AND "重要度" > 4))'
+    where += '      OR ("状態" = "近" AND "重要度" >= 4)'
+    where += '      OR ("状態" = "次" AND "重要度" >= 5))'
 
     if args['status']:
         if args['status'][0] == '-':
