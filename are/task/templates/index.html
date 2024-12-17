@@ -248,8 +248,9 @@
 </nav>
 
 <form method="post" action="{{ url_for('task.create') }}">
-    <input name="title" id="title" style="width:100%;" value="{{ request.form['title'] }}" required>
-    <input id="btn" class="submitbutton" type="submit" value="Save">
+    <input name="title" id="title" style="width:98%;" value="{{ request.form['title'] }}" required>
+    <input id="btn" class="submitbutton" type="submit" name="btn" value="検索">
+    <input id="btn" class="submitbutton" type="submit" name="btn" value="登録">
     <a href="{{ url_for('task.create', owner=search['owner'], tag=search['tag']) }}">New</a>
 
     <input type="hidden" name="owner" id="owner" value="{{ search['owner'] }}">

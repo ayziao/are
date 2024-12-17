@@ -153,6 +153,9 @@ def create():
 
     if request.method == 'POST':
         title = request.form['title']
+        if  request.form['btn'] == "検索":
+            return redirect(url_for('task.index', title=title))
+
         rate = int(request.form['rate'].strip('over').strip('under')) if request.form['rate'] else default['rate']
         cost = request.form['cost'] if request.form['cost'] else default['cost']
         tag = ' ' + request.form['tag'].strip() + ' '
