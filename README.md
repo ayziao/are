@@ -62,8 +62,11 @@ https://github.com/ayziao/are
 ## インストール
 git clone https://github.com/ayziao/are.git  
 cd are  
-sudo python3 setup.py install  
-export FLASK_APP=are  
+python -m venv venv
+source venv/bin/activate
+sudo python setup.py install  
+export PYTHONPATH="~/are:$PYTHONPATH"
+export FLASK_APP=are/__init__.py
 flask init-db  
 flask init-ext_db  
 flask run  
@@ -71,7 +74,10 @@ flask run
 ---
 ## 開発
 ### 開発環境実行
-export FLASK_APP=are  
+cd are  
+source venv/bin/activate
+export PYTHONPATH="~/are:$PYTHONPATH"
+export FLASK_APP=are/__init__.py
 export FLASK_DEBUG=1  
 flask run  
 
