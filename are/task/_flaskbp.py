@@ -927,7 +927,7 @@ def get_args():
 
 
 def _タグリンク():
-    def taglink(text):
+    def taglink(text,search):
         m = re.search(r'\[.+]', text)
         if m is None:
             return text
@@ -935,7 +935,7 @@ def _タグリンク():
         tag = m.group()[1:-1]
         s = re.split(r'\[.+]', text)
 
-        rep = "<a href='" + url_for('task.index', tag=tag) + "'>[" + tag + "]</a>"
+        rep = "<a href='" + url_for('task.index',  change='tag', to=tag, **search) + "'>[" + tag + "]</a>"
 
         return s[0] + rep + s[1]
 

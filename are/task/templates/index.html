@@ -355,7 +355,7 @@
               {# <a href="{{ url_for('task.index', change='tag1st',to=tags[task['番号']][0] , **search) }}" ></a> #}
               {{ tags[task['番号']][0] }}:
             {%- endif -%}
-            {{ taglink(task['タスク名'])|safe}}
+            {{ taglink(task['タスク名'], search)|safe}}
             <a style="font-size  : 0.8em;" href="{{ url_for('task.update', number=task['番号'], **search) }}">📝</a>
           </div>
         </div>
