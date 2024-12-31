@@ -81,6 +81,7 @@
     <br>
     <a href="{{ url_for('task.history') }}">履歴</a>
     <a href="{{ url_for('task.統計') }}">統計</a>
+    <a href="{{ url_for('task.linklist') }}">リンク一覧</a>
 </p>
 
 <hr>
@@ -190,7 +191,6 @@
         <input id="search" class="text" type="text" value="" name="title">
         <input class="submitbutton" type="submit" value="検索">
     </form>
-    <a href="{{ url_for('task.集計') }}">集計</a>
     <br>
   {% if g.user %}
     <span>{{ g.user['username'] }}</span>
