@@ -126,7 +126,9 @@ def item2text(site, path):
     if data['identifier'] == data['title']:
         text = data['body']
     else:
-        text = data['title'] + '\n\n' + data['body']
+        text = data['title'] + '\r\n\r\n' + data['body']
+    
+    text +=  '\r\n\r\n\r\n\r\n' 
 
     return text, 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
@@ -216,7 +218,7 @@ def _パス解析txt(site, path):
     for data in datas:
         if current != data["datetime"][:10]:
             current = data["datetime"][:10]
-            text += '\n' + current + '\n'
+            text += '\r\n' + current + '\r\n'
 
         if locale != "utcP9":
             text += data["datetime"][11:] + ' '
@@ -224,8 +226,10 @@ def _パス解析txt(site, path):
             text += data["utcP9time"] + ' '
 
         if data["identifier"] != data["title"]:
-            text += data["title"] + '\n'
-        text +=  data["body"] + '\n'
+            text += data["title"] + '\r\n'
+        text +=  data["body"] + '\r\n'
+
+    text += '\r\n\r\n\r\n\r\n'
 
     return str.lstrip(text), 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
