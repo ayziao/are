@@ -1,8 +1,8 @@
 import os
+from datetime import datetime, timezone, date
 import pathlib
 import subprocess
 import zipfile
-import datetime
 import locale
 # import json
 
@@ -30,7 +30,9 @@ def queue():
     ).fetchone()
 
     if not que:
-        return 'no queue'
+        dt = datetime.now(timezone.utc)
+        dtstr = dt.strftime('%Y-%m-%d %H:%M:%S')
+        return 'no queue ' + dtstr
 
     db.execute('UPDATE queue '
                ' SET reservation_time = datetime("now" , "+5 minutes") '
@@ -77,7 +79,7 @@ def _バックアップ(db, que):
     bk = pathlib.Path(_backup_path + '/' + dbpath.name)
 
     if bk.exists():
-        dt = datetime.datetime.fromtimestamp(bk.stat().st_mtime)
+        dt = datetime.fromtimestamp(bk.stat().st_mtime)
         bkz = pathlib.Path(_backup_path + '/hourly' + dt.strftime('%H') + '.zip')
         with zipfile.ZipFile(str(bkz), "w", zipfile.ZIP_DEFLATED) as zf:
             zf.write(str(bk), dbpath.name)
@@ -135,20 +137,20 @@ def _マルチポスト(db, que):
 
 def _タスク日次集計(db, que):
     locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
-    date = datetime.date.today()
+    today = date.today()
 
     task.日次集計(db)
     task.アーカイブ(db)  # TODO 自動じゃないときのこと考える
     task.restore4tag(db, '日', '完', '次')  # 完了日タスクを次に戻す
     task.restore4tag(db, '常備', '完', '後')  # 完了常備タスクを後に戻す
     task.restore4tag(db, '繰り返し', '完', '未')  # 完了繰り返しタスクを未に戻す
-    task.restore4tag(db, date.strftime('%A'), '完', '次')  # 完了曜日タスクを次に戻す
-    if date.strftime('%A') == '月曜日':
+    task.restore4tag(db, today.strftime('%A'), '完', '次')  # 完了曜日タスクを次に戻す
+    if today.strftime('%A') == '月曜日':
         task.restore4tag(db, '週', '完', '次')  # 完了週タスクを次に戻す
-    if date.strftime('%d') == '01':
+    if today.strftime('%d') == '01':
         task.restore4tag(db, '月', '完', '次')  # 完了月タスクを次に戻す
-        task.restore4tag(db, str(int(date.strftime('%d'))) + '月', '完', '次')  # 完了当月タスクを次に戻す
-    if date.strftime('%m%d') == '0701':
+        task.restore4tag(db, str(int(today.strftime('%d'))) + '月', '完', '次')  # 完了当月タスクを次に戻す
+    if today.strftime('%m%d') == '0701':
         task.restore4tag(db, '年', '完', '次')  # 完了年タスクを次に戻す
 
     db.execute('UPDATE queue '
