@@ -71,6 +71,37 @@ flask init-db
 flask init-ext_db  
 flask run  
 
+### キュータイマー設定
+~/.config/systemd/user/queue.service
+[Unit]
+Description=are queue
+RefuseManualStart=no
+RefuseManualStop=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'curl http://localhost/x/queue >> ~/queue.log'
+
+
+~/.config/systemd/user/queue.timer
+[Unit]
+Description=are queue
+RefuseManualStart=no
+RefuseManualStop=no
+
+[Timer]
+Persistent=false
+OnCalendar=*:0/3
+
+[Install]
+WantedBy=timers.target
+
+
+systemctl --user daemon-reload
+systemctl --user enable queue.timer
+systemctl --user start queue.timer
+
+
 ---
 ## 開発
 ### 開発環境実行

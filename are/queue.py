@@ -32,7 +32,7 @@ def queue():
     if not que:
         dt = datetime.now(timezone.utc)
         dtstr = dt.strftime('%Y-%m-%d %H:%M:%S')
-        return 'no queue ' + dtstr
+        return 'no queue ' + dtstr + '\n'
 
     db.execute('UPDATE queue '
                ' SET reservation_time = datetime("now" , "+5 minutes") '
@@ -42,16 +42,16 @@ def queue():
     if que['queue_type'] == 'test':
         db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
         db.commit()
-        return "ok" + " " + que['queue_type'] + " " + que['content']
+        return "ok" + " " + que['queue_type'] + " " + que['content'] + '\n'
 
     if que['queue_type'] == 'multipost':
-        return _マルチポスト(db, que)
+        return _マルチポスト(db, que) 
 
     if que['queue_type'] == 'backup':
-        return _バックアップ(db, que)
+        return _バックアップ(db, que) 
 
     if que['queue_type'] == 'タスク日次集計':
-        return _タスク日次集計(db, que)
+        return _タスク日次集計(db, que) 
 
     return "ok" + " " + que['queue_type'] + " " + que['content']
 
@@ -102,7 +102,7 @@ def _バックアップ(db, que):
                ' SET reservation_time = strftime("%Y-%m-%d %H:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
-    return 'バックアップ ' + bk.name
+    return 'バックアップ ' + bk.name + '\n'
 
 
 def _マルチポスト(db, que):
@@ -132,7 +132,7 @@ def _マルチポスト(db, que):
 
     db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
-    return "ok " + que['queue_type'] + " " + que['content'] + msg
+    return "ok " + que['queue_type'] + " " + que['content'] + msg + '\n'
 
 
 def _タスク日次集計(db, que):
@@ -157,7 +157,7 @@ def _タスク日次集計(db, que):
                ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
                ' WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
-    return 'タスク日次集計'
+    return 'タスク日次集計' + '\n'
 
 
 def _get_data(site, identifier):
