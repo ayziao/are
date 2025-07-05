@@ -139,6 +139,7 @@
     <a title="今日のタスク" href="{{ url_for('task.today') }}">今日</a>
     <a title="全てのタスク" href="{{ url_for('task.all_') }}">ALL</a>
     <a title="履歴" href="{{ url_for('task.history') }}">🕘</a>
+    <a title="※" href="{{ url_for('task.index', tag='※') }}">※</a>
     <br>
 
   {% if search['status'] %}
