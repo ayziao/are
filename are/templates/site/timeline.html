@@ -193,7 +193,7 @@
 	</div>
 		{% endif %}
 		{%- if day.update({'current': data["datetime"][:10]}) %}{% endif %}
-	<h5><a href="{{ url_for('site.top',site=site) }}/{{ day.current|replace('-', '') }}">{{ day.current }}</a></h5>
+	<h5><a href="{{ url_for('site.top',site=site) }}/{{ day.current|replace('-', '') }}">{{ day.current }}</a> <a href="{{ url_for('site.top',site=site) }}/{{ day.current|replace('-', '') }}.txt">　</a> </h5>
 	<div class="lines">
 	{%- endif %}
 		<div class="line"><div class="time"><a href="{{ url_for('site.top',site=site) }}/{{ data['identifier'] }}">
