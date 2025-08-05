@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>{{ search['title'] }} {{ search['owner'] }} {{ search['tag'] }} {{ search['site'] }} タスク</title>
+    <title>{{ search['status'] }} {% if search['rate'] %}★{{ search['rate'] }}{% endif %} {{ search['title'] }} {{ search['owner'] }} {{ search['tag'] }} {{ search['site'] }} タスク</title>
     <style type="text/css">
 		* { font-size  : 1em;	line-height:1;}
 		body { margin  : 1px;	}
@@ -294,7 +294,7 @@
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
             <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">↩</a>
-            <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
+            <span style="font-size  : 0.5em;">{{ task['変更日時'] | utcP9time}}</span>
           {% elif task['状態'] == '近' %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
@@ -316,7 +316,7 @@
             <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>
           {% else %}
             <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
-            <span style="font-size  : 0.5em;">{{ task['変更日時'] | jptime}}</span>
+            <span style="font-size  : 0.5em;">{{ task['変更日時'] | utcP9time}}</span>
           {% endif %}
 
           {% if task['完了日時'] %}
@@ -341,12 +341,12 @@
               </a>
               <a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['予測値'] }}</a>
           {%- endif %}
-            {% if task['前回完了日時'] %}
-            {{ task['前回完了日時'] | jptime}}({{ task['完了回数'] }})
-            {%- else -%}
+          {% if task['前回完了日時'] %}
+            <span style="font-size  : 0.5em;">{{ task['前回完了日時'] | utcP9time}}({{ task['完了回数'] }})</span>
+          {%- else -%}
             :
-            {%- endif %}  
-            {% if task['備考'] %} ※ {% endif %}
+          {%- endif %}  
+          {% if task['備考'] %} ※ {% endif %}
           {% for tag in tags[task['番号']] %}
             <a href="{{ url_for('task.index', addtag=tag, **search) }}" >{{ tag }}</a>
           {% endfor %}
