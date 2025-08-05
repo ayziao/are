@@ -39,9 +39,9 @@
   {% endfor %}
 
     <form method="post">
-        追加:{{task['追加日時'] | jptime}} |
-        変更:{{task['変更日時'] | jptime}} |
-        完了:{{task['完了日時'] | jptime}}
+        追加:{{task['追加日時'] | utcP9time}} |
+        変更:{{task['変更日時'] | utcP9time}} |
+        完了:{{task['完了日時'] | utcP9time}}
 
         <label for="status">状態</label>
         <input name="status" id="status" value="{{ request.form['status'] or task['状態'] }}" required>
