@@ -62,6 +62,17 @@ def _テンプレートフィルタ登録(app):
 
         return local.strftime(format_)
 
+    @app.template_filter()
+    def utcP9time(dt):
+        if not dt:
+            return
+        u"""時刻に9を加算 9〜33の24時間表記.""" # fixme %Y-%m-%d %H:%M:%S 形式以外対応？
+        ymd = dt[:11]
+        h = format(int(dt[11:13])+9, '02') 
+        ms = dt[13:]
+
+        return ymd + h + ms
+
 
 def create_app(test_config=None):
     """
