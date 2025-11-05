@@ -9,8 +9,8 @@ MVCのコントローラ？
 """
 
 import re
-from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, \
-    g  # , current_app
+from flask import Blueprint, render_template, request, redirect, flash, url_for, abort, session, \
+    g # , current_app
 from are.db import get_db, keyvalue
 from are.task import _repository
 from are.auth import login_required
@@ -323,8 +323,14 @@ def doing(number):
 def next_(number):
     args = get_args()
 
+    _状態 = '次'
     item = _repository.get_one(number)
-    _状態 = '近' if item['状態'] == '次' else '次'
+    if item['状態'] == '次':
+      _状態 = '近'
+    elif item['状態'] == '！':  # todo ネクストではない気がする
+      _状態 = '次'
+    elif item['状態'] == '！！': # todo ネクストではない気がする
+      _状態 = '！'
 
     db = get_db()
     db.execute(
