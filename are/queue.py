@@ -130,6 +130,11 @@ def _マルチポスト(db, que):
             if 'id' in to:
                 msg += ' ft_to:' + str(to['id'])
 
+# TODO エックスドットコムへの投稿調査中
+#        if "xpost" in site_setting:
+#            ret = subprocess.call(['node', 'xpost.js', body ], cwd=site_setting["xpost"])
+#            msg += ' xpost:' + str(ret)
+
     db.execute('DELETE FROM queue WHERE serial_number = ?', (que['serial_number'],))
     db.commit()
     return "ok " + que['queue_type'] + " " + que['content'] + msg + '\n'
@@ -141,12 +146,12 @@ def _タスク日次集計(db, que):
 
     task.日次集計(db)
     task.アーカイブ(db)  # TODO 自動じゃないときのこと考える
-    task.restore4tag(db, '日', '完', '次')  # 完了日タスクを次に戻す
+    task.restore4tag(db, '日', '完', '！')  # 完了日タスクを！に戻す
     task.restore4tag(db, '常備', '完', '後')  # 完了常備タスクを後に戻す
-    task.restore4tag(db, '繰り返し', '完', '未')  # 完了繰り返しタスクを未に戻す
-    task.restore4tag(db, today.strftime('%A'), '完', '次')  # 完了曜日タスクを次に戻す
+    task.restore4tag(db, '繰り返し', '完', '次')  # 完了繰り返しタスクを次に戻す
+    task.restore4tag(db, today.strftime('%A'), '完', '！')  # 完了曜日タスクを近に戻す
     if today.strftime('%A') == '月曜日':
-        task.restore4tag(db, '週', '完', '次')  # 完了週タスクを次に戻す
+        task.restore4tag(db, '週', '完', '近')  # 完了週タスクを近に戻す
     if today.strftime('%d') == '01':
         task.restore4tag(db, '月', '完', '次')  # 完了月タスクを次に戻す
         task.restore4tag(db, str(int(today.strftime('%d'))) + '月', '完', '次')  # 完了当月タスクを次に戻す
