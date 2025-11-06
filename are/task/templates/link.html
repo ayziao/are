@@ -39,23 +39,25 @@
     <section>
         <h2>はじめに</h2>
         <p>
-					  <a href="{{ url_for('task.index', tag='※', sort='zenkai') }}">※</a>
-            <a href="{{ url_for('task.index', status='！', sort='zenkai') }}">！</a>
-            <a href="{{ url_for('task.index', status='近', sort='zenkai') }}">近</a>
-					  <a href="{{ url_for('task.index', tag='プロジェクト', sort='zenkai') }}">プロジェクト</a>
-            <a href="{{ url_for('task.index', tag='日 初', sort='zenkai') }}">日初</a>
-						<a href="{{ url_for('task.index', tag='日 締', sort='zenkai') }}">日締</a>
-            <a href="{{ url_for('task.index', tag='週 初', sort='zenkai') }}">週初</a>
+					  <a href="{{ url_for('task.index', tag='※') }}">※</a>
+            <a href="{{ url_for('task.index', status='！') }}">！</a>
+            <a href="{{ url_for('task.index', tag='日 初') }}">日初</a>
+        </p>
+        <p>
+            <a href="{{ url_for('task.index', status='近') }}">近</a>
+					  <a href="{{ url_for('task.index', tag='プロジェクト') }}">プロジェクト</a>
+						<a href="{{ url_for('task.index', tag='日 締') }}">日締</a>
+            <a href="{{ url_for('task.index', tag='週 初') }}">週初</a>
             <a href="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買' , rate='3over') }}">すぐやる単発★３以上</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', tag='月曜日', sort='zenkai') }}">月曜日</a>
-            <a href="{{ url_for('task.index', tag='火曜日', sort='zenkai') }}">火曜日</a>
-            <a href="{{ url_for('task.index', tag='水曜日', sort='zenkai') }}">水曜日</a>
-            <a href="{{ url_for('task.index', tag='木曜日', sort='zenkai') }}">木曜日</a>
-            <a href="{{ url_for('task.index', tag='金曜日', sort='zenkai') }}">金曜日</a>
-            <a href="{{ url_for('task.index', tag='土曜日', sort='zenkai') }}">土曜日</a>
-            <a href="{{ url_for('task.index', tag='日曜日', sort='zenkai') }}">日曜日</a>
+            <a href="{{ url_for('task.index', tag='月曜日') }}">月曜日</a>
+            <a href="{{ url_for('task.index', tag='火曜日') }}">火曜日</a>
+            <a href="{{ url_for('task.index', tag='水曜日') }}">水曜日</a>
+            <a href="{{ url_for('task.index', tag='木曜日') }}">木曜日</a>
+            <a href="{{ url_for('task.index', tag='金曜日') }}">金曜日</a>
+            <a href="{{ url_for('task.index', tag='土曜日') }}">土曜日</a>
+            <a href="{{ url_for('task.index', tag='日曜日') }}">日曜日</a>
         </p>
     </section>
     <section>
@@ -82,12 +84,12 @@
             <a href="{{ url_for('task.index', cost='1', cycle='none', tag='-買' , rate='2under') }}">暇をみてやる</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', tag='作', sort='zenkai') }}">創作</a>
-            <a href="{{ url_for('task.index', tag='調', sort='zenkai') }}">調べ物</a>
-            <a href="{{ url_for('task.index', tag='読', sort='zenkai') }}">読む</a>
-            <a href="{{ url_for('task.index', tag='娯', sort='zenkai') }}">娯楽</a>
-            <a href="{{ url_for('task.index', tag='火遊び', sort='zenkai') }}">火遊び</a>
-            <a href="{{ url_for('task.index', tag='買', sort='zenkai') }}">買い物</a>
+            <a href="{{ url_for('task.index', tag='作') }}">創作</a>
+            <a href="{{ url_for('task.index', tag='調') }}">調べ物</a>
+            <a href="{{ url_for('task.index', tag='読') }}">読む</a>
+            <a href="{{ url_for('task.index', tag='娯') }}">娯楽</a>
+            <a href="{{ url_for('task.index', tag='火遊び') }}">火遊び</a>
+            <a href="{{ url_for('task.index', tag='買') }}">買い物</a>
         </p>
         <p>
             <a href="{{ url_for('task.index', tag='月 初') }}">月初</a>
@@ -178,37 +180,37 @@
     <section>
         <h2>時期</h2>
         <p>
-            <a href="{{ url_for('task.index', tag='日 -初 -末 -締', sort='zenkai') }}">日</a>
-            <a href="{{ url_for('task.index', tag='週 -初 -末', sort='zenkai') }}">週</a>
-            <a href="{{ url_for('task.index', tag='月 -初 -末', sort='zenkai') }}">月</a>
-            <a href="{{ url_for('task.index', tag='年 -初 -末', sort='zenkai') }}">年</a>
-            <a href="{{ url_for('task.index', tag='春', sort='zenkai') }}">春</a>
-            <a href="{{ url_for('task.index', tag='夏', sort='zenkai') }}">夏</a>
-            <a href="{{ url_for('task.index', tag='秋', sort='zenkai') }}">秋</a>
-            <a href="{{ url_for('task.index', tag='冬', sort='zenkai') }}">冬</a>
+            <a href="{{ url_for('task.index', tag='日 -初 -末 -締') }}">日</a>
+            <a href="{{ url_for('task.index', tag='週 -初 -末') }}">週</a>
+            <a href="{{ url_for('task.index', tag='月 -初 -末') }}">月</a>
+            <a href="{{ url_for('task.index', tag='年 -初 -末') }}">年</a>
+            <a href="{{ url_for('task.index', tag='春') }}">春</a>
+            <a href="{{ url_for('task.index', tag='夏') }}">夏</a>
+            <a href="{{ url_for('task.index', tag='秋') }}">秋</a>
+            <a href="{{ url_for('task.index', tag='冬') }}">冬</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', tag='月曜日', sort='zenkai') }}">月曜日</a>
-            <a href="{{ url_for('task.index', tag='火曜日', sort='zenkai') }}">火曜日</a>
-            <a href="{{ url_for('task.index', tag='水曜日', sort='zenkai') }}">水曜日</a>
-            <a href="{{ url_for('task.index', tag='木曜日', sort='zenkai') }}">木曜日</a>
-            <a href="{{ url_for('task.index', tag='金曜日', sort='zenkai') }}">金曜日</a>
-            <a href="{{ url_for('task.index', tag='土曜日', sort='zenkai') }}">土曜日</a>
-            <a href="{{ url_for('task.index', tag='日曜日', sort='zenkai') }}">日曜日</a>
+            <a href="{{ url_for('task.index', tag='月曜日') }}">月曜日</a>
+            <a href="{{ url_for('task.index', tag='火曜日') }}">火曜日</a>
+            <a href="{{ url_for('task.index', tag='水曜日') }}">水曜日</a>
+            <a href="{{ url_for('task.index', tag='木曜日') }}">木曜日</a>
+            <a href="{{ url_for('task.index', tag='金曜日') }}">金曜日</a>
+            <a href="{{ url_for('task.index', tag='土曜日') }}">土曜日</a>
+            <a href="{{ url_for('task.index', tag='日曜日') }}">日曜日</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', tag='1月', sort='zenkai') }}">1月</a>
-            <a href="{{ url_for('task.index', tag='2月', sort='zenkai') }}">2月</a>
-            <a href="{{ url_for('task.index', tag='3月', sort='zenkai') }}">3月</a>
-            <a href="{{ url_for('task.index', tag='4月', sort='zenkai') }}">4月</a>
-            <a href="{{ url_for('task.index', tag='5月', sort='zenkai') }}">5月</a>
-            <a href="{{ url_for('task.index', tag='6月', sort='zenkai') }}">6月</a>
-            <a href="{{ url_for('task.index', tag='7月', sort='zenkai') }}">7月</a>
-            <a href="{{ url_for('task.index', tag='8月', sort='zenkai') }}">8月</a>
-            <a href="{{ url_for('task.index', tag='9月', sort='zenkai') }}">9月</a>
-            <a href="{{ url_for('task.index', tag='10月', sort='zenkai') }}">10月</a>
-            <a href="{{ url_for('task.index', tag='11月', sort='zenkai') }}">11月</a>
-            <a href="{{ url_for('task.index', tag='12月', sort='zenkai') }}">12月</a>
+            <a href="{{ url_for('task.index', tag='1月') }}">1月</a>
+            <a href="{{ url_for('task.index', tag='2月') }}">2月</a>
+            <a href="{{ url_for('task.index', tag='3月') }}">3月</a>
+            <a href="{{ url_for('task.index', tag='4月') }}">4月</a>
+            <a href="{{ url_for('task.index', tag='5月') }}">5月</a>
+            <a href="{{ url_for('task.index', tag='6月') }}">6月</a>
+            <a href="{{ url_for('task.index', tag='7月') }}">7月</a>
+            <a href="{{ url_for('task.index', tag='8月') }}">8月</a>
+            <a href="{{ url_for('task.index', tag='9月') }}">9月</a>
+            <a href="{{ url_for('task.index', tag='10月') }}">10月</a>
+            <a href="{{ url_for('task.index', tag='11月') }}">11月</a>
+            <a href="{{ url_for('task.index', tag='12月') }}">12月</a>
         </p>
     </section>
 </article>

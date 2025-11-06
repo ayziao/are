@@ -286,11 +286,24 @@ def 本日分取得(args):
     if args['sort'] == 'title':
         order = ' ORDER BY "状態" DESC, "タスク名" '
 
+    additionalselect = ''
+    join = ''
+    if args['sort'] == 'zenkai' or args['sort'] == 'kanryou' :
+        additionalselect = ', zenkai."前回完了日", zenkai."前回完了日時", zenkai."完了回数" '
+        join = ' LEFT JOIN (' \
+          ' SELECT "番号", "完了日" as "前回完了日", MAX("日時") as "前回完了日時", COUNT("番号") as "完了回数" ' \
+          ' FROM task_archive GROUP BY "番号" ) as zenkai ' \
+          ' ON task."番号" = zenkai."番号" '
+        if args['sort'] == 'zenkai'  :
+            order = ' ORDER BY "状態" DESC, "完了日時" DESC, "前回完了日" DESC, "前回完了日時" ASC '
+        else :
+            order = ' ORDER BY "状態" DESC, "完了日時" DESC, "完了回数" DESC, "前回完了日時" ASC '
+
     sql = 'SELECT *, ' \
           ' strftime("%Y-%m-%d ", "完了日時") || ' \
           '     substr("0"||(strftime("%H", "完了日時")+9),-2,2) || ' \
-          '     strftime(":%M:%S", "完了日時") as utcP9time ' \
-          ' FROM task ' + where + order
+          '     strftime(":%M:%S", "完了日時") as utcP9time ' + additionalselect
+    sql +=  ' FROM task ' + join + where + order
 
     # print(sql)
 

@@ -927,11 +927,19 @@ def get_args():
         'cost': request.args.get('cost', ''),
         'tag1st': request.args.get('tag1st', ''),
         'tag': request.args.get('tag', ''),
-        'sort': request.args.get('sort', ''),
         'cycle': request.args.get('cycle', ''),
         'site': request.args.get('site', ''),
         'title': request.args.get('title', ''),
         'all': request.args.get('all', '')}
+
+    sort = request.args.get('sort')
+    if sort is None :
+      sort = session['sort'] if 'sort' in session else ''
+    else:
+      session['sort'] = sort
+
+    args['sort'] = sort
+
     return args
 
 
