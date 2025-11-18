@@ -39,15 +39,11 @@
     <section>
         <h2>はじめに</h2>
         <p>
+            <a href="{{ url_for('task.index', status='！！') }}">！！</a>
+            <a href="{{ url_for('task.index', tag='日 初') }}">日初</a>
 					  <a href="{{ url_for('task.index', tag='※') }}">※</a>
             <a href="{{ url_for('task.index', status='！') }}">！</a>
-            <a href="{{ url_for('task.index', tag='日 初') }}">日初</a>
-        </p>
-        <p>
-            <a href="{{ url_for('task.index', status='近') }}">近</a>
-					  <a href="{{ url_for('task.index', tag='プロジェクト') }}">プロジェクト</a>
-						<a href="{{ url_for('task.index', tag='日 締') }}">日締</a>
-            <a href="{{ url_for('task.index', tag='週 初') }}">週初</a>
+					  <a href="{{ url_for('task.index', tag='プロジェクト -初 -締') }}">プロジェクト</a>
             <a href="{{ url_for('task.index', status='-後', cost='1', cycle='none', tag='-買' , rate='3over') }}">すぐやる単発★３以上</a>
         </p>
         <p>
@@ -59,27 +55,34 @@
             <a href="{{ url_for('task.index', tag='土曜日') }}">土曜日</a>
             <a href="{{ url_for('task.index', tag='日曜日') }}">日曜日</a>
         </p>
+        <p>
+            <a href="{{ url_for('task.index', status='近') }}">近</a>
+						<a href="{{ url_for('task.index', tag='日 締') }}">日締</a>
+            <a href="{{ url_for('task.index', tag='週 初') }}">週初</a>
+        </p>
     </section>
     <section>
         <h2>よく使う</h2>
         <p>
+            <a href="{{ url_for('task.index', tag='飲食') }}">飲食</a>
+            <a href="{{ url_for('task.index', tag='台所') }}">台所</a>
+            <a href="{{ url_for('task.index', tag='風呂') }}">風呂</a>
+            <a href="{{ url_for('task.index', tag='就寝前' ) }}">就寝前</a>
             <a href="{{ url_for('task.index', tag='寝') }}">寝</a>
+            <a href="{{ url_for('task.index', tag='起床後' ) }}">起床後</a>
             <a href="{{ url_for('task.index', tag='猫') }}">猫</a>
+        </p>
+        <p>
             <a href="{{ url_for('task.index', tag='朝') }}">朝</a>
             <a href="{{ url_for('task.index', tag='昼') }}">昼</a>
             <a href="{{ url_for('task.index', tag='夕') }}">夕</a>
             <a href="{{ url_for('task.index', tag='夜') }}">夜</a>
             <a href="{{ url_for('task.index', tag='末') }}">末</a>
-        </p>
-        <p>
             <a href="{{ url_for('task.index', tag='日 -締 -食 -寝 -猫 -ｱﾚ' ) }}">日</a>
             <a href="{{ url_for('task.index', cycle='routine', tag='-日') }}">定期日以外</a>
             <a href="{{ url_for('task.index', cycle='randomly', tag='-買') }}">不定期繰返</a>
         </p>
         <p>
-            <a href="{{ url_for('task.index', tag='就寝前' ) }}">就寝前</a>
-            <a href="{{ url_for('task.index', tag='起床後' ) }}">起床後</a>
-            <a href="{{ url_for('task.index', tag='夕') }}">夕</a>
             <a href="{{ url_for('task.index', cycle='routine', tag='-日 -週 -月 -年') }}">その他定期</a>
             <a href="{{ url_for('task.index', cost='1', cycle='none', tag='-買' , rate='2under') }}">暇をみてやる</a>
         </p>

@@ -106,7 +106,7 @@
     <select name="select" onChange="location.href=value;">
         <option value="#">よく使</option>
         <option value="{{ url_for('task.index', tag='飲食') }}">飲食</option>
-        <option value="{{ url_for('task.index', tag='台所') }}">台所</option>
+        <option value="{{ url_for('task.index', tag='台所 -飲食') }}">台所</option>
         <option value="{{ url_for('task.index', tag='風呂') }}">風呂</option>
         <option value="{{ url_for('task.index', tag='庭') }}">庭</option>
         <option value="{{ url_for('task.index', tag='就寝前') }}">就寝前</option>
@@ -131,6 +131,7 @@
         <option value="{{ url_for('task.index', tag='作') }}">作</option>
         <option value="{{ url_for('task.index', tag='火遊び') }}">火</option>
         <option value="{{ url_for('task.index', tag='排泄') }}">便</option>
+        <option value="{{ url_for('task.index', tag='性') }}">性</option>
         <option value="">--</option>
         <option value="{{ url_for('task.index', tag='週 -初 -末') }}">週</option>
         <option value="{{ url_for('task.index', tag='月 -初 -末') }}">月</option>
