@@ -147,6 +147,13 @@
 			window.onload = function() {
 				setTimeout(queue, 1000);
 			}
+
+			const textarea = document.getElementById('box');
+			textarea.addEventListener('input', () => {
+				textarea.style.height = 'auto'; // 高さをリセット
+				textarea.style.height = textarea.scrollHeight + 'px'; // scrollHeightを高さに設定
+			});
+			
 		</script>
 	</form>
 
