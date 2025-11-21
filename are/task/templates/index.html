@@ -282,7 +282,10 @@
 <article>
   {% for key, value in tasks.items() %}
     <section>
-        <h1><a href="{{ url_for('task.index', change='status', to=key , **search) }}">{{ key }}</a></h1>
+      <h1>
+        <a href="{{ url_for('task.index', change='status', to=key , **search) }}">{{ key }}</a>
+        <span style="font-weight: normal;font-size: 80%;">({{ value | length }})</span>
+      </h1>
       {% for task in value %}
         <div style="padding:2px 0px 0px 0px;">
           <div style="
@@ -296,7 +299,7 @@
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
             <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">↩</a>
-            <span style="font-size  : 0.5em;">{{ task['変更日時'] | utcP9time}}</span>
+            <span style="font-size  : 0.7em;">{{ task['変更日時'] | utcP9time}}</span>
           {% elif task['状態'] == '近' %}
             <a href="{{ url_for('task.done', number=task['番号'], **search) }}">☐</a>
             <a href="{{ url_for('task.doing', number=task['番号'], **search) }}">▷</a>
@@ -318,11 +321,11 @@
             <a href="{{ url_for('task.next_', number=task['番号'], **search) }}">▷</a>
           {% else %}
             <a href="{{ url_for('task.restore', number=task['番号'], **search) }}">↩</a>
-            <span style="font-size  : 0.5em;">{{ task['変更日時'] | utcP9time}}</span>
+            <span style="font-size  : 0.7em;">{{ task['変更日時'] | utcP9time}}</span>
           {% endif %}
 
           {% if task['完了日時'] %}
-            <span style="font-size  : 0.5em;">{{ task['utcP9time']}}</span>
+            <span style="font-size  : 0.7em;">{{ task['utcP9time']}}</span>
             [<a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['実績値'] }}</a>/{{ task['予測値'] }}]
           {% else %}
             {% if task['重要度'] == 1 -%}
@@ -344,7 +347,7 @@
               <a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['予測値'] }}</a>
           {%- endif %}
           {% if task['前回完了日時'] %}
-            <span style="font-size  : 0.5em;">{{ task['前回完了日時'] | utcP9time}}({{ task['完了回数'] }})</span>
+            <span style="font-size  : 0.7em;">{{ task['前回完了日時'] | utcP9time}}({{ task['完了回数'] }})</span>
           {%- else -%}
             :
           {%- endif %}  
@@ -360,7 +363,7 @@
               {{ tags[task['番号']][0] }}:
             {%- endif -%}
             {{ taglink(task['タスク名'], search)|safe}}
-            <a style="font-size  : 0.8em;" href="{{ url_for('task.update', number=task['番号'], **search) }}">📝</a>
+            <a style="font-size  : 0.7em;" href="{{ url_for('task.update', number=task['番号'], **search) }}">📝</a>
           </div>
         </div>
       {% endfor %}
