@@ -60,18 +60,21 @@ https://github.com/ayziao/are
 
 ---
 ## インストール
+```
 git clone https://github.com/ayziao/are.git  
 cd are  
 python -m venv venv
 source venv/bin/activate
-sudo python setup.py install  
+sudo python setup.py install
 export PYTHONPATH="~/are:$PYTHONPATH"
 export FLASK_APP=are/__init__.py
-flask init-db  
-flask init-ext_db  
-flask run  
+flask init-db
+flask init-ext_db
+flask run
+```
 
 ### キュータイマー設定
+```
 ~/.config/systemd/user/queue.service
 [Unit]
 Description=are queue
@@ -100,22 +103,27 @@ WantedBy=timers.target
 systemctl --user daemon-reload
 systemctl --user enable queue.timer
 systemctl --user start queue.timer
+```
 
 
 ---
 ## 開発
 ### 開発環境実行
-cd are  
+```
+cd are
 source venv/bin/activate
 export PYTHONPATH="~/are:$PYTHONPATH"
 export FLASK_APP=are/__init__.py
-export FLASK_DEBUG=1  
-flask run  
+export FLASK_DEBUG=1
+flask run
+```
 
 ### テスト
-coverage run -m pytest && coverage html  
-coverage run -m pytest tests/test_task.py && coverage html  
-coverage run -m pytest tests/db && coverage html  
+```
+coverage run -m pytest && coverage html
+coverage run -m pytest tests/test_task.py && coverage html
+coverage run -m pytest tests/db && coverage html
+```
 
 ### ドメイン
 コアドメイン
@@ -218,7 +226,7 @@ coverage run -m pytest tests/db && coverage html
 
 ### 書き方
 コードには How やり方  
-テストコードには What 何を   
+テストコードには What 何を  
 コミットログには Why 何故 (ユースケースのメソッドコメントにも書くべき？)  
 コードコメントには Why not 何故しないか  
 
@@ -237,9 +245,9 @@ coverage run -m pytest tests/db && coverage html
 💪 パフォーマンス向上  
 ✅ テスト関連  
 📜 ドキュメント  
-⚙ 設定  
+⚙️ 設定  
 🚧 動作確認用 開発途中  
-🤖 ビルド 補助ツール ライブラリ関連
+🤖 ビルド 補助ツール ライブラリ関連  
 
 
 例  
