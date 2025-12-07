@@ -31,7 +31,8 @@ def index():
     change = request.args.get('change', '')
     if change:
         args[change] = request.args.get('to', '')
-        return redirect(url_for('task.index', **args))
+        search = {k: v for k, v in args.items() if v != ''}
+        return redirect(url_for('task.index', **search))
 
     addtag = request.args.get('addtag', '')
     if addtag:
@@ -39,28 +40,32 @@ def index():
         if addtag not in tagall:
             tagall.append(addtag)
             args['tag'] = ' '.join(tagall)
-        return redirect(url_for('task.index', **args))
+        search = {k: v for k, v in args.items() if v != ''}
+        return redirect(url_for('task.index', **search))
 
     deltag = request.args.get('deltag', '')
     if deltag:
         tagall = args['tag'].split()
         tagall.remove(deltag)
         args['tag'] = ' '.join(tagall)
-        return redirect(url_for('task.index', **args))
+        search = {k: v for k, v in args.items() if v != ''}
+        return redirect(url_for('task.index', **search))
 
     hidetag = request.args.get('hidetag', '')
     if hidetag:
         tagall = args['tag'].split()
         tagall = ['-' + hidetag if tag == hidetag else tag for tag in tagall]
         args['tag'] = ' '.join(tagall)
-        return redirect(url_for('task.index', **args))
+        search = {k: v for k, v in args.items() if v != ''}
+        return redirect(url_for('task.index', **search))
 
     showtag = request.args.get('showtag', '')
     if showtag:
         tagall = args['tag'].split()
         tagall = [showtag if tag == '-' + showtag else tag for tag in tagall]
         args['tag'] = ' '.join(tagall)
-        return redirect(url_for('task.index', **args))
+        search = {k: v for k, v in args.items() if v != ''}
+        return redirect(url_for('task.index', **search))
 
     if 'notag' in request.args:
         args['notag'] = 'yes'
@@ -86,7 +91,8 @@ def index():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors,
+    search = {k: v for k, v in args.items() if v != ''}
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=search, colors=colors,
                            taglink=_タグリンク())
 
 
@@ -111,7 +117,9 @@ def all_():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors,
+    search = {k: v for k, v in args.items() if v != ''}
+
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=search, colors=colors,
                            taglink=_タグリンク())
 
 
@@ -135,7 +143,9 @@ def today():
             tasks[item['状態']] = []
             tasks[item['状態']].append(item)
 
-    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=args, colors=colors,
+    search = {k: v for k, v in args.items() if v != ''}
+
+    return render_template('index.html', sites=sites, tasks=tasks, tags=tags, search=search, colors=colors,
                            taglink=_タグリンク())
 
 
@@ -236,7 +246,8 @@ def costup(number):
             _repository.予測値up(db, item)
         db.commit()
 
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/rateup', methods=('GET',))
@@ -254,7 +265,8 @@ def rateup(number):
         if args['rate'].isnumeric():
             args['rate'] = int(args['rate']) + 1
 
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/ratedown', methods=('GET',))
@@ -271,7 +283,8 @@ def ratedown(number):
         if args['rate'].isnumeric():
             args['rate'] = int(args['rate']) - 1
 
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/rateto', methods=('GET',))
@@ -287,7 +300,8 @@ def rateto(number):
             ' WHERE "番号" = ?', (change, number))
         db.commit()
 
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/done', methods=('GET',))
@@ -299,7 +313,8 @@ def done(number):
         'UPDATE task SET "状態" = "完" , "完了日時" = datetime("now") ,"実績値" = "予測値"'
         ' WHERE "番号" = ?', (number,))
     db.commit()
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/doing', methods=('GET',))
@@ -316,7 +331,8 @@ def doing(number):
         (_状態, number)
     )
     db.commit()
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/next', methods=('GET',))
@@ -337,7 +353,8 @@ def next_(number):
         'UPDATE task SET "状態" = ? , "完了日時"  = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
         ' WHERE "番号" = ?', (_状態, number))
     db.commit()
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/later', methods=('GET',))
@@ -349,7 +366,8 @@ def later(number):
         'UPDATE task SET "状態" = "後" , "完了日時"  = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
         ' WHERE "番号" = ?', (number,))
     db.commit()
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/<int:number>/restore', methods=('GET',))
@@ -361,7 +379,8 @@ def restore(number):
         'UPDATE task SET "状態" = "未" , "完了日時" = "" , "変更日時" = datetime("now") ,"実績値" = 0 '
         ' WHERE "番号" = ?', (number,))
     db.commit()
-    return redirect(url_for('task.index', **args))
+    search = {k: v for k, v in args.items() if v != ''}
+    return redirect(url_for('task.index', **search))
 
 
 @bp.route('/restore', methods=('GET',))
