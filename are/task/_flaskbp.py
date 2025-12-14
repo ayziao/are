@@ -520,27 +520,7 @@ def ownerlist():
 
 @bp.route('/ratelist', methods=('GET',))
 def ratelist():
-    db = get_db()
-    sql = '''
-        SELECT 重要度 as 重要度,
-        CASE WHEN  重要度 = 5 THEN "★★★★★"
-             WHEN  重要度 = 4 THEN "★★★★☆"
-             WHEN  重要度 = 3 THEN "★★★☆☆"
-             WHEN  重要度 = 2 THEN "★★☆☆☆"
-             WHEN  重要度 = 1 THEN "★☆☆☆☆"
-             ELSE "☆☆☆☆☆" END as 星,
-        sum(CASE WHEN 状態 = "！" OR 状態 = "！！" THEN 1 ELSE 0 END) as 処理中件数 ,
-        sum(CASE WHEN 状態 = "未" THEN 1 ELSE 0 END) as 未完了件数 ,
-        sum(CASE WHEN 状態 = '完' THEN 1 ELSE 0 END) as 完了件数,
-        sum(CASE WHEN 状態 = '保留' THEN 1 ELSE 0 END) as 保留件数,
-        count(重要度) as 件数,
-        sum(実績値) as 実績値, sum(予測値) as 予測値
-        FROM task
-        GROUP BY 重要度
-        ORDER BY 重要度 DESC
-    '''
-    # print(sql)
-    ret = db.execute(sql).fetchall()
+    ret = _repository.重要度一覧取得()
     return render_template('list.html', list=ret, type='重要度')
 
 
