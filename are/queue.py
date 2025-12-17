@@ -147,21 +147,21 @@ def _タスク日次集計(db, que):
     task.日次集計(db)
     task.アーカイブ(db)  # TODO 自動じゃないときのこと考える
     task.restore4tag(db, '_', '！', '！！')  # 残ってる！タスクを！！に変更
-    task.restore4tag(db, '日 初', '完', '！')  # 完了日初タスクを！に戻す
-    task.restore4tag(db, '日', '完', '近')  # 完了日タスクを近に戻す
+    task.restore4tag(db, '日 初', '完', '近')  # 日初タスク完了分を近に戻す
+    task.restore4tag(db, '日', '完', '近')  # 日タスク完了分を近に戻す
     task.restore4tag(db, today.strftime('%A'), '完', '近')  # 完了曜日タスクを近に戻す
-    task.restore4tag(db, '繰り返し', '完', '次')  # 完了繰り返しタスクを次に戻す
-    task.restore4tag(db, '常備', '完', '後')  # 完了常備タスクを後に戻す
+    task.restore4tag(db, '繰り返し', '完', '次')  # 繰り返しタスク完了分を次に戻す
+    task.restore4tag(db, '常備', '完', '後')  # 常備タスク完了分を後に戻す
     if today.strftime('%A') == '月曜日':
-        task.restore4tag(db, '週 初', '完', '！')  # 完了週初タスクを！に戻す
-        task.restore4tag(db, '週', '完', '近')  # 完了週タスクを近に戻す
+        task.restore4tag(db, '週 初', '完', '近')  # 週初タスク完了分を近に戻す
+        task.restore4tag(db, '週', '完', '近')  # 週タスク完了分を近に戻す
     if today.strftime('%d') == '01':
-        task.restore4tag(db, '月 初', '完', '！')  # 完了月初タスクを！に戻す
-        task.restore4tag(db, '月', '完', '次')  # 完了月タスクを次に戻す
-        task.restore4tag(db, str(int(today.strftime('%d'))) + '月', '完', '次')  # 完了当月タスクを次に戻す
+        task.restore4tag(db, '月 初', '完', '近')  # 月初タスク完了分を近に戻す
+        task.restore4tag(db, '月', '完', '次')  # 月タスク完了分を次に戻す
+        task.restore4tag(db, str(int(today.strftime('%d'))) + '月', '完', '次')  # 当月タスク完了分を次に戻す
     if today.strftime('%m%d') == '0701': # TODO 年度始め機能
-        task.restore4tag(db, '年 初', '完', '近')  # 完了年初タスクを次に戻す
-        task.restore4tag(db, '年', '完', '次')  # 完了年タスクを次に戻す
+        task.restore4tag(db, '年 初', '完', '近')  # 年初タスク完了分を次に戻す
+        task.restore4tag(db, '年', '完', '次')  # 年タスク完了分を次に戻す
 
     db.execute('UPDATE queue '
                ' SET reservation_time = strftime("%Y-%m-%d 23:59:59", CURRENT_TIMESTAMP) '
