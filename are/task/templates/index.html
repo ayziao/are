@@ -326,7 +326,8 @@
           {% endif %}
 
           {% if task['完了日時'] %}
-            <span style="font-size  : 0.7em;">{{ task['utcP9time']}}</span>
+            <span style="font-size  : 0.8em;">{{ task['utcP9time'][11:]}}</span>
+            ★{{task['重要度']}}
             [<a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['実績値'] }}</a>/{{ task['予測値'] }}]
           {% else %}
             {% if task['重要度'] == 1 -%}

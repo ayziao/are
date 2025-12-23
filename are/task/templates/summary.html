@@ -33,7 +33,7 @@
           {% else %}
             <span style="font-size  : 0.5em;">{{ task['変更日時'] | utcP9time}}</span>
           {% endif %}
-
+          ★{{task['重要度']}}
           {% if task['完了日時'] %}
             <span style="font-size  : 0.5em;"><a href="{{ url_for('task.update', number=task['番号'], **search) }}">{{ task['utcP9time'][11:] }}</a></span>
             [<a href="{{ url_for('task.costup', number=task['番号'], **search) }}">{{ task['実績値'] }}</a>/{{ task['予測値'] }}]
