@@ -65,6 +65,9 @@ git clone https://github.com/ayziao/are.git
 cd are  
 python -m venv venv
 source venv/bin/activate
+pip install flask
+pip install requests_oauthlib
+pip install Mastodon.py
 sudo python setup.py install
 export PYTHONPATH="~/are:$PYTHONPATH"
 export FLASK_APP=are/__init__.py
@@ -269,4 +272,5 @@ coverage run -m pytest tests/db && coverage html
 🎨[タスク管理]よく使う「すぐ」に状態「後」の除外を追加:[使い勝手向上]  
 🚧[タスク管理/アーカイブ履歴]とりあえず1000件に絞る  
 📜開発方針考  
+📜インストール手順 パイソン仮想環境へのモジュールインストールを追記
 ```
